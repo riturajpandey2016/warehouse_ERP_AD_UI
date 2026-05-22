@@ -1,0 +1,127 @@
+<div class="table-card">
+  <div class="table-scroll-container">
+    <table class="data-table">
+      <thead>
+        <tr class="table-header-row">
+          <th class="text-center w-14">Serial Number</th>
+          <th class="text-center w-14">Item Image</th>
+          <th>Item Name</th>
+          <th>Item Code</th>
+          <th>Part No</th>
+          <th>Unit Group</th>
+          <th>Group</th>
+          <th>Item Type</th>
+          <th>HSN/SAC</th>
+          <th>Tax Type</th>
+          <th>Type</th>
+          <th class="text-center w-24">Action</th>
+        </tr>
+        
+        <tr class="bg-slate-50 border-b border-slate-200">
+          <td class="p-1 border-r border-slate-100"></td>
+          <td class="p-1 border-r border-slate-100"></td>
+          <td class="p-1 border-r border-slate-100">
+             <div class="flex items-center gap-1 border border-slate-200 rounded px-1 py-0.5 bg-white max-w-[100px]">
+                <input type="text" class="w-full border-none text-[10px] focus:outline-none focus:ring-0 p-0 font-medium" />
+                <lucide-icon [img]="FilterIcon" class="w-2.5 h-2.5 text-slate-400 cursor-pointer"></lucide-icon>
+             </div>
+          </td>
+          <td class="p-1 border-r border-slate-100">
+             <div class="flex items-center gap-1 border border-slate-200 rounded px-1 py-0.5 bg-white max-w-[100px]">
+                <input type="text" class="w-full border-none text-[10px] focus:outline-none focus:ring-0 p-0 font-medium" />
+                <lucide-icon [img]="FilterIcon" class="w-2.5 h-2.5 text-slate-400 cursor-pointer"></lucide-icon>
+             </div>
+          </td>
+          <td class="p-1 border-r border-slate-100">
+             <div class="flex items-center gap-1 border border-slate-200 rounded px-1 py-0.5 bg-white max-w-[80px]">
+                <input type="text" class="w-full border-none text-[10px] focus:outline-none focus:ring-0 p-0 font-medium" />
+                <lucide-icon [img]="FilterIcon" class="w-2.5 h-2.5 text-slate-400 cursor-pointer"></lucide-icon>
+             </div>
+          </td>
+          <td class="p-1 border-r border-slate-100">
+             <div class="flex items-center gap-1 border border-slate-200 rounded px-1 py-0.5 bg-white max-w-[80px]">
+                <input type="text" class="w-full border-none text-[10px] focus:outline-none focus:ring-0 p-0 font-medium" />
+                <lucide-icon [img]="FilterIcon" class="w-2.5 h-2.5 text-slate-400 cursor-pointer"></lucide-icon>
+             </div>
+          </td>
+          <td class="p-1 border-r border-slate-100">
+             <div class="flex items-center gap-1 border border-slate-200 rounded px-1 py-0.5 bg-white max-w-[80px]">
+                <input type="text" class="w-full border-none text-[10px] focus:outline-none focus:ring-0 p-0 font-medium" />
+                <lucide-icon [img]="FilterIcon" class="w-2.5 h-2.5 text-slate-400 cursor-pointer"></lucide-icon>
+             </div>
+          </td>
+          <td class="p-1 border-r border-slate-100">
+             <div class="flex items-center gap-1 border border-slate-200 rounded px-1 py-0.5 bg-white max-w-[80px]">
+                <input type="text" class="w-full border-none text-[10px] focus:outline-none focus:ring-0 p-0 font-medium" />
+                <lucide-icon [img]="FilterIcon" class="w-2.5 h-2.5 text-slate-400 cursor-pointer"></lucide-icon>
+             </div>
+          </td>
+          <td class="p-1 border-r border-slate-100">
+             <div class="flex items-center gap-1 border border-slate-200 rounded px-1 py-0.5 bg-white max-w-[80px]">
+                <input type="text" class="w-full border-none text-[10px] focus:outline-none focus:ring-0 p-0 font-medium" />
+                <lucide-icon [img]="FilterIcon" class="w-2.5 h-2.5 text-slate-400 cursor-pointer"></lucide-icon>
+             </div>
+          </td>
+          <td class="p-1 border-r border-slate-100">
+             <div class="flex items-center gap-1 border border-slate-200 rounded px-1 py-0.5 bg-white max-w-[80px]">
+                <input type="text" class="w-full border-none text-[10px] focus:outline-none focus:ring-0 p-0 font-medium" />
+                <lucide-icon [img]="FilterIcon" class="w-2.5 h-2.5 text-slate-400 cursor-pointer"></lucide-icon>
+             </div>
+          </td>
+          <td class="p-1 border-r border-slate-100">
+             <div class="flex items-center gap-1 border border-slate-200 rounded px-1 py-0.5 bg-white max-w-[80px]">
+                <input type="text" class="w-full border-none text-[10px] focus:outline-none focus:ring-0 p-0 font-medium" />
+                <lucide-icon [img]="FilterIcon" class="w-2.5 h-2.5 text-slate-400 cursor-pointer"></lucide-icon>
+             </div>
+          </td>
+          <td class="p-1"></td>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+        @for (item of data(); track item.id; let idx = $index) {
+          <tr class="table-body-row">
+            <td class="px-3 py-2 text-[11px] font-bold text-slate-400 border-r border-slate-100 text-center">{{ idx + 1 }}</td>
+            <td class="px-3 py-2 border-r border-slate-100 text-center">
+               <img [src]="item.image" alt="Product image" class="product-thumb rounded shadow-sm mx-auto" />
+            </td>
+            <td class="px-3 py-2 text-[11px] font-black text-slate-700 border-r border-slate-100 tracking-tight">{{ item.itemName }}</td>
+            <td class="px-3 py-2 text-[11px] font-semibold text-slate-600 border-r border-slate-100">{{ item.itemCode }}</td>
+            <td class="px-3 py-2 text-[11px] text-slate-500 border-r border-slate-100">{{ item.partNo }}</td>
+            <td class="px-3 py-2 text-[11px] text-slate-600 border-r border-slate-100 font-semibold">{{ item.unitGroup }}</td>
+            <td class="px-3 py-2 text-[11px] text-slate-600 border-r border-slate-100 font-semibold">{{ item.group }}</td>
+            <td class="px-3 py-2 text-[11px] text-slate-500 border-r border-slate-100">{{ item.itemType }}</td>
+            <td class="px-3 py-2 text-[11px] text-slate-500 border-r border-slate-100 font-medium">{{ item.hsn }}</td>
+            <td class="px-3 py-2 text-[11px] text-slate-500 border-r border-slate-100">{{ item.taxType }}</td>
+            <td class="px-3 py-2 text-[11px] text-slate-500 border-r border-slate-100">{{ item.type }}</td>
+            <td class="cell-actions">
+              <div class="action-buttons-group">
+                <button class="action-btn btn-edit" title="Edit">
+                  <lucide-icon [img]="EditIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button class="action-btn btn-delete" title="Delete">
+                  <span class="red-cross">❌</span>
+                </button>
+                <span class="green-dot ml-1" title="Active"></span>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="12" class="px-3 py-4 text-center text-[11px] font-bold text-slate-500">No items found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-pagination">
+    <div class="pagination-info">
+       Showing 1 to {{ data().length }} of {{ data().length }} entries
+    </div>
+    <div class="pagination-buttons">
+       <button class="btn-page btn-page-disabled">Prev</button>
+       <button class="btn-page btn-page-active">1</button>
+       <button class="btn-page btn-page-disabled">Next</button>
+    </div>
+  </div>
+</div>

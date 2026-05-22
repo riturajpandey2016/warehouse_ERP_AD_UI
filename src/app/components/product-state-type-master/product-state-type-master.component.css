@@ -1,0 +1,205 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.company-master-container {
+  background-color: #f5f7fa;
+  min-height: unset;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  color: #212529;
+  padding-bottom: 40px;
+}
+
+/* Page content and card panels styling */
+.page-content {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.card-panel {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  overflow: hidden;
+}
+
+/* Custom Slim Classic ERP Title Headers matching legacy screenshot */
+.custom-slim-header {
+  background-color: #cbd5e1; /* Flat light gray-blue */
+  border-bottom: 1px solid #b0c4de;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.table-blue-header {
+  background-color: #7a9cc5; /* Mid blue matching table legacy screenshot */
+  border-bottom: 1px solid #5a7ea8;
+}
+
+.custom-header-title {
+  font-size: 11px;
+  font-weight: 900;
+  color: #1c3d5a;
+  text-decoration: underline;
+  text-transform: capitalize;
+}
+
+.table-blue-header .custom-header-title {
+  color: #ffffff;
+}
+
+/* Card Body spacing and Form layouts */
+.panel-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.type-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+  width: 100%;
+}
+
+/* Form Actions Centered Button */
+.form-actions-centered {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* Slim, classic solid navy buttons exactly matching legacy screenshot */
+.btn-legacy-save {
+  height: 26px;
+  padding: 0 20px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  background-color: #1a3a6b; /* Solid Navy */
+  color: #ffffff;
+  min-width: 80px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-legacy-save:hover {
+  background-color: #122a4f;
+}
+
+/* Row elements and perfect vertical center alignments */
+.form-row-side {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-label-box {
+  width: 120px;
+  text-align: right;
+  padding-right: 8px;
+}
+
+.form-label-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #212529;
+  white-space: nowrap;
+}
+
+.form-input-element {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* High-density native inputs with flat gray border matching screenshot */
+.custom-legacy-input {
+  height: 24px;
+  width: 100%;
+  padding: 0 8px;
+  font-size: 11px;
+  border: 1px solid #b0c4de;
+  border-radius: 3px;
+  background-color: #ffffff;
+  color: #334155;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.custom-legacy-input:focus {
+  border-color: #1a3a6b;
+  outline: none;
+}
+
+/* Radio buttons container and labels */
+.flex-row-radio {
+  display: flex;
+  align-items: center;
+}
+
+.radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #212529;
+  cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+}
+
+/* Date input with icon layout */
+.date-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.date-input-wrapper input {
+  padding-right: 28px;
+}
+
+.calendar-addon {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .type-form-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .form-row-side {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .form-label-box {
+    text-align: left;
+    padding-bottom: 2px;
+    width: 100%;
+  }
+}
+
+.panel-table-container {
+  padding: 0;
+}

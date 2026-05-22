@@ -1,0 +1,8 @@
+:host {
+  display: block;
+  width: 100%;
+}
+:host ::ng-deep h2 {
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}

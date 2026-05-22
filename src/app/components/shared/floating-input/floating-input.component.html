@@ -1,0 +1,23 @@
+<div class="relative w-full">
+  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+    @if (icon) {
+      <lucide-icon [img]="icon" class="h-4 w-4 text-gray-400 peer-focus:text-blue-500 transition-colors"></lucide-icon>
+    }
+  </div>
+  <input
+    [type]="type"
+    [id]="id"
+    [value]="value"
+    (input)="onInputChange($event)"
+    class="block px-3 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-white rounded-md border border-gray-300 appearance-none focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 peer shadow-sm transition-colors"
+    [class.pl-10]="icon"
+    [placeholder]="placeholder"
+  />
+  <label
+    [for]="id"
+    class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-1 start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2.5 peer-focus:scale-75 peer-focus:-translate-y-4 cursor-text"
+    [class.ml-7]="icon"
+  >
+    {{ label }} @if (required) { <span class="text-red-500">*</span> }
+  </label>
+</div>

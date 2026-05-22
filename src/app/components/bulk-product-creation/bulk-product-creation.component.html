@@ -1,0 +1,101 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- DETAILS FORM SECTION -->
+    <div class="card-panel">
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Bulk Item Creation</span>
+      </div>
+      
+      <div class="panel-body">
+         
+         <!-- EXPORT EXCEL FILE SECTION -->
+         <div class="sub-header-row">
+            <span class="sub-header-text">Export Excel File</span>
+         </div>
+         
+         <div class="form-row-side">
+            <div class="form-label-box">
+               <span class="form-label-text">Export Excel File :</span>
+            </div>
+            <div class="form-input-element">
+               <button class="btn-legacy-save font-bold">Export</button>
+            </div>
+         </div>
+
+         <!-- IMPORT ITEM BY EXCEL SECTION -->
+         <div class="sub-header-row">
+            <span class="sub-header-text">Import Item by Excel</span>
+         </div>
+
+         <div class="import-grid">
+            
+            <!-- Row 1 Col 1 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Branch :</span>
+               </div>
+               <div class="form-input-element">
+                  <select class="custom-legacy-input">
+                     <option value="Branch">Branch</option>
+                     <option value="Head Office">Head Office</option>
+                     <option value="Main Warehouse">Main Warehouse</option>
+                  </select>
+               </div>
+            </div>
+
+            <!-- Row 1 Col 2 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Item Type :</span>
+               </div>
+               <div class="form-input-element">
+                  <select class="custom-legacy-input">
+                     <option value="Select Item Type">Select Item Type</option>
+                     <option value="Laptop">Laptop</option>
+                     <option value="FURNITURE">FURNITURE</option>
+                     <option value="Yoghurt">Yoghurt</option>
+                     <option value="Butter">Butter</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <!-- Row 2 Col 1 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Select Excel File :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="file" (change)="onFileSelected($event)" class="custom-file-input" />
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <!-- Row 2 Col 2 -->
+            <div class="form-row-side">
+               <div class="form-label-box"></div>
+               <div class="form-input-element">
+                  <button class="btn-legacy-save font-bold">Save</button>
+               </div>
+            </div>
+
+         </div>
+
+         <!-- LARGE WHITE PREVIEW / INSTRUCTION BOX -->
+         <div class="preview-box">
+            <div class="instruction-title">Instructions for Bulk Excel Upload:</div>
+            <ul class="instruction-list">
+               <li>Please use the <strong>Export</strong> button to download the latest template structure.</li>
+               <li>Ensure all mandatory columns (marked with * in the template) are filled correctly.</li>
+               <li>Do not change the header names or order of the columns in the downloaded template.</li>
+               <li>Ensure the <strong>Item Code</strong> matches standard ERP naming conventions and does not contain illegal characters.</li>
+               <li>After filling the Excel sheet, select the file using the <strong>Choose File</strong> button and click <strong>Save</strong> to import all items in bulk.</li>
+            </ul>
+         </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>

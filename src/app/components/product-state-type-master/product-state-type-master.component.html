@@ -1,0 +1,107 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- DETAILS SECTION -->
+    <div class="card-panel">
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Item Type</span>
+      </div>
+      <div class="panel-body">
+         <div class="type-form-grid">
+            
+            <!-- Row 1: Item Type & Description -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Item Type :</span>
+               </div>
+               <div class="form-input-element">
+                  <input 
+                    type="text"
+                    [value]="formData().itemType" 
+                    (input)="updateForm('itemType', $any($event.target).value)"
+                    placeholder="Item Type"
+                    class="custom-legacy-input"
+                  />
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Description :</span>
+               </div>
+               <div class="form-input-element">
+                  <input 
+                    type="text"
+                    [value]="formData().description" 
+                    (input)="updateForm('description', $any($event.target).value)"
+                    placeholder="Description"
+                    class="custom-legacy-input"
+                  />
+               </div>
+            </div>
+
+            <!-- Row 2: Mode & Entry Date -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Mode :</span>
+               </div>
+               <div class="form-input-element flex-row-radio gap-4">
+                  <label class="radio-label">
+                     <input 
+                       type="radio" 
+                       name="mode" 
+                       value="Active" 
+                       [checked]="formData().mode === 'Active'"
+                       (change)="updateForm('mode', 'Active')"
+                     />
+                     Active
+                  </label>
+                  <label class="radio-label">
+                     <input 
+                       type="radio" 
+                       name="mode" 
+                       value="Inactive" 
+                       [checked]="formData().mode === 'Inactive'"
+                       (change)="updateForm('mode', 'Inactive')"
+                     />
+                     Inactive
+                  </label>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Entry Date :</span>
+               </div>
+               <div class="form-input-element date-input-wrapper">
+                  <input 
+                    type="text"
+                    [value]="formData().entryDate" 
+                    (input)="updateForm('entryDate', $any($event.target).value)"
+                    class="custom-legacy-input"
+                  />
+                  <span class="calendar-addon">📅</span>
+               </div>
+            </div>
+
+         </div>
+
+         <!-- Centered Save Button -->
+         <div class="form-actions-centered">
+            <button class="btn-legacy-save font-bold uppercase">Save</button>
+         </div>
+      </div>
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="card-panel table-panel">
+       <div class="custom-slim-header table-blue-header">
+          <span class="custom-header-title">Item Type</span>
+       </div>
+       <div class="panel-table-container">
+          <app-product-state-type-table></app-product-state-type-table>
+       </div>
+    </div>
+
+  </main>
+</div>

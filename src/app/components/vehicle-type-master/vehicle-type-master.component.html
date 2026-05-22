@@ -1,0 +1,67 @@
+<div class="company-master-container">
+  <!-- Page Title -->
+  <header class="page-header">
+    <h1 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
+      <lucide-icon [img]="CarIcon" class="w-4 h-4"></lucide-icon>
+      Transport Vehicle Type Master
+    </h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save Vehicle Type
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- DETAILS SECTION -->
+    <div class="card-panel">
+      <app-section-header 
+        title="Vehicle Type Details" 
+        [expanded]="sections().details" 
+        (toggle)="toggleSection('details')">
+      </app-section-header>
+      
+      @if (sections().details) {
+        <div class="panel-body">
+           <div class="form-grid">
+           <app-erp-input 
+             label="Vehicle Type" 
+             [required]="true" 
+             width="w-32" 
+             [value]="formData().vehicleType" 
+             (valueChange)="updateForm('vehicleType', $event)"
+             placeholder="e.g. Truck, Van, Lorry">
+           </app-erp-input>
+           <app-erp-input 
+             label="Description" 
+             width="w-32" 
+             [value]="formData().desc" 
+             (valueChange)="updateForm('desc', $event)"
+             placeholder="Brief overview...">
+           </app-erp-input>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="card-panel">
+       <app-section-header 
+         title="Vehicle Type Registry" 
+         [expanded]="sections().table" 
+         (toggle)="toggleSection('table')" 
+         [blue]="true">
+       </app-section-header>
+       
+       @if (sections().table) {
+         <div class="panel-table-container">
+            <app-vehicle-type-table></app-vehicle-type-table>
+         </div>
+       }
+    </div>
+
+  </main></div>

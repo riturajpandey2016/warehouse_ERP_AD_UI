@@ -1,0 +1,35 @@
+<div class="analytics-card-container">
+  <!-- Header title with 3 dots menu -->
+  <div class="card-header">
+    <h3 class="card-title">{{ title }}</h3>
+    <button class="header-action-btn" aria-label="More Actions">
+      <lucide-icon [img]="MoreVerticalIcon" class="w-4 h-4"></lucide-icon>
+    </button>
+  </div>
+
+  <!-- Metric List Items -->
+  <div class="card-body">
+    <ul class="analytics-list">
+      <li *ngFor="let item of items" class="analytics-list-item">
+        <span class="item-label">{{ item.label }}</span>
+        <div class="item-right-group">
+          <!-- Sub-trend element, e.g. growth percentages -->
+          <span *ngIf="item.trend" class="item-trend" [ngClass]="getTrendClass(item)">
+            {{ item.trend }}
+          </span>
+          <span class="item-value" [ngClass]="getStatusClass(item)">
+            {{ item.value }}
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- View Full Report Button -->
+  <div class="card-footer">
+    <button class="report-action-btn" (click)="onViewReport()">
+      <span>VIEW FULL REPORT</span>
+      <lucide-icon [img]="ChevronRightIcon" class="w-4 h-4 footer-btn-icon"></lucide-icon>
+    </button>
+  </div>
+</div>

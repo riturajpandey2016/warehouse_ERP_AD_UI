@@ -1,0 +1,105 @@
+<div class="company-master-container">
+  <!-- Page Title -->
+  <header class="page-header">
+    <h1 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
+      <lucide-icon [img]="LayersIcon" class="w-4 h-4"></lucide-icon>
+      Sales Supply Sub Type Master
+    </h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save Sub Type
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- SECTION 1 — CONFIGURATION -->
+    <div class="card-panel">
+      <app-section-header title="Sub Type Configuration" [expanded]="sections().info" (toggle)="toggleSection('info')"></app-section-header>
+      @if (sections().info) {
+        <div class="panel-body">
+           <div class="sub-type-grid">
+              <div class="form-row-sidebyside">
+                 <div class="form-label-side">
+                    <span class="form-label-text">Supply Type <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-select 
+                      [value]="formData().supplyType" 
+                      (valueChange)="updateForm('supplyType', $event)"
+                      [options]="supplyTypeOptions">
+                    </app-erp-select>
+                 </div>
+              </div>
+              <div class="form-row-sidebyside">
+                 <div class="form-label-side">
+                    <span class="form-label-text">Sub Type <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-input 
+                      [value]="formData().subType" 
+                      (valueChange)="updateForm('subType', $event)"
+                      placeholder="e.g. With Pay, Without Pay">
+                    </app-erp-input>
+                 </div>
+              </div>
+           </div>
+           
+           <div class="form-row-fullwidth">
+              <div class="form-label-side">
+                 <span class="form-label-text">Description:</span>
+              </div>
+              <div class="form-input-element-full">
+                 <app-erp-textarea 
+                   [rows]="2"
+                   [value]="formData().description" 
+                   (valueChange)="updateForm('description', $event)">
+                 </app-erp-textarea>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2 — SEARCH -->
+    <div class="card-panel">
+       <app-section-header title="Search Registry" [expanded]="sections().search" (toggle)="toggleSection('search')"></app-section-header>
+       @if (sections().search) {
+          <div class="search-body">
+             <div class="search-row-flex">
+                <div class="search-field">
+                   <span class="search-label">Supply Type:</span>
+                   <div class="search-input-wrapper">
+                      <app-erp-select [options]="supplyTypeOptions"></app-erp-select>
+                   </div>
+                </div>
+                <div class="search-field">
+                   <span class="search-label">Sub Type:</span>
+                   <div class="search-input-wrapper">
+                      <app-erp-input></app-erp-input>
+                   </div>
+                </div>
+                <button class="btn-filter-action">
+                   <lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5"></lucide-icon> Filter
+                </button>
+             </div>
+          </div>
+       }
+    </div>
+
+    <!-- SECTION 3 — TABLE -->
+    <div class="card-panel">
+       <app-section-header title="Sub Type Registry" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+          <div class="panel-table-container">
+             <app-sales-supply-sub-type-table></app-sales-supply-sub-type-table>
+          </div>
+       }
+    </div>
+
+  </main>
+</div>

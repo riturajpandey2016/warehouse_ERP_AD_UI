@@ -1,0 +1,70 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- DETAILS SECTION -->
+    <div class="card-panel">
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Product Price Group</span>
+      </div>
+      <div class="panel-body">
+         <div class="warehouse-form-grid">
+            
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Price Group Name :</span>
+               </div>
+               <div class="form-input-element">
+                  <input 
+                    type="text"
+                    [value]="formData().priceGroupName" 
+                    (input)="updateForm('priceGroupName', $any($event.target).value)"
+                    placeholder="Price Group Name"
+                    class="custom-legacy-input"
+                  />
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Group :</span>
+               </div>
+               <div class="form-input-element">
+                  <select 
+                    [value]="formData().group" 
+                    (change)="updateForm('group', $any($event.target).value)"
+                    class="custom-legacy-input"
+                  >
+                     <option value="select">select</option>
+                     <option value="Group 1">Group 1</option>
+                     <option value="Group 2">Group 2</option>
+                  </select>
+               </div>
+            </div>
+
+         </div>
+
+         <!-- Selected Items sub-header -->
+         <div class="sub-header-row">
+            <span class="sub-header-text">Selected Items</span>
+         </div>
+
+         <!-- Centered Buttons Row -->
+         <div class="form-actions-centered">
+            <button class="btn-legacy-save">Save</button>
+            <button (click)="handleReset()" class="btn-legacy-reset">Reset</button>
+         </div>
+      </div>
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="card-panel table-panel">
+       <div class="custom-slim-header table-blue-header">
+          <span class="custom-header-title">HSN Lists</span>
+       </div>
+       <div class="panel-table-container">
+          <app-product-price-group-table></app-product-price-group-table>
+       </div>
+    </div>
+
+  </main>
+</div>

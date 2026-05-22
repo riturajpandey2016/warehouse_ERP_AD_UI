@@ -1,0 +1,253 @@
+﻿<div class="company-master-container">
+  <!-- Page Title / Sticky Header Strip -->
+  <header class="page-header">
+    <h1 class="page-title">
+      Company Master
+    </h1>
+    <div class="header-actions">
+       <button (click)="handleSave()" class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save Master
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="btn-icon"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+     
+    <!-- CARD 1 â€” BASIC COMPANY INFORMATION -->
+    <section class="card-panel">
+      <app-section-header 
+        title="Basic Company Information" 
+        [expanded]="sections().companyInfo" 
+        (toggle)="toggleSection('companyInfo')">
+      </app-section-header>
+      @if (sections().companyInfo) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <app-erp-select 
+                label="Base Company" 
+                [required]="true" 
+                [options]="baseCompanyOptions" 
+                [value]="formData().baseCompany" 
+                (valueChange)="updateForm('baseCompany', $event)">
+              </app-erp-select>
+
+              <app-erp-input 
+                label="Company Code" 
+                [required]="true" 
+                [value]="formData().companyCode" 
+                (valueChange)="updateForm('companyCode', $event)">
+              </app-erp-input>
+
+              <app-erp-input 
+                label="Company Name" 
+                [required]="true" 
+                placeholder="e.g. WAREHOUSE LOGISTICS INC."
+                [value]="formData().companyName" 
+                (valueChange)="updateForm('companyName', $event)">
+              </app-erp-input>
+
+              <app-erp-select 
+                label="Currency" 
+                [required]="true" 
+                [options]="currencyOptions" 
+                [value]="formData().currency" 
+                (valueChange)="updateForm('currency', $event)">
+              </app-erp-select>
+
+              <app-erp-input 
+                label="Company Alias" 
+                placeholder="e.g. WLI Group"
+                [value]="formData().companyAlias" 
+                (valueChange)="updateForm('companyAlias', $event)">
+              </app-erp-input>
+
+              <app-erp-input 
+                label="CC Center" 
+                placeholder="e.g. CENTRAL_HQ"
+                [value]="formData().ccCenterName" 
+                (valueChange)="updateForm('ccCenterName', $event)">
+              </app-erp-input>
+           </div>
+           
+           <div class="form-fullwidth">
+              <app-erp-textarea 
+                label="Description" 
+                placeholder="Provide a brief description of the company business or logistics operation..."
+                [value]="formData().companyDescription" 
+                (valueChange)="updateForm('companyDescription', $event)">
+              </app-erp-textarea>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- CARD 2 â€” REGISTRATION & COMPLIANCE DETAILS -->
+    <section class="card-panel">
+      <app-section-header 
+        title="Registration & Compliance Details" 
+        [expanded]="sections().registration" 
+        (toggle)="toggleSection('registration')">
+      </app-section-header>
+      @if (sections().registration) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <app-erp-input 
+                label="GST Number" 
+                [required]="true" 
+                placeholder="e.g. 07AAAAA1111A1Z1"
+                [value]="formData().gstNumber" 
+                (valueChange)="updateForm('gstNumber', $event)">
+              </app-erp-input>
+              
+              <app-erp-textarea 
+                label="Address" 
+                [rows]="2"
+                placeholder="Complete company registered head office address..."
+                [value]="formData().registrationAddress" 
+                (valueChange)="updateForm('registrationAddress', $event)">
+              </app-erp-textarea>
+              
+              <app-erp-input 
+                label="PAN Number" 
+                [required]="true" 
+                placeholder="e.g. ABCDE1234F"
+                [value]="formData().panNumber" 
+                (valueChange)="updateForm('panNumber', $event)">
+              </app-erp-input>
+
+              <app-erp-input 
+                label="Pincode" 
+                placeholder="e.g. 400001"
+                [value]="formData().registrationPincode" 
+                (valueChange)="updateForm('registrationPincode', $event)">
+              </app-erp-input>
+              
+              <app-erp-input 
+                label="ISO Number" 
+                placeholder="e.g. ISO 9001:2015"
+                [value]="formData().isoNumber" 
+                (valueChange)="updateForm('isoNumber', $event)">
+              </app-erp-input>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- CARD 3 â€” CONTACT INFORMATION -->
+    <section class="card-panel">
+      <app-section-header 
+        title="Contact Information" 
+        [expanded]="sections().contact" 
+        (toggle)="toggleSection('contact')">
+      </app-section-header>
+      @if (sections().contact) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <app-erp-input 
+                label="Primary Email" 
+                [required]="true" 
+                placeholder="info@warehouse.com"
+                [value]="formData().email" 
+                (valueChange)="updateForm('email', $event)">
+              </app-erp-input>
+
+              <app-erp-input 
+                label="Contact No" 
+                placeholder="e.g. +91 22 2345 6789"
+                [value]="formData().contactNumber" 
+                (valueChange)="updateForm('contactNumber', $event)">
+              </app-erp-input>
+
+              <app-erp-input 
+                label="Alternative Email" 
+                placeholder="billing@warehouse.com"
+                [value]="formData().alternativeEmail" 
+                (valueChange)="updateForm('alternativeEmail', $event)">
+              </app-erp-input>
+
+              <app-erp-input 
+                label="Mobile No" 
+                placeholder="e.g. +91 98765 43210"
+                [value]="formData().mobileNumber" 
+                (valueChange)="updateForm('mobileNumber', $event)">
+              </app-erp-input>
+
+              <app-erp-input 
+                label="Website" 
+                placeholder="www.warehouse.com"
+                [value]="formData().website" 
+                (valueChange)="updateForm('website', $event)">
+              </app-erp-input>
+
+              <div class="toggle-group">
+                <label class="toggle-label">Active Status:</label>
+                <div class="toggle-wrapper">
+                  <app-erp-toggle 
+                    [checked]="formData().isActive" 
+                    (checkedChange)="updateForm('isActive', $event)">
+                  </app-erp-toggle>
+                </div>
+              </div>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- CARD 4 â€” SEARCH COMPANIES -->
+    <section class="card-panel search-panel">
+       <app-section-header 
+         title="Search Companies" 
+         [expanded]="sections().search" 
+         (toggle)="toggleSection('search')">
+       </app-section-header>
+       @if (sections().search) {
+         <div class="search-body">
+            <div class="search-grid">
+               <app-erp-input 
+                 label="Name" 
+                 [value]="searchName()" 
+                 (valueChange)="searchName.set($event)">
+               </app-erp-input>
+               
+               <app-erp-input 
+                 label="Code" 
+                 [value]="searchCode()" 
+                 (valueChange)="searchCode.set($event)">
+               </app-erp-input>
+               
+               <app-erp-select 
+                 label="Status" 
+                 [options]="statusOptions"
+                 [value]="searchStatus()" 
+                 (valueChange)="searchStatus.set($event)">
+               </app-erp-select>
+            </div>
+            <div class="search-action-row">
+               <button (click)="handleSearch()" class="btn-search">
+                  <lucide-icon [img]="SearchIcon" class="btn-icon"></lucide-icon> Search
+               </button>
+            </div>
+         </div>
+       }
+    </section>
+
+    <!-- CARD 5 â€” COMPANY LIST -->
+    <section class="card-panel table-panel">
+       <app-section-header 
+         title="Company List" 
+         [expanded]="sections().table" 
+         (toggle)="toggleSection('table')" 
+         [blue]="true">
+       </app-section-header>
+       @if (sections().table) {
+          <div class="panel-table-container">
+             <app-company-table></app-company-table>
+          </div>
+       }
+    </section>
+
+  </main>
+</div>

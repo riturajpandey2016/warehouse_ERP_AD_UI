@@ -1,0 +1,172 @@
+:host {
+  display: block;
+  flex: 1;
+  min-width: 220px;
+}
+
+.stat-card-container {
+  background-color: #ffffff; /* Card Background from specification */
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.stat-card-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
+  border-color: rgba(11, 94, 215, 0.2); /* Highlight border on hover */
+}
+
+/* Card Decorative Left Line */
+.stat-card-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #cbd5e1;
+  transition: width 0.2s ease;
+}
+
+.stat-card-container:hover::before {
+  width: 6px;
+}
+
+/* Header Row styling */
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.card-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-label-sub {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.card-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #64748b;
+  margin: 3px 0 0 0;
+  letter-spacing: 0.15px;
+}
+
+/* Icon Bubble styles */
+.icon-bubble {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.card-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Value styling */
+.card-value-row {
+  margin-bottom: 14px;
+}
+
+.card-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+/* Footer & Trend styling */
+.card-footer-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trend-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2.5px 8px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.trend-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.time-label {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* Trend Coloring Classes */
+.trend-up {
+  background-color: #ecfdf5;
+  color: #10b981; /* Green */
+}
+
+.trend-down {
+  background-color: #fef2f2;
+  color: #ef4444; /* Red */
+}
+
+.trend-critical {
+  background-color: #fff7ed;
+  color: #f97316; /* Orange */
+}
+
+.trend-neutral {
+  background-color: #f8fafc;
+  color: #0284c7; /* Blue info */
+}
+
+/* Theme color mappings for card icons & border indicators */
+.theme-blue::before { background-color: #0b5ed7; }
+.theme-blue .icon-bubble { background-color: #eff6ff; color: #0b5ed7; }
+.theme-blue:hover { border-color: rgba(11, 94, 215, 0.25); }
+
+.theme-green::before { background-color: #10b981; }
+.theme-green .icon-bubble { background-color: #ecfdf5; color: #10b981; }
+.theme-green:hover { border-color: rgba(16, 185, 129, 0.25); }
+
+.theme-orange::before { background-color: #f97316; }
+.theme-orange .icon-bubble { background-color: #fff7ed; color: #f97316; }
+.theme-orange:hover { border-color: rgba(249, 115, 22, 0.25); }
+
+.theme-red::before { background-color: #ef4444; }
+.theme-red .icon-bubble { background-color: #fef2f2; color: #ef4444; }
+.theme-red:hover { border-color: rgba(239, 68, 68, 0.25); }
+
+.theme-purple::before { background-color: #8b5cf6; }
+.theme-purple .icon-bubble { background-color: #f5f3ff; color: #8b5cf6; }
+.theme-purple:hover { border-color: rgba(139, 92, 246, 0.25); }

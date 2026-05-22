@@ -1,0 +1,99 @@
+<div class="table-card">
+  <!-- Table Toolbar -->
+  <div class="table-toolbar">
+    <div class="toolbar-left">
+       <div class="search-box">
+          <lucide-icon [img]="SearchIcon" class="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400"></lucide-icon>
+          <input 
+            type="text" 
+            placeholder="Search LUT..." 
+            class="search-input"
+          />
+       </div>
+       <button class="btn-toolbar btn-filter">
+          <lucide-icon [img]="FilterIcon" class="w-3 h-3"></lucide-icon> Filter
+       </button>
+    </div>
+    <div class="toolbar-right">
+       <button class="btn-toolbar btn-add">
+          <lucide-icon [img]="PlusIcon" class="w-3 h-3"></lucide-icon> Add ARN
+       </button>
+       <button class="btn-toolbar btn-filter">
+          <lucide-icon [img]="DownloadIcon" class="w-3 h-3"></lucide-icon> Export
+       </button>
+    </div>
+  </div>
+
+  <!-- Table Content -->
+  <div class="overflow-x-auto relative min-h-[250px]">
+    <table class="data-table">
+       <thead>
+         <tr class="bg-slate-100 border-b border-slate-300 text-left sticky top-0 z-10">
+           <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200 w-14 text-center">SL NO.</th>
+           <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">Branch</th>
+           <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">Fin. Year</th>
+           <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">LUT (ARN) NO.</th>
+           <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">Description</th>
+           <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">Entry By</th>
+           <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">Entry Date</th>
+           <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200 text-center">Status</th>
+           <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase text-center w-24">Actions</th>
+         </tr>
+       </thead>
+       <tbody class="table-body">
+         @for (item of data(); track item.id; let idx = $index) {
+           <tr class="table-body-row">
+             <td class="px-3 py-2 text-[11px] font-bold text-slate-400 border-r border-slate-100 text-center">0{{ idx + 1 }}</td>
+             <td class="px-3 py-2 text-[11px] font-black text-slate-600 uppercase border-r border-slate-100 tracking-tight">{{ item.branch }}</td>
+             <td class="px-3 py-2 text-[11px] font-black text-blue-600 uppercase border-r border-slate-100 tracking-tight italic">{{ item.finYear }}</td>
+             <td class="px-3 py-2 text-[11px] font-black text-slate-800 border-r border-slate-100 tracking-tight">{{ item.arnNo }}</td>
+             <td class="px-3 py-2 text-[11px] font-bold text-slate-600 border-r border-slate-100 tracking-tight leading-tight">{{ item.description }}</td>
+             <td class="px-3 py-2 text-[11px] font-bold text-slate-400 border-r border-slate-100 uppercase italic tracking-tighter">{{ item.entryBy }}</td>
+             <td class="px-3 py-2 text-[11px] font-bold text-slate-600 border-r border-slate-100 uppercase tracking-tight">{{ item.entryDate }}</td>
+            <td class="cell-checkbox">
+              <span 
+                class="inline-flex px-2 py-0.5 rounded-full text-[10px] font-black uppercase border"
+                [class.active]="item.status === 'Active'"
+                [class.inactive]="item.status === 'Inactive'"
+              >
+                {{ item.status }}
+              </span>
+            </td>
+            <td class="cell-actions">
+              <div class="action-buttons-group">
+                <button class="action-btn">
+                   <lucide-icon [img]="EditIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button class="action-btn">
+                   <lucide-icon [img]="CopyIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button class="action-btn">
+                   <lucide-icon [img]="HistoryIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button class="action-btn btn-delete">
+                   <lucide-icon [img]="Trash2Icon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="9" class="px-3 py-4 text-center text-[11px] font-bold text-slate-500">No data found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="table-pagination">
+    <div class="pagination-info">
+       SHOWING 1 TO {{ data().length }} OF {{ data().length }} ENTRIES
+    </div>
+    <div class="pagination-buttons">
+       <button class="btn-page btn-page-disabled">Prev</button>
+       <button class="btn-page btn-page-active">1</button>
+       <button class="btn-page btn-page-disabled">Next</button>
+    </div>
+  </div>
+</div>

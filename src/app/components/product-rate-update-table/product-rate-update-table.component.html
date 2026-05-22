@@ -1,0 +1,63 @@
+<div class="table-card">
+  <div class="table-scroll-container">
+    <table class="data-table">
+      <thead>
+        <tr class="table-header-row">
+          <th class="text-center w-12">
+             <input type="checkbox" class="custom-checkbox" (change)="toggleAll($event)" />
+          </th>
+          <th class="text-center w-12">SN</th>
+          <th>Item Name</th>
+          <th>Item Code</th>
+          <th>Group</th>
+          <th>Current Purchase Price</th>
+          <th>New Purchase Price</th>
+          <th>Current Sales Price</th>
+          <th>New Sales Price</th>
+          <th>Current MRP</th>
+          <th>New MRP</th>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+        @for (item of data(); track item.id; let idx = $index) {
+          <tr class="table-body-row">
+            <td class="px-3 py-2 text-center border-r border-slate-100">
+               <input type="checkbox" [checked]="item.selected" (change)="toggleItem(item)" class="custom-checkbox" />
+            </td>
+            <td class="px-3 py-2 text-[11px] font-bold text-slate-400 border-r border-slate-100 text-center">{{ idx + 1 }}</td>
+            <td class="px-3 py-2 text-[11px] font-black text-slate-700 border-r border-slate-100 tracking-tight">{{ item.itemName }}</td>
+            <td class="px-3 py-2 text-[11px] font-semibold text-slate-600 border-r border-slate-100">{{ item.itemCode }}</td>
+            <td class="px-3 py-2 text-[11px] text-slate-600 border-r border-slate-100 font-semibold">{{ item.group }}</td>
+            <td class="px-3 py-2 text-[11px] text-slate-500 border-r border-slate-100 text-right">Rs. {{ item.currentPurPrice }}</td>
+            <td class="px-3 py-2 text-[11px] border-r border-slate-100 text-center">
+               <input type="text" class="rate-input" [value]="item.currentPurPrice" />
+            </td>
+            <td class="px-3 py-2 text-[11px] text-slate-500 border-r border-slate-100 text-right">Rs. {{ item.currentSalesPrice }}</td>
+            <td class="px-3 py-2 text-[11px] border-r border-slate-100 text-center">
+               <input type="text" class="rate-input" [value]="item.currentSalesPrice" />
+            </td>
+            <td class="px-3 py-2 text-[11px] text-slate-500 border-r border-slate-100 text-right">Rs. {{ item.currentMRP }}</td>
+            <td class="px-3 py-2 text-[11px] text-center">
+               <input type="text" class="rate-input" [value]="item.currentMRP" />
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="11" class="px-3 py-4 text-center text-[11px] font-bold text-slate-500">No items found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-pagination">
+    <div class="pagination-info">
+       Showing 1 to {{ data().length }} of {{ data().length }} entries
+    </div>
+    <div class="pagination-buttons">
+       <button class="btn-page btn-page-disabled">Prev</button>
+       <button class="btn-page btn-page-active">1</button>
+       <button class="btn-page btn-page-disabled">Next</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="company-master-container">
+  <!-- Page Title & Header Actions Strip -->
+  <header class="page-header">
+    <h1 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
+      <lucide-icon [img]="CalendarIcon" class="w-4 h-4"></lucide-icon>
+      Historical Day
+    </h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save Event
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- DETAILS SECTION -->
+    <div class="card-panel">
+      <app-section-header title="Event Details" [expanded]="sections().details" (toggle)="toggleSection('details')"></app-section-header>
+      @if (sections().details) {
+        <div class="panel-body">
+           <div class="historical-form-grid">
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Event Date <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-input 
+                      type="date"
+                      [value]="formData().date" 
+                      (valueChange)="updateForm('date', $event)">
+                    </app-erp-input>
+                 </div>
+              </div>
+
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Country <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-select 
+                      [value]="formData().country" 
+                      (valueChange)="updateForm('country', $event)"
+                      [options]="countryOptions">
+                    </app-erp-select>
+                 </div>
+              </div>
+              
+              <div class="form-row-side col-span-2">
+                 <div class="form-label-box label-header-override">
+                    <span class="form-label-text">Header <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-input 
+                      [value]="formData().header" 
+                      (valueChange)="updateForm('header', $event)"
+                      placeholder="Enter event header...">
+                    </app-erp-input>
+                 </div>
+              </div>
+           </div>
+           
+           <div class="form-row-full">
+              <div class="form-label-box">
+                 <span class="form-label-text">Description <span class="required-asterisk">*</span>:</span>
+              </div>
+              <div class="form-input-element-full">
+                 <app-erp-textarea 
+                   [rows]="3"
+                   [value]="formData().description" 
+                   (valueChange)="updateForm('description', $event)"
+                   placeholder="Enter detailed description...">
+                 </app-erp-textarea>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="card-panel table-panel">
+       <app-section-header title="Historical Day Registry" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+          <div class="panel-table-container">
+             <app-historical-day-table></app-historical-day-table>
+          </div>
+       }
+    </div>
+
+  </main>
+</div>

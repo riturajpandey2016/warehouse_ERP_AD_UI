@@ -1,0 +1,132 @@
+<div class="company-master-container">
+  <!-- Page Title & Header Actions Strip -->
+  <header class="page-header">
+    <h1 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
+      <lucide-icon [img]="DatabaseIcon" class="w-4 h-4"></lucide-icon>
+      Database Backup
+      @if (isBackingUp()) {
+        <span class="text-[9px] font-black text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200 uppercase tracking-tight animate-pulse ml-2 flex items-center gap-1">
+          <div class="w-2.5 h-2.5 rounded-full border border-blue-600 border-t-transparent animate-spin"></div>
+          In Progress
+        </span>
+      }
+    </h1>
+    <div class="header-actions">
+       <button (click)="handleBackup()" [disabled]="isBackingUp()" class="btn-save">
+          <lucide-icon [img]="DatabaseIcon" class="w-3.5 h-3.5"></lucide-icon> Backup
+       </button>
+       <button (click)="handleReset()" [disabled]="isBackingUp()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+
+    <!-- Status Notification -->
+    @if (backupStatus() === 'success') {
+      <div class="bg-emerald-50 border border-emerald-200 rounded p-3 flex items-start gap-3">
+        <lucide-icon [img]="CheckCircle2Icon" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></lucide-icon>
+        <div>
+          <h3 class="text-xs font-black text-emerald-800 uppercase tracking-tight">Backup Completed Successfully</h3>
+          <p class="text-[10px] text-emerald-700 mt-0.5 leading-relaxed font-bold">
+            The database backup file <span class="text-blue-800 font-black">"{{ formData().fileName }}"</span> has been successfully saved to directory path <span class="text-blue-800 font-black">{{ formData().driveDirectory }}\{{ formData().folderName }}</span>.
+          </p>
+        </div>
+      </div>
+    }
+    
+    <!-- DETAILS SECTION -->
+    <div class="card-panel">
+      <app-section-header title="Backup Details" [expanded]="sections().details" (toggle)="toggleSection('details')"></app-section-header>
+      @if (sections().details) {
+        <div class="panel-body">
+           <div class="backup-form-grid">
+              
+              <div class="form-row-side col-span-2">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Drive / Directory <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-input 
+                      [value]="formData().driveDirectory" 
+                      (valueChange)="handleInputChange('driveDirectory', $event)"
+                      placeholder="Enter drive/directory location (e.g. C:\Backups)">
+                    </app-erp-input>
+                 </div>
+              </div>
+              
+              <div class="form-row-side col-span-2">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Folder Name <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-input 
+                      [value]="formData().folderName" 
+                      (valueChange)="handleInputChange('folderName', $event)"
+                      placeholder="Enter backup folder name...">
+                    </app-erp-input>
+                 </div>
+              </div>
+
+              <div class="form-row-side col-span-2">
+                 <div class="form-label-box">
+                    <span class="form-label-text">File Name <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-input 
+                      [value]="formData().fileName" 
+                      (valueChange)="handleInputChange('fileName', $event)"
+                      placeholder="Enter backup file name...">
+                    </app-erp-input>
+                 </div>
+              </div>
+           </div>
+           
+           <div class="pt-4 border-t border-slate-100 flex items-center gap-3">
+              <div class="p-2 bg-blue-50 rounded-full shrink-0">
+                 <lucide-icon [img]="AlertCircleIcon" class="w-4 h-4 text-blue-500"></lucide-icon>
+              </div>
+              <p class="text-[10px] text-slate-500 leading-relaxed font-bold italic">
+                 <span class="text-blue-900 font-extrabold uppercase not-italic">Note:</span> Ensure the destination directory has sufficient read/write permissions and enough disk space before initiating the backup. The backup file is written atomically.
+              </p>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- Features Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+       <div class="p-3 bg-white rounded border border-slate-200 flex items-center gap-3">
+          <div class="w-8 h-8 rounded bg-emerald-50 flex items-center justify-center shrink-0 border border-emerald-100">
+             <lucide-icon [img]="CheckCircle2Icon" class="w-4 h-4 text-emerald-600"></lucide-icon>
+          </div>
+          <div>
+             <p class="text-[10px] font-black text-slate-800 uppercase tracking-wider">Consistency</p>
+             <p class="text-[9px] text-slate-400 font-bold uppercase mt-0.5">Atomic backup execution</p>
+          </div>
+       </div>
+
+       <div class="p-3 bg-white rounded border border-slate-200 flex items-center gap-3">
+          <div class="w-8 h-8 rounded bg-blue-50 flex items-center justify-center shrink-0 border border-blue-100">
+             <lucide-icon [img]="DatabaseIcon" class="w-4 h-4 text-blue-600"></lucide-icon>
+          </div>
+          <div>
+             <p class="text-[10px] font-black text-slate-800 uppercase tracking-wider">Compression</p>
+             <p class="text-[9px] text-slate-400 font-bold uppercase mt-0.5">Optimized storage footprint</p>
+          </div>
+       </div>
+
+       <div class="p-3 bg-white rounded border border-slate-200 flex items-center gap-3">
+          <div class="w-8 h-8 rounded bg-purple-50 flex items-center justify-center shrink-0 border border-purple-100">
+             <lucide-icon [img]="FileCodeIcon" class="w-4 h-4 text-purple-600"></lucide-icon>
+          </div>
+          <div>
+             <p class="text-[10px] font-black text-slate-800 uppercase tracking-wider">Validation</p>
+             <p class="text-[9px] text-slate-400 font-bold uppercase mt-0.5">Checksum verification</p>
+          </div>
+       </div>
+    </div>
+
+  </main>
+</div>

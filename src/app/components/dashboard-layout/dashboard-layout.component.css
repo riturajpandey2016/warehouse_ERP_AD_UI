@@ -1,0 +1,197 @@
+:host {
+  display: block;
+  width: 100%;
+  padding: 24px;
+  background-color: #f1f5f9; /* Light Background from specification */
+  box-sizing: border-box;
+}
+
+.dashboard-wrapper {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Control Header layout */
+.control-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  background-color: #ffffff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.title-trend-icon {
+  width: 24px;
+  height: 24px;
+  color: #0b5ed7; /* Primary Blue icon highlight */
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.25px;
+}
+
+.header-subtitle {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 550;
+  margin: 4px 0 0 0;
+}
+
+.bullet-divider {
+  color: #cbd5e1;
+  margin: 0 4px;
+}
+
+.accent-text {
+  color: #0b5ed7;
+  font-weight: 700;
+}
+
+/* Header Action Controls */
+.header-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.action-dropdown-btn {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.action-dropdown-btn:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.text-blue {
+  color: #0b5ed7;
+}
+
+.primary-cta-btn {
+  background-color: #0b5ed7; /* Primary Blue from specification */
+  border: 1px solid #0b5ed7;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 8.5px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(11, 94, 215, 0.2);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.primary-cta-btn:hover {
+  background-color: #0a58ca;
+  border-color: #0a58ca;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(11, 94, 215, 0.3);
+}
+
+.primary-cta-btn:active {
+  transform: translateY(0);
+}
+
+/* KPI Stat Cards Grid (4 Column Layout) */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+/* Row 2: Split Grid (Left Operations & Right Timeline) */
+.dashboard-split-grid {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.operations-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Sub-Grid: Analytics cards (3 Columns) */
+.analytics-row-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.table-row-container {
+  width: 100%;
+}
+
+.events-column {
+  height: 100%;
+}
+
+.timeline-component-wrap {
+  height: 100%;
+  min-height: 480px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .dashboard-split-grid {
+    grid-template-columns: 1fr; /* Stack columns on tablet / small laptop */
+  }
+  
+  .timeline-component-wrap {
+    min-height: 400px;
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  :host {
+    padding: 16px;
+  }
+  
+  .control-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+  
+  .header-right-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

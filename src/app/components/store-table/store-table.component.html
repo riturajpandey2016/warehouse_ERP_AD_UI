@@ -1,0 +1,108 @@
+<!-- TABLE TOOLBAR -->
+<div class="table-header-control-row">
+   <div class="search-box-group">
+      <div class="search-input-wrapper">
+         <lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5 search-icon-inside"></lucide-icon>
+         <input type="text" placeholder="Search Store..." class="search-input" />
+      </div>
+      <button class="btn-filter">
+         <lucide-icon [img]="FilterIcon" class="w-3.5 h-3.5"></lucide-icon>
+         <span>Filter</span>
+      </button>
+   </div>
+
+   <div class="right-actions-group">
+      <button class="btn-add-store font-bold">
+         <lucide-icon [img]="PlusIcon" class="w-3.5 h-3.5"></lucide-icon>
+         <span>Add Store</span>
+      </button>
+      <button class="btn-export">
+         <lucide-icon [img]="DownloadIcon" class="w-3.5 h-3.5"></lucide-icon>
+         <span>Export</span>
+      </button>
+   </div>
+</div>
+
+<!-- DATA GRID -->
+<div class="data-table-container">
+   <table class="data-table">
+      <thead>
+         <tr class="table-header-row">
+            <th class="w-16 text-center">S.No</th>
+            <th>Branch / Location</th>
+            <th>Store Name</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th class="w-36 text-center">Actions</th>
+         </tr>
+      </thead>
+      
+      <tbody>
+         @for (item of filteredData(); track item.id; let idx = $index) {
+            <tr class="table-body-row">
+               <!-- SNO -->
+               <td class="sno-cell">{{ idx + 1 }}</td>
+               
+               <!-- BRANCH / LOCATION -->
+               <td>
+                  <div class="branch-cell flex items-center gap-1.5 font-bold text-slate-500 uppercase">
+                     <lucide-icon [img]="MapPinIcon" class="w-3.5 h-3.5 text-slate-400"></lucide-icon>
+                     <span>{{ item.branch | uppercase }}</span>
+                  </div>
+               </td>
+
+               <!-- STORE NAME -->
+               <td>
+                  <div class="store-name-cell flex items-center gap-1.5 font-bold italic text-blue-900 uppercase">
+                     <lucide-icon [img]="ArchiveIcon" class="w-3.5 h-3.5 text-blue-500"></lucide-icon>
+                     <span>{{ item.name | uppercase }}</span>
+                  </div>
+               </td>
+
+               <!-- DESCRIPTION -->
+               <td>
+                  <div class="store-desc italic text-slate-600 font-semibold">{{ item.description }}</div>
+               </td>
+
+               <!-- STATUS -->
+               <td>
+                  @if (item.status === 'ACTIVE') {
+                     <span class="badge badge-completed font-bold">
+                        <span>Active</span>
+                     </span>
+                  } @else {
+                     <span class="badge badge-cancelled font-bold">
+                        <span>Inactive</span>
+                     </span>
+                  }
+               </td>
+
+               <!-- ACTIONS -->
+               <td>
+                  <div class="action-buttons-group justify-center">
+                     <button class="action-icon-btn" title="Edit Store">
+                        <lucide-icon [img]="EditIcon" class="w-4 h-4"></lucide-icon>
+                     </button>
+                     <button class="action-icon-btn" title="Copy Store">
+                        <lucide-icon [img]="CopyIcon" class="w-4 h-4"></lucide-icon>
+                     </button>
+                     <button class="action-icon-btn" title="History Log">
+                        <lucide-icon [img]="HistoryIcon" class="w-4 h-4"></lucide-icon>
+                     </button>
+                     <button class="action-icon-btn btn-delete-row" (click)="deleteStore(item.id)" title="Delete Store">
+                        <lucide-icon [img]="TrashIcon" class="w-4 h-4"></lucide-icon>
+                     </button>
+                  </div>
+               </td>
+
+            </tr>
+         } @empty {
+            <tr>
+               <td colspan="6" class="px-6 py-12 text-center text-slate-400 font-medium uppercase text-xs">
+                  No store entries registered. Configure the form above.
+               </td>
+            </tr>
+         }
+      </tbody>
+   </table>
+</div>

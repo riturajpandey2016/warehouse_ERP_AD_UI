@@ -1,0 +1,112 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- RACK ENTRY HEADER -->
+    <div class="card-panel">
+       <div class="custom-slim-header" (click)="toggleConfig()">
+          <span class="custom-header-title">Rack Entry</span>
+          <lucide-icon [img]="showConfig() ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 toggle-arrow"></lucide-icon>
+       </div>
+       
+       @if (showConfig()) {
+          <div class="panel-body">
+             <div class="form-grid-centered">
+                
+                <!-- ROW 1: CC CENTER AND STORE -->
+                <div class="form-flex-row">
+                   <div class="filter-input-group flex-1">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">CC Center :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="selectedCcCenter()" (ngModelChange)="selectedCcCenter.set($event)" class="custom-legacy-input">
+                            <option value="Head Office">Head Office</option>
+                            <option value="Main Warehouse">Main Warehouse</option>
+                            <option value="MUMBAI CENTRAL">MUMBAI CENTRAL</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group flex-1">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Store :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="selectedStore()" (ngModelChange)="selectedStore.set($event)" class="custom-legacy-input">
+                            <option value="ILICO Store">ILICO Store</option>
+                            <option value="Raw Material Store A">Raw Material Store A</option>
+                            <option value="Finished Goods Section 1">Finished Goods Section 1</option>
+                         </select>
+                      </div>
+                   </div>
+                </div>
+
+                <!-- ROW 2: ROOM AND SHELF -->
+                <div class="form-flex-row mt-3">
+                   <div class="filter-input-group flex-1">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Room :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="selectedRoom()" (ngModelChange)="selectedRoom.set($event)" class="custom-legacy-input">
+                            <option value="Room 1">Room 1</option>
+                            <option value="Room 2">Room 2</option>
+                            <option value="Room 3">Room 3</option>
+                            <option value="Room 4">Room 4</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group flex-1">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Shelf :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="selectedShelf()" (ngModelChange)="selectedShelf.set($event)" class="custom-legacy-input">
+                            <option value="Shelf 1">Shelf 1</option>
+                            <option value="Shelf 2">Shelf 2</option>
+                            <option value="Shelf 3">Shelf 3</option>
+                         </select>
+                      </div>
+                   </div>
+                </div>
+
+                <!-- ROW 3: RACK AND DESCRIPTION -->
+                <div class="form-flex-row mt-3">
+                   <div class="filter-input-group flex-1">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Rack :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <input type="text" [ngModel]="rackType()" (ngModelChange)="rackType.set($event)" placeholder="Type" class="custom-legacy-input" />
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group flex-1">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Description :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <input type="text" [ngModel]="description()" (ngModelChange)="description.set($event)" placeholder="Description" class="custom-legacy-input" />
+                      </div>
+                   </div>
+                </div>
+
+                <!-- BUTTONS ROW -->
+                <div class="form-actions-row">
+                   <button (click)="saveRack()" class="btn-save">Save</button>
+                   <button (click)="resetForm()" class="btn-reset">Reset</button>
+                </div>
+
+             </div>
+          </div>
+       }
+    </div>
+
+    <!-- RACK DETAILS DATABASE TABLE CARD -->
+    <div class="card-panel table-panel">
+       <app-rack-table #rackTable></app-rack-table>
+    </div>
+
+  </main>
+</div>

@@ -1,0 +1,158 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- PAGE TITLE HEADER -->
+    <div class="header-actions-row">
+       <div class="page-main-title">
+          <lucide-icon [img]="ArchiveIcon" class="w-5 h-5 text-blue-900"></lucide-icon>
+          <span>Store Entry</span>
+       </div>
+       <div class="header-buttons">
+          <button (click)="saveStore()" class="btn-save-store">
+             <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon>
+             <span>Save Store</span>
+          </button>
+          <button (click)="resetForm()" class="btn-reset-form">
+             <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon>
+             <span>Reset Form</span>
+          </button>
+       </div>
+    </div>
+
+    <!-- STORE CONFIGURATION PANEL -->
+    <div class="card-panel">
+       <div class="custom-slim-header" (click)="toggleConfig()">
+          <span class="custom-header-title">Store Configuration</span>
+          <lucide-icon [img]="showConfig() ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 toggle-arrow"></lucide-icon>
+       </div>
+       
+       @if (showConfig()) {
+          <div class="panel-body">
+             <div class="config-grid">
+                
+                <!-- COLUMN 1: CC CENTER / BRANCH AND STORE NAME -->
+                <div class="config-column">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">CC Center / Branch <span class="red-asterisk">*</span>:</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="selectedBranch()" (ngModelChange)="selectedBranch.set($event)" class="custom-legacy-input">
+                            <option value="">--Select--</option>
+                            <option value="MUMBAI CENTRAL">MUMBAI CENTRAL</option>
+                            <option value="NEW DELHI HUB">NEW DELHI HUB</option>
+                            <option value="BANGALORE STORE">BANGALORE STORE</option>
+                            <option value="CHENNAI">CHENNAI</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group mt-3">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Store Name <span class="red-asterisk">*</span>:</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <input type="text" [ngModel]="storeName()" (ngModelChange)="storeName.set($event)" placeholder="e.g. Raw Material Store A" class="custom-legacy-input width-wide" />
+                      </div>
+                   </div>
+                </div>
+
+                <!-- COLUMN 2: DESCRIPTION -->
+                <div class="config-column">
+                   <div class="filter-input-group height-full">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Description:</span>
+                      </div>
+                      <div class="filter-input-element height-full">
+                         <textarea [ngModel]="description()" (ngModelChange)="description.set($event)" placeholder="Enter store description..." class="custom-legacy-textarea"></textarea>
+                      </div>
+                   </div>
+                </div>
+
+                <!-- COLUMN 3: STATUS & ALERT CALLOUT -->
+                <div class="config-column">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Status:</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <div class="status-btn-group">
+                            <button type="button" (click)="setStatus(true)" class="btn-status" [class.active-green]="isActive()">Active</button>
+                            <button type="button" (click)="setStatus(false)" class="btn-status" [class.active-gray]="!isActive()">Inactive</button>
+                         </div>
+                      </div>
+                   </div>
+
+                   <!-- Alert Warning callout matching perfectly -->
+                   <div class="alert-warning-box mt-3">
+                      <lucide-icon [img]="AlertTriangleIcon" class="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5"></lucide-icon>
+                      <span class="alert-warning-text">Active stores are available for stock allocation and internal transfers.</span>
+                   </div>
+                </div>
+
+             </div>
+          </div>
+       }
+    </div>
+
+    <!-- SEARCH REGISTRY PANEL -->
+    <div class="card-panel">
+       <div class="custom-slim-header" (click)="toggleSearch()">
+          <span class="custom-header-title">Search Registry</span>
+          <lucide-icon [img]="showSearch() ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 toggle-arrow"></lucide-icon>
+       </div>
+       
+       @if (showSearch()) {
+          <div class="panel-body">
+             <div class="search-grid-layout">
+                
+                <div class="filter-input-group">
+                   <div class="filter-label-box">
+                      <span class="filter-label-text">Store Name:</span>
+                   </div>
+                   <div class="filter-input-element">
+                      <input type="text" [ngModel]="searchStoreName()" (ngModelChange)="searchStoreName.set($event)" placeholder="Store Name" class="custom-legacy-input width-wide" />
+                   </div>
+                </div>
+
+                <div class="filter-input-group">
+                   <div class="filter-label-box">
+                      <span class="filter-label-text">Branch:</span>
+                   </div>
+                   <div class="filter-input-element">
+                      <select [ngModel]="searchBranch()" (ngModelChange)="searchBranch.set($event)" class="custom-legacy-input width-wide">
+                         <option value="">--Select--</option>
+                         <option value="MUMBAI CENTRAL">MUMBAI CENTRAL</option>
+                         <option value="NEW DELHI HUB">NEW DELHI HUB</option>
+                         <option value="BANGALORE STORE">BANGALORE STORE</option>
+                         <option value="CHENNAI">CHENNAI</option>
+                      </select>
+                   </div>
+                </div>
+
+                <div class="search-btn-container">
+                   <button (click)="applySearchFilters()" class="btn-filter-results font-bold">
+                      <lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5"></lucide-icon>
+                      <span>Filter Results</span>
+                   </button>
+                </div>
+
+             </div>
+          </div>
+       }
+    </div>
+
+    <!-- STORE REGISTRY DATABASE TABLE PANEL -->
+    <div class="card-panel">
+       <div class="blue-panel-header" (click)="toggleDatabase()">
+          <span class="blue-header-title">Store Registry Database</span>
+          <lucide-icon [img]="showDatabase() ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 blue-toggle-arrow"></lucide-icon>
+       </div>
+       
+       @if (showDatabase()) {
+          <app-store-table #storeTable></app-store-table>
+       }
+    </div>
+
+  </main>
+</div>

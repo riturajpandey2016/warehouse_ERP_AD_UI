@@ -1,0 +1,79 @@
+﻿<div class="company-master-container">
+  <!-- Page Title -->
+  <header class="page-header">
+    <h1 class="page-title">State Master</h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save State
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+        </div>
+  </header>
+  <main class="page-content">
+    
+    <!-- SECTION 1 â€” STATE ENTRY -->
+    <div class="card-panel">
+      <app-section-header title="State Regional Details" [expanded]="sections().stateEntry" (toggle)="toggleSection('stateEntry')"></app-section-header>
+      @if (sections().stateEntry) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <div>
+                 <app-erp-select label="Country" [required]="true" [options]="countryOptions" [value]="formData().country" (valueChange)="updateForm('country', $event)"></app-erp-select>
+                 <app-erp-select label="Zone" [required]="true" [options]="zoneOptions" [value]="formData().zone" (valueChange)="updateForm('zone', $event)"></app-erp-select>
+                 <app-erp-input label="State Name" [required]="true" [value]="formData().stateName" (valueChange)="updateForm('stateName', $event)"></app-erp-input>
+              </div>
+              <div>
+                 <app-erp-input label="State Code" [required]="true" [value]="formData().stateCode" (valueChange)="updateForm('stateCode', $event)"></app-erp-input>
+                 <app-erp-input label="State TIN" [required]="true" [value]="formData().stateTinNumber" (valueChange)="updateForm('stateTinNumber', $event)"></app-erp-input>
+                 <app-erp-input label="Short Name" [value]="formData().stateShortName" (valueChange)="updateForm('stateShortName', $event)"></app-erp-input>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2 â€” CONFIGURATION -->
+    <div class="card-panel">
+       <app-section-header title="System Configuration" [expanded]="sections().configuration" (toggle)="toggleSection('configuration')"></app-section-header>
+       @if (sections().configuration) {
+         <div class="panel-body">
+            <div class="form-grid">
+               <app-erp-toggle label="Active Status" [checked]="formData().isActive" (checkedChange)="updateForm('isActive', $event)"></app-erp-toggle>
+               <app-erp-toggle label="Tax Mapping" [checked]="formData().taxRegionMapping" (checkedChange)="updateForm('taxRegionMapping', $event)"></app-erp-toggle>
+            </div>
+         </div>
+       }
+    </div>
+
+    <!-- SECTION 3 â€” SEARCH -->
+    <div class="card-panel">
+       <app-section-header title="Search States" [expanded]="sections().search" (toggle)="toggleSection('search')"></app-section-header>
+       @if (sections().search) {
+         <div class="search-body">
+            <div class="search-grid">
+               <app-erp-input label="State Name" width="w-24"></app-erp-input>
+               <app-erp-select label="Country" width="w-24" [options]="countryOptions"></app-erp-select>
+               <app-erp-select label="Zone" width="w-24" [options]="zoneOptions"></app-erp-select>
+            </div>
+            <div class="search-action-row">
+               <button class="btn-search">
+                  <lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5"></lucide-icon> Search
+               </button>
+            </div>
+         </div>
+       }
+    </div>
+
+    <!-- SECTION 4 â€” TABLE -->
+    <div class="card-panel">
+       <app-section-header title="State Registry List" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+         <div class="panel-table-container">
+            <app-state-table></app-state-table>
+         </div>
+       }
+    </div>
+
+  </main></div>

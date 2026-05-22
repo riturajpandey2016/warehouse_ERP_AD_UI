@@ -1,0 +1,131 @@
+:host {
+  display: block;
+}
+
+/* Container */
+.orders-table-container {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Header */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+.expand-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Table responsive wrapper */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Table */
+.enterprise-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.enterprise-table th,
+.enterprise-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  font-size: 13px;
+}
+
+.enterprise-table th {
+  background: #1a3a6b;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.table-row:hover {
+  background: #f0f4ff;
+}
+
+/* Order ID badge */
+.order-id-badge {
+  background: #0284c7;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* Status pills */
+.status-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-pill.active {
+  background: #28a745;
+  color: #ffffff;
+}
+
+.status-pill.inactive {
+  background: #dc3545;
+  color: #ffffff;
+}
+
+/* Action button */
+.action-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 2px 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.action-btn:hover {
+  background: #f0f4ff;
+  border-color: #1a3a6b;
+}
+
+/* Pagination and other components can retain existing styles */

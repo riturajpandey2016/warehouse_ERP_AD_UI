@@ -1,0 +1,57 @@
+﻿<div class="orders-table-container">
+  <!-- Table Header Controls -->
+  <div class="table-header">
+    <div class="header-left">
+      <lucide-icon [img]="ShieldAlertIcon" class="header-icon"></lucide-icon>
+      <h3 class="table-title">HIGH VALUE PENDING ORDERS (LAST 24H)</h3>
+    </div>
+    <div class="header-right">
+      <button class="expand-btn">
+        <span>EXPAND LIST</span>
+        <lucide-icon [img]="ArrowRightIcon" class="w-3.5 h-3.5"></lucide-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Table Body Wrapper -->
+  <div class="table-responsive">
+    <table class="enterprise-table">
+      <thead>
+        <tr>
+          <th>ORDER ID</th>
+          <th>PARTY NAME</th>
+          <th>VALUE</th>
+          <th>STATUS</th>
+          <th class="text-right">ACTION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders()" class="table-row">
+          <td class="order-id-cell">
+            <span class="order-id-badge">{{ order.orderId }}</span>
+          </td>
+          <td class="party-name-cell">
+            <div class="party-name">{{ order.partyName }}</div>
+            <div class="party-date">{{ order.date }}</div>
+          </td>
+          <td class="value-cell">{{ order.value }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+              <span class="status-dot"></span>
+              <span class="status-text">{{ order.status }}</span>
+            </span>
+          </td>
+          <td class="text-right action-cell">
+            <button 
+              class="action-btn" 
+              [ngClass]="getStatusClass(order.status)"
+              (click)="handleAction(order)">
+              <lucide-icon [img]="EyeIcon" class="w-3.5 h-3.5 mr-1"></lucide-icon>
+              <span>{{ getActionText(order.status) }}</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,298 @@
+<div class="company-master-container">
+  <!-- Page Title -->
+  <header class="page-header">
+    <h1 class="page-title">Sales Quotation</h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save Quotation
+       </button>
+       <button class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="btn-icon"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- SECTION 1 — ENTRY DETAILS -->
+    <div class="card-panel">
+      <app-section-header title="Entry Details" [expanded]="sections().entry" (toggle)="toggleSection('entry')"></app-section-header>
+      @if (sections().entry) {
+        <div class="panel-body">
+           <div class="entry-header-bar">
+              <div class="entry-header-inputs">
+                 <app-erp-input label="Date" type="date" [required]="true"></app-erp-input>
+                 <app-erp-input label="Reference No" [required]="true"></app-erp-input>
+              </div>
+              <div class="bar-divider"></div>
+              <div class="customer-type-selector">
+                 <span class="selector-title">Customer Type:</span>
+                 <div class="radio-buttons-group">
+                   @for (t of ['Customer', 'Dealer', 'Distributer']; track t) {
+                      <label class="radio-label">
+                         <input type="radio" name="custType" class="radio-input" [checked]="t === 'Customer'" />
+                         <span class="radio-text">{{ t }}</span>
+                      </label>
+                   }
+                 </div>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2 — SHIPPING DETAILS -->
+    <div class="card-panel">
+      <app-section-header title="Shipping Details" [expanded]="sections().shipping" (toggle)="toggleSection('shipping')"></app-section-header>
+      @if (sections().shipping) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <div>
+                 <app-erp-input label="Way Bill No"></app-erp-input>
+                 <app-erp-select label="Courier Name"></app-erp-select>
+                 <app-erp-input label="Customer Order No"></app-erp-input>
+                 <app-erp-input label="Target Delivery Date" type="date"></app-erp-input>
+              </div>
+              <div>
+                 <app-erp-input label="Docket No"></app-erp-input>
+                 <app-erp-input label="Courier Date" type="date"></app-erp-input>
+                 <app-erp-input label="Customer Order Date" type="date"></app-erp-input>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 3 — CUSTOMER DETAILS -->
+    <div class="card-panel">
+      <app-section-header title="Customer Details" [expanded]="sections().customer" (toggle)="toggleSection('customer')"></app-section-header>
+      @if (sections().customer) {
+        <div class="panel-body">
+           <div class="form-grid xl-gap">
+              <div>
+                 <app-erp-select label="Company" [required]="true"></app-erp-select>
+                 <app-erp-select label="CC Center" [required]="true"></app-erp-select>
+                 <app-erp-select label="Entry Type"></app-erp-select>
+                 <app-erp-input label="GSTIN"></app-erp-input>
+                 <app-erp-select label="Address"></app-erp-select>
+                 <div class="link-action-row">
+                    <button class="btn-link-action">Customer Details</button>
+                 </div>
+                 <app-erp-textarea label="Remarks"></app-erp-textarea>
+              </div>
+              <div>
+                 <div class="flex-input-row">
+                    <div class="flex-input-grow">
+                       <app-erp-select label="Customer" [required]="true"></app-erp-select>
+                    </div>
+                    <label class="inline-checkbox-label">
+                       <input type="checkbox" class="checkbox-input" />
+                       <span class="checkbox-text">Inactive</span>
+                    </label>
+                 </div>
+                 <div class="link-action-row">
+                    <button class="btn-link-action">+ Add Customer</button>
+                 </div>
+                 <app-erp-select label="Sales Type"></app-erp-select>
+                 <app-erp-input label="Balance"></app-erp-input>
+                 <app-erp-select label="Delivery Address"></app-erp-select>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 4 — ITEM DETAILS SEARCH -->
+    <div class="card-panel">
+      <app-section-header title="Item Details Search" [expanded]="sections().itemSearch" (toggle)="toggleSection('itemSearch')"></app-section-header>
+      @if (sections().itemSearch) {
+        <div class="panel-body">
+           <div class="search-toolbar-row">
+              <div class="toolbar-left-group">
+                 <div class="rate-indicator-bar">
+                    <span class="indicator-title">Rate:</span>
+                    <div class="radio-buttons-group">
+                      @for (r of ['Normal', 'Customer']; track r) {
+                         <label class="radio-label">
+                            <input type="radio" name="rate" class="radio-input" />
+                            <span class="radio-text">{{ r }}</span>
+                         </label>
+                      }
+                    </div>
+                 </div>
+                 <div class="toolbar-selects">
+                    <app-erp-select label="Group"></app-erp-select>
+                    <app-erp-select label="Item Type"></app-erp-select>
+                 </div>
+              </div>
+              <div class="toolbar-right-group">
+                 <button class="btn-action-primary-blue">
+                    <lucide-icon [img]="SearchIcon" class="btn-action-icon"></lucide-icon> Filter Items
+                 </button>
+                 <button class="btn-action-emerald">+ Add Product</button>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 5 — ITEM DETAILS GRID -->
+    <div class="card-panel table-panel">
+      <app-section-header title="Item Details" [expanded]="sections().items" (toggle)="toggleSection('items')" [blue]="true"></app-section-header>
+      @if (sections().items) {
+        <div class="panel-table-container">
+           <div class="table-scroll-container">
+              <table class="data-table">
+                 <thead>
+                    <tr class="table-header-row">
+                       <th class="col-sno text-center">Sl No.</th>
+                       <th class="col-item-code">Item Code</th>
+                       <th class="col-desc">Description</th>
+                       <th class="col-unit text-center">Unit</th>
+                       <th class="col-qty text-center">Qty</th>
+                       <th class="col-rate text-right">Rate</th>
+                       <th class="col-tax text-right">Tax (%)</th>
+                       <th class="col-total text-right">Amount</th>
+                    </tr>
+                 </thead>
+                 <tbody>
+                    <tr class="table-row-empty">
+                       <td colspan="8" class="cell-empty-message">
+                          Awaiting product configuration
+                       </td>
+                    </tr>
+                 </tbody>
+              </table>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- FINANCIALS SECTION -->
+    <div class="financials-split-grid">
+       <div class="left-financials-stack">
+          <div class="card-panel">
+             <app-section-header title="Other Charges" [expanded]="sections().charges" (toggle)="toggleSection('charges')"></app-section-header>
+             @if (sections().charges) {
+                <div class="panel-body">
+                   <div class="aggregate-charges-row">
+                      <span class="charges-label">Aggregate Other Charges:</span>
+                      <span class="charges-value">0.00</span>
+                   </div>
+                </div>
+             }
+          </div>
+          <div class="card-panel">
+             <app-section-header title="Tax Details" [expanded]="sections().tax" (toggle)="toggleSection('tax')"></app-section-header>
+             @if (sections().tax) {
+               <div class="panel-body tax-details-body">
+                  <div class="tax-action-row">
+                     <button class="btn-calculate-tax">
+                        <lucide-icon [img]="CalculatorIcon" class="btn-icon"></lucide-icon> Calculate Tax
+                     </button>
+                  </div>
+                  <div class="tax-empty-placeholder">
+                     Taxation area empty
+                  </div>
+               </div>
+             }
+          </div>
+       </div>
+       <div class="card-panel h-fit">
+          <app-section-header title="Grand Total Summary" [expanded]="sections().summary" (toggle)="toggleSection('summary')" [blue]="true"></app-section-header>
+          @if (sections().summary) {
+            <div class="panel-body summary-body">
+               <div class="summary-row">
+                  <span class="summary-label">Quotation Total:</span>
+                  <span class="summary-value">0.00</span>
+               </div>
+               <div class="summary-row">
+                  <span class="summary-label">Tax Component:</span>
+                  <span class="summary-value">0.00</span>
+               </div>
+               <div class="summary-divider"></div>
+               <div class="grand-total-display-row">
+                  <span class="grand-total-label">Grand Total:</span>
+                  <span class="grand-total-value">₹0.00</span>
+               </div>
+            </div>
+          }
+       </div>
+    </div>
+
+    <!-- SECTION 9 — QUOTATION DETAILS EDITOR -->
+    <div class="card-panel">
+      <app-section-header title="Quotation Details Editor" [expanded]="sections().terms" (toggle)="toggleSection('terms')"></app-section-header>
+      @if (sections().terms) {
+        <div class="panel-body editor-panel-body">
+           <div class="editor-container-card">
+              <div class="editor-toolbar">
+                 <div class="editor-toolbar-left">
+                    <span class="format-btn bold">B</span>
+                    <span class="format-btn italic">I</span>
+                    <span class="format-btn underline">U</span>
+                 </div>
+                 <div class="toolbar-sep"></div>
+                 <div class="editor-title-label">Standard Commercial Terms Controller</div>
+                 <div class="editor-tab-wrapper">
+                    @for (t of ['Design', 'HTML', 'Preview']; track t) {
+                        <button class="editor-tab-btn" [class.active]="t === 'Design'">{{ t }}</button>
+                    }
+                 </div>
+              </div>
+              <div class="editor-workspace">
+                 <p class="workspace-section-title">Terms & Conditions:</p>
+                 <div class="terms-items-grid">
+                    @for (t of ['Price Basis', 'Payment Terms', 'Packaging & Forwarding', 'Transportation', 'Delivery Terms', 'Warranty']; track t) {
+                       <div class="terms-grid-item">
+                          <span class="term-key">{{ t }}:</span>
+                          <span class="term-value">As per standard protocol</span>
+                       </div>
+                    }
+                 </div>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 10 — SEARCH SECTION -->
+    <div class="card-panel history-search-card">
+      <app-section-header title="Sales Quotation History Search" [expanded]="sections().search" (toggle)="toggleSection('search')"></app-section-header>
+      @if (sections().search) {
+        <div class="search-body">
+           <div class="form-grid">
+              <div>
+                 <app-erp-select label="Company"></app-erp-select>
+                 <app-erp-select label="Customer"></app-erp-select>
+                 <app-erp-input label="Reference No"></app-erp-input>
+                 <app-erp-input label="From Date" type="date"></app-erp-input>
+              </div>
+              <div>
+                 <app-erp-select label="CC Center"></app-erp-select>
+                 <app-erp-input label="To Date" type="date"></app-erp-input>
+              </div>
+           </div>
+           <div class="search-action-row">
+              <button class="btn-search">
+                 <lucide-icon [img]="SearchIcon" class="btn-search-icon"></lucide-icon> Filter Quotation Log
+              </button>
+           </div>
+        </div>
+      }
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="page-footer">
+     <div class="footer-content">
+        <p class="footer-copyright">© 2024 Modern ERP Solutions - Enterprise Sales Node</p>
+        <div class="footer-links">
+           <span class="footer-link">Sales Protocol: V3.4</span>
+           <span class="footer-link-divider">|</span>
+           <span class="footer-link">Node: Sales-Central</span>
+        </div>
+     </div>
+  </footer>
+</div>

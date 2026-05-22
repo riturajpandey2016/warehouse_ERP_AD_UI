@@ -1,0 +1,70 @@
+<div class="company-master-container">
+  <!-- Page Title -->
+  <header class="page-header">
+    <h1 class="page-title">Financial Year Creation</h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save FY
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- SECTION 1 â€” CONFIGURATION -->
+    <div class="card-panel">
+      <app-section-header title="FY Configuration Details" [expanded]="sections().config" (toggle)="toggleSection('config')"></app-section-header>
+      @if (sections().config) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <app-erp-select 
+                label="Company" 
+                [required]="true" 
+                [value]="formData().company" 
+                (valueChange)="updateForm('company', $event)"
+                [options]="companyOptions">
+              </app-erp-select>
+              <app-erp-input 
+                label="Compliance Terms" 
+                [required]="true" 
+                [value]="formData().terms"
+                (valueChange)="updateForm('terms', $event)"
+                placeholder="e.g. FY 2024-25">
+              </app-erp-input>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2 â€” SEARCH -->
+    <div class="card-panel">
+       <app-section-header title="Search Configuration" [expanded]="sections().search" (toggle)="toggleSection('search')"></app-section-header>
+       @if (sections().search) {
+         <div class="search-body">
+            <div class="search-grid">
+               <app-erp-select label="Company" width="w-24"></app-erp-select>
+               <app-erp-input label="Terms" width="w-24"></app-erp-input>
+               <div class="flex justify-end">
+                  <button class="h-8 px-8 bg-slate-800 text-white text-[11px] font-bold rounded hover:bg-slate-900 transition-colors shadow uppercase flex items-center gap-2">
+                     <lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5"></lucide-icon> Filter
+                  </button>
+               </div>
+            </div>
+         </div>
+       }
+    </div>
+
+    <!-- SECTION 3 â€” TABLE -->
+    <div class="card-panel">
+       <app-section-header title="Financial Year Registry" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+         <div class="panel-table-container">
+            <app-financial-year-table></app-financial-year-table>
+         </div>
+       }
+    </div>
+
+  </main></div>

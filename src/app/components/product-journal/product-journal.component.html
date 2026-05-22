@@ -1,0 +1,160 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- PAGE TITLE HEADER -->
+    <div class="header-actions-row">
+       <div class="page-main-title">
+          <lucide-icon [img]="FileTextIcon" class="w-4 h-4 text-blue-800"></lucide-icon>
+          <span>Product Journal Entry</span>
+       </div>
+       <button (click)="openNewJournalModal()" class="btn-new-entry font-bold">
+          <lucide-icon [img]="PlusIcon" class="w-3 h-3"></lucide-icon>
+          <span>New Journal Entry</span>
+       </button>
+    </div>
+
+    <!-- JOURNAL HISTORY FILTERS ACCORDION -->
+    <div class="card-panel">
+       <div class="custom-slim-header" (click)="toggleFilters()">
+          <span class="custom-header-title">Journal History Filters</span>
+          <lucide-icon [img]="showFilters() ? ChevronUpIcon : ChevronDownIcon" class="w-3.5 h-3.5 toggle-arrow"></lucide-icon>
+       </div>
+       
+       @if (showFilters()) {
+          <div class="panel-body">
+             <div class="filters-grid">
+                
+                <div class="filter-input-group">
+                   <div class="filter-label-box">
+                      <span class="filter-label-text">From Date :</span>
+                   </div>
+                   <div class="filter-input-element">
+                      <input type="date" class="custom-legacy-input" />
+                   </div>
+                </div>
+
+                <div class="filter-input-group">
+                   <div class="filter-label-box">
+                      <span class="filter-label-text">To Date :</span>
+                   </div>
+                   <div class="filter-input-element">
+                      <input type="date" class="custom-legacy-input" />
+                   </div>
+                </div>
+
+                <div class="filter-input-group">
+                   <div class="filter-label-box">
+                      <span class="filter-label-text">Movement :</span>
+                   </div>
+                   <div class="filter-input-element">
+                      <select class="custom-legacy-input">
+                         <option value="">--Select--</option>
+                         <option value="STOCK IN">STOCK IN</option>
+                         <option value="STOCK OUT">STOCK OUT</option>
+                      </select>
+                   </div>
+                </div>
+
+                <div class="filter-input-group">
+                   <div class="filter-label-box">
+                      <span class="filter-label-text">Ref No :</span>
+                   </div>
+                   <div class="filter-input-element">
+                      <input type="text" placeholder="REF NO" class="custom-legacy-input" />
+                   </div>
+                </div>
+
+                <!-- SEARCH BUTTON ROW -->
+                <div class="search-btn-row">
+                   <button class="btn-search-history font-bold">
+                      <lucide-icon [img]="SearchIcon" class="w-3 h-3"></lucide-icon>
+                      <span>Search History</span>
+                   </button>
+                </div>
+
+             </div>
+          </div>
+       }
+    </div>
+
+    <!-- PRODUCT MOVEMENT DATABASE TABLE CARD -->
+    <div class="card-panel">
+       <div class="blue-panel-header" (click)="toggleDatabase()">
+          <span class="blue-header-title">Product Movement Database</span>
+          <lucide-icon [img]="showDatabase() ? ChevronUpIcon : ChevronDownIcon" class="w-3.5 h-3.5 blue-toggle-arrow"></lucide-icon>
+       </div>
+       
+       @if (showDatabase()) {
+          <app-product-journal-table #journalTable></app-product-journal-table>
+       }
+    </div>
+
+    <!-- NEW JOURNAL ENTRY DIALOG MODAL Overlay -->
+    @if (showNewModal()) {
+       <div class="modal-overlay">
+          <div class="modal-card">
+             <div class="modal-header">
+                <span class="modal-title">Create Product Journal Entry</span>
+                <lucide-icon [img]="XIcon" (click)="closeNewModal()" class="w-4 h-4 close-btn"></lucide-icon>
+             </div>
+             
+             <div class="modal-body">
+                <div class="filter-input-group">
+                   <div class="filter-label-box">
+                      <span class="filter-label-text">Movement Type :</span>
+                   </div>
+                   <div class="filter-input-element">
+                      <select #newType class="custom-legacy-input">
+                         <option value="STOCK IN">STOCK IN</option>
+                         <option value="STOCK OUT">STOCK OUT</option>
+                      </select>
+                   </div>
+                </div>
+
+                <div class="filter-input-group">
+                   <div class="filter-label-box">
+                      <span class="filter-label-text">Product Name :</span>
+                   </div>
+                   <div class="filter-input-element">
+                      <input type="text" #newName placeholder="e.g. Commercial Kitchen Oven" class="custom-legacy-input" />
+                   </div>
+                </div>
+
+                <div class="filter-input-group">
+                   <div class="filter-label-box">
+                      <span class="filter-label-text">Location/Warehouse :</span>
+                   </div>
+                   <div class="filter-input-element">
+                      <input type="text" #newLoc placeholder="e.g. Mumbai Central" class="custom-legacy-input" />
+                   </div>
+                </div>
+
+                <div class="filter-input-group">
+                   <div class="filter-label-box">
+                      <span class="filter-label-text">Quantity :</span>
+                   </div>
+                   <div class="filter-input-element">
+                      <input type="number" #newQty placeholder="e.g. 5" class="custom-legacy-input" />
+                   </div>
+                </div>
+
+                <div class="filter-input-group">
+                   <div class="filter-label-box">
+                      <span class="filter-label-text">Unit Measure :</span>
+                   </div>
+                   <div class="filter-input-element">
+                      <input type="text" #newUnit placeholder="e.g. UNITS / SETS" class="custom-legacy-input" />
+                   </div>
+                </div>
+             </div>
+
+             <div class="modal-footer">
+                <button (click)="closeNewModal()" class="btn-cancel font-bold">Cancel</button>
+                <button (click)="submitJournal(newType.value, newName.value, newLoc.value, newQty.value, newUnit.value)" class="btn-save-modal font-bold">Save Entry</button>
+             </div>
+          </div>
+       </div>
+    }
+
+  </main>
+</div>

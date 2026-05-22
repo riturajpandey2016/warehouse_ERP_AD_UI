@@ -1,0 +1,224 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.event-panel-container {
+  background-color: #ffffff; /* Card Background from specification */
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Header style */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-icon {
+  width: 16px;
+  height: 16px;
+  color: #8b5cf6; /* Purple theme from image style */
+}
+
+.panel-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.refresh-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.refresh-btn:hover {
+  color: #64748b;
+  background-color: #f1f5f9;
+}
+
+/* Scrollable timeline list */
+.scrollable-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Custom scrollbar styling */
+.scrollable-area::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollable-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollable-area::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 99px;
+}
+
+.scrollable-area::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Timeline Layout */
+.timeline {
+  position: relative;
+  padding-left: 20px;
+}
+
+.timeline-track {
+  position: absolute;
+  top: 6px;
+  left: 5px;
+  bottom: 6px;
+  width: 2px;
+  background-color: #f1f5f9;
+  z-index: 1;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+  z-index: 2;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Timeline node bubble */
+.timeline-node {
+  position: absolute;
+  left: -20px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 2px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 3px #ffffff;
+}
+
+.node-inner {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+/* Timeline Details Box */
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background-color: #fafbfc;
+  border: 1px solid #f1f5f9;
+  border-radius: 8px;
+  padding: 12px 14px;
+  transition: all 0.2s ease;
+}
+
+.timeline-item:hover .timeline-content {
+  background-color: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.03);
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-role-label {
+  font-size: 11.5px;
+  font-weight: 750;
+  color: #1e293b;
+  letter-spacing: 0.25px;
+}
+
+.time-label {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 550;
+}
+
+.event-action-text {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #475569;
+  margin: 0;
+}
+
+.content-footer {
+  display: flex;
+  margin-top: 2px;
+}
+
+/* Status coloring classes for timeline node */
+.status-info { color: #0b5ed7; border-color: #0b5ed7; }
+.status-success { color: #10b981; border-color: #10b981; }
+.status-warning { color: #f97316; border-color: #f97316; }
+.status-danger { color: #ef4444; border-color: #ef4444; }
+
+/* Category coloring classes for tags */
+.category-tag {
+  font-size: 8.5px;
+  font-weight: 700;
+  padding: 1.5px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.category-organization {
+  color: #0b5ed7;
+  background-color: #eff6ff;
+}
+
+.category-inventory {
+  color: #10b981;
+  background-color: #ecfdf5;
+}
+
+.category-system {
+  color: #8b5cf6;
+  background-color: #f5f3ff;
+}
+
+.category-sales {
+  color: #f59e0b;
+  background-color: #fffbeb;
+}
+
+.category-purchase {
+  color: #ec4899;
+  background-color: #fdf2f8;
+}

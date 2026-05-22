@@ -1,0 +1,100 @@
+/* ============================================================
+   ERP APP SHELL — ROOT LAYOUT
+   Only controls the top-level shell: navbar + sidebar + main
+   ============================================================ */
+
+:host {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  color: #334155;
+  background-color: #f8fafc;
+}
+
+/* ─── Shell Container ─── */
+.erp-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─── Body (sidebar + main) ─── */
+.erp-body {
+  display: flex;
+  flex: 1 1 0;
+  min-height: 0;          /* critical: lets flex children shrink below content size */
+  overflow: hidden;
+}
+
+/* ─── Main content area ─── */
+.erp-main {
+  flex: 1 1 0;
+  min-width: 0;           /* prevents main from overflowing past sidebar */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #f1f5f9;
+}
+
+.main-scroll {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 24px;
+}
+
+/* ─── Default / fallback page card (for unimplemented routes) ─── */
+.fallback-page {
+  padding: 24px;
+  max-width: 900px;
+  margin: 32px auto 0;
+}
+
+/* ─── Legacy dashboard hero (kept for backward compat) ─── */
+.dashboard-hero { padding: 24px; max-width: 1000px; margin: 0 auto; }
+.hero-card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 32px; box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -1px rgba(0,0,0,.03); }
+.hero-title { font-size: 26px; font-weight: 800; color: #0f172a; margin-bottom: 12px; }
+.hero-subtitle { font-size: 14px; line-height: 1.6; color: #475569; margin-bottom: 28px; }
+.hero-stats { display: flex; gap: 16px; margin-bottom: 36px; }
+.stat-card { flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.stat-num { font-size: 24px; font-weight: 800; color: #0284c7; }
+.stat-label { font-size: 11px; font-weight: 600; color: #64748b; margin-top: 4px; }
+.modules-grid { display: flex; flex-direction: column; gap: 16px; text-align: left; }
+.grid-title { font-size: 14px; font-weight: 700; color: #0f172a; border-left: 3px solid #0284c7; padding-left: 8px; }
+.grid-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.grid-item { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 4px; }
+.grid-item:hover { border-color: #0284c7; box-shadow: 0 4px 12px rgba(2,132,199,.08); transform: translateY(-2px); }
+.grid-item .item-name { font-size: 13px; font-weight: 700; color: #0f172a; }
+.grid-item .item-desc { font-size: 11px; color: #64748b; }
+
+/* ==== ERP ACTION BUTTONS ==== */
+.btn-save,
+.btn-reset,
+.btn-search,
+.btn-primary,
+.btn-secondary,
+.btn-primary-outline,
+.btn-secondary-outline {
+  font-size: 13px !important;   /* readable but compact */
+  height: 32px;                  /* slight height increase */
+  padding: 0 20px;               /* modest horizontal padding */
+}
+
+/* ==== ERP TABLES – compact but readable ==== */
+.panel-table-container table,
+.panel-table-container td,
+.panel-table-container th {
+  font-size: 12.5px !important;   /* approved size */
+  line-height: 1.38 !important;   /* 1.35‑1.4 range */
+}
+
+/* Keep row height tight – only minimal padding */
+.panel-table-container td,
+.panel-table-container th {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}

@@ -1,0 +1,118 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- DETAILS SECTION -->
+    <div class="card-panel">
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Product Document and Image Upload</span>
+      </div>
+      <div class="panel-body">
+         <div class="warehouse-form-grid">
+            
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Select Product :</span>
+               </div>
+               <div class="form-input-element relative-asterisk">
+                  <select 
+                    [value]="formData().product" 
+                    (change)="updateForm('product', $any($event.target).value)"
+                    class="custom-legacy-input"
+                  >
+                     <option value="Select Product">Select Product</option>
+                     <option value="MAIN (MAN)">MAIN (MAN)</option>
+                     <option value="FINISHED (FNS)">FINISHED (FNS)</option>
+                     <option value="SEMI FINISHED (SFS)">SEMI FINISHED (SFS)</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Document Title :</span>
+               </div>
+               <div class="form-input-element relative-asterisk">
+                  <input 
+                    type="text"
+                    [value]="formData().documentTitle" 
+                    (input)="updateForm('documentTitle', $any($event.target).value)"
+                    placeholder="Document Title / Image Name"
+                    class="custom-legacy-input"
+                  />
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Document Type :</span>
+               </div>
+               <div class="form-input-element relative-asterisk">
+                  <select 
+                    [value]="formData().documentType" 
+                    (change)="updateForm('documentType', $any($event.target).value)"
+                    class="custom-legacy-input"
+                  >
+                     <option value="Select Type">Select Type</option>
+                     <option value="Product Image">Product Image</option>
+                     <option value="Datasheet / PDF">Datasheet / PDF</option>
+                     <option value="User Manual">User Manual</option>
+                     <option value="MSDS / Safety Sheet">MSDS / Safety Sheet</option>
+                     <option value="Certificate">Certificate</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Select File :</span>
+               </div>
+               <div class="form-input-element relative-asterisk">
+                  <input 
+                    type="file"
+                    (change)="onFileSelected($event)"
+                    class="custom-file-input"
+                  />
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Description :</span>
+               </div>
+               <div class="form-input-element">
+                  <input 
+                    type="text"
+                    [value]="formData().description" 
+                    (input)="updateForm('description', $any($event.target).value)"
+                    placeholder="Description (Optional)"
+                    class="custom-legacy-input"
+                  />
+               </div>
+            </div>
+
+         </div>
+
+         <!-- Centered Buttons Row -->
+         <div class="form-actions-centered">
+            <button class="btn-legacy-save font-bold">Save</button>
+            <button (click)="handleReset()" class="btn-legacy-reset font-bold">Reset</button>
+         </div>
+      </div>
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="card-panel table-panel">
+       <div class="custom-slim-header table-blue-header">
+          <span class="custom-header-title">Product Document Details</span>
+       </div>
+       <div class="panel-table-container">
+          <app-product-document-upload-table></app-product-document-upload-table>
+       </div>
+    </div>
+
+  </main>
+</div>

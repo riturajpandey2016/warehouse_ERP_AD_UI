@@ -1,0 +1,219 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.table-title-header {
+  background-color: #cbd5e1;
+  border-bottom: 1px solid #b0c4de;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+
+/* Data Table Grid styling matching the shelf-table and legacy layout */
+.data-table-container {
+  width: 100%;
+  overflow-x: auto;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table-header-row {
+  background-color: #7a9cc5;
+  color: #ffffff;
+}
+
+th {
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  border-bottom: 1px solid #dee2e6;
+  border-right: 1px solid #5d81aa;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+th:last-child {
+  border-right: none;
+}
+
+.table-search-row {
+  background-color: #f1f5f9;
+}
+
+.table-search-row th {
+  padding: 4px 6px;
+  border-right: 1px solid #dee2e6;
+}
+
+.header-search-input {
+  height: 18px;
+  width: 100%;
+  padding: 0 4px;
+  font-size: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 2px;
+}
+
+.header-search-input:focus {
+  border-color: #1a3a6b;
+  outline: none;
+}
+
+.table-body-row {
+  border-bottom: 1px solid #dee2e6;
+  transition: background-color 0.1s ease;
+  background-color: #ffffff;
+}
+
+.table-body-row:hover {
+  background-color: #f0f4ff;
+}
+
+td {
+  padding: 6px 10px;
+  font-size: 11px;
+  border-right: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+td:last-child {
+  border-right: none;
+}
+
+.sno-cell {
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  text-align: center;
+}
+
+.cell-text {
+  font-size: 11px;
+  color: #334155;
+}
+
+/* Actions Row styling */
+.action-buttons-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-edit {
+  color: #ea580c;
+}
+.btn-edit:hover {
+  background-color: #ffedd5;
+}
+
+.btn-green-circle {
+  color: #10b981;
+}
+.btn-green-circle:hover {
+  background-color: #d1fae5;
+}
+
+.btn-delete-row {
+  color: #dc2626;
+}
+.btn-delete-row:hover {
+  background-color: #fee2e2;
+}
+
+/* Pagination bar matching exactly mock layout */
+.table-pagination-bar {
+  padding: 8px 12px;
+  background-color: #e6f0fa;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  gap: 24px;
+}
+
+.pagination-buttons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.btn-pager-control {
+  height: 20px;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 2px;
+  background-color: #ffffff;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-pager-control:hover {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.page-number-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  background-color: #ffffff;
+  color: #1a3a6b;
+  border: 1px solid #1a3a6b;
+  border-radius: 2px;
+  margin: 0 4px;
+}
+
+.pager-size-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pager-label {
+  font-size: 11px;
+  color: #475569;
+}
+
+.pager-select {
+  height: 20px;
+  font-size: 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 2px;
+  background-color: #ffffff;
+  color: #334155;
+  padding: 0 2px;
+}
+
+.pager-count-status {
+  margin-left: auto;
+  font-size: 11px;
+  color: #475569;
+}

@@ -1,0 +1,288 @@
+<div class="company-master-container">
+  <!-- Header Section -->
+  <header class="page-header">
+    <div class="header-left">
+      <div class="breadcrumb-trail">
+        <lucide-icon [img]="LayoutGridIcon" class="breadcrumb-icon"></lucide-icon>
+        <span class="breadcrumb-item">Purchase</span>
+        <lucide-icon [img]="ChevronRightIcon" class="breadcrumb-sep"></lucide-icon>
+        <span class="breadcrumb-item active">Purchase Quotation</span>
+      </div>
+      
+      <div class="title-section">
+        <div class="title-icon-wrapper">
+          <lucide-icon [img]="ShoppingCartIcon" class="title-icon"></lucide-icon>
+        </div>
+        <div>
+          <h1 class="page-title">Purchase Quotation</h1>
+          <div class="title-badges">
+            <span class="badge badge-new">New Entry</span>
+            <span class="badge-dot">•</span>
+            <span class="badge-text">Procurement Workflow Step 1/4</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-save btn-lg">
+        <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save Quotation
+      </button>
+      <button (click)="handleReset()" class="btn-reset btn-lg">
+        <lucide-icon [img]="RotateCcwIcon" class="btn-icon"></lucide-icon> Reset
+      </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- Purchase Type Selection -->
+    <div class="type-selection-bar card-panel">
+      <label class="selection-label">Purchase Type:</label>
+      <div class="toggle-group-wrapper">
+        <button 
+          (click)="setQuotationType('Direct')"
+          class="btn-toggle"
+          [class.active]="quotationType() === 'Direct'"
+        >
+          Direct
+        </button>
+        <button 
+          (click)="setQuotationType('Against Requisition')"
+          class="btn-toggle"
+          [class.active]="quotationType() === 'Against Requisition'"
+        >
+          Against Requisition
+        </button>
+      </div>
+    </div>
+
+    <div class="split-columns-grid">
+      <!-- Entry Details -->
+      <div class="grid-col-left">
+        <div class="card-panel h-full">
+          <div class="card-header">
+            <lucide-icon [img]="CalendarIcon" class="card-header-icon"></lucide-icon>
+            <h2 class="card-header-title">Entry Details</h2>
+          </div>
+          <div class="panel-body">
+            <div class="input-stack">
+              <app-floating-input 
+                id="date" label="Quotation Date" type="date" [required]="true" 
+                [value]="formData().date" (valueChange)="handleInputChange('date', $event)">
+              </app-floating-input>
+              <app-floating-input 
+                id="refNo" label="Reference No" [required]="true" 
+                [value]="formData().refNo" (valueChange)="handleInputChange('refNo', $event)"
+                placeholder="e.g. QTN/2024/001">
+              </app-floating-input>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rate Selection Area -->
+      <div class="grid-col-right">
+         <div class="card-panel h-full pricing-setup-card">
+            <div class="pricing-card-header">
+              <div class="pricing-icon-wrapper">
+                <lucide-icon [img]="LayersIcon" class="pricing-icon"></lucide-icon>
+              </div>
+              <div>
+                <h3 class="pricing-title">Pricing Configuration</h3>
+                <p class="pricing-subtitle">Select rate calculation logic for this quotation</p>
+              </div>
+            </div>
+            <div class="pricing-buttons-group">
+              <button 
+                (click)="setRateType('Normal')"
+                class="btn-pricing"
+                [class.active]="rateType() === 'Normal'"
+              >
+                <div class="pricing-btn-left">
+                  <div class="custom-radio" [class.checked]="rateType() === 'Normal'">
+                    <div class="custom-radio-dot" *ngIf="rateType() === 'Normal'"></div>
+                  </div>
+                  <span class="pricing-btn-text">Normal Rate</span>
+                </div>
+                <lucide-icon [img]="FileTextIcon" class="pricing-btn-icon"></lucide-icon>
+              </button>
+              <button 
+                (click)="setRateType('Contractual')"
+                class="btn-pricing"
+                [class.active]="rateType() === 'Contractual'"
+              >
+                <div class="pricing-btn-left">
+                  <div class="custom-radio" [class.checked]="rateType() === 'Contractual'">
+                    <div class="custom-radio-dot" *ngIf="rateType() === 'Contractual'"></div>
+                  </div>
+                  <span class="pricing-btn-text">Contractual Rate</span>
+                </div>
+                <lucide-icon [img]="ClipboardListIcon" class="pricing-btn-icon"></lucide-icon>
+              </button>
+            </div>
+         </div>
+      </div>
+    </div>
+
+    <!-- Supplier & Project Details Section -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('supplier')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="Building2Icon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">Supplier & Project Information</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().supplier ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+      
+      <div class="collapsible-content" *ngIf="sectionsExpanded().supplier">
+        <div class="panel-body">
+          <div class="form-grid-4">
+            <app-floating-select 
+              id="company" label="Company" [required]="true" 
+              [value]="formData().company" (valueChange)="handleInputChange('company', $event)"
+              [options]="[{label: 'Global Distribution Ltd', value: '1'}, {label: 'HORECA Solutions', value: '2'}]">
+            </app-floating-select>
+            <app-floating-select 
+              id="ccCenter" label="CC Center" 
+              [value]="formData().ccCenter" (valueChange)="handleInputChange('ccCenter', $event)"
+              [options]="[{label: 'Head Office', value: 'HO'}, {label: 'Warehouse-1', value: 'W1'}]">
+            </app-floating-select>
+            <app-floating-select 
+              id="department" label="Department" 
+              [value]="formData().department" (valueChange)="handleInputChange('department', $event)"
+              [options]="[{label: 'Procurement', value: 'PROC'}, {label: 'IT', value: 'IT'}]">
+            </app-floating-select>
+            <app-floating-select 
+              id="productionUnit" label="Production Unit" 
+              [value]="formData().productionUnit" (valueChange)="handleInputChange('productionUnit', $event)"
+              [options]="[{label: 'Main Facility', value: 'MF'}]">
+            </app-floating-select>
+            <app-floating-select 
+              id="projectName" label="Project Name" 
+              [value]="formData().projectName" (valueChange)="handleInputChange('projectName', $event)"
+              [options]="[{label: 'Warehouse Expansion 2024', value: 'WE24'}]">
+            </app-floating-select>
+            <app-floating-input 
+              id="projectCode" label="Project Code" 
+              [value]="formData().projectCode" (valueChange)="handleInputChange('projectCode', $event)">
+            </app-floating-input>
+            <app-floating-select 
+              id="entryType" label="Entry Type" 
+              [value]="formData().entryType" (valueChange)="handleInputChange('entryType', $event)"
+              [options]="[{label: 'Standard', value: 'STD'}]">
+            </app-floating-select>
+            <app-floating-select 
+              id="group" label="Group" 
+              [value]="formData().group" (valueChange)="handleInputChange('group', $event)"
+              [options]="[{label: 'Office Supplies', value: 'OFF'}]">
+            </app-floating-select>
+            
+            <app-floating-textarea 
+              id="projectDescription" label="Project Description" className="col-span-2"
+              [value]="formData().projectDescription" (valueChange)="handleInputChange('projectDescription', $event)">
+            </app-floating-textarea>
+            <app-floating-textarea 
+              id="deliveryAddress" label="Delivery Address" className="col-span-2"
+              [value]="formData().deliveryAddress" (valueChange)="handleInputChange('deliveryAddress', $event)">
+            </app-floating-textarea>
+            <app-floating-textarea 
+              id="remarks" label="Remarks" className="col-span-2"
+              [value]="formData().remarks" (valueChange)="handleInputChange('remarks', $event)">
+            </app-floating-textarea>
+            <app-floating-select 
+              id="itemType" label="Item Type" [required]="true"
+              [value]="formData().itemType" (valueChange)="handleInputChange('itemType', $event)"
+              [options]="[{label: 'Hardware', value: 'HW'}, {label: 'Software', value: 'SW'}]">
+            </app-floating-select>
+            
+            <div class="search-btn-wrapper">
+               <button class="btn-action-primary">
+                  <lucide-icon [img]="SearchIcon" class="action-btn-icon"></lucide-icon> Search Suppliers
+               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item Details Table Section -->
+    <div class="card-panel table-panel">
+      <div class="card-header table-header-toolbar">
+        <div class="header-left-group">
+          <lucide-icon [img]="ClipboardListIcon" class="card-header-icon white"></lucide-icon>
+          <h2 class="card-header-title white">Item Quotation List</h2>
+        </div>
+        <button class="btn-add-product">
+           <lucide-icon [img]="PlusIcon" class="btn-add-icon"></lucide-icon> Add Product
+        </button>
+      </div>
+      
+      <div class="table-scroll-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th class="col-item-code">Item Code</th>
+              <th class="col-description">Description</th>
+              <th class="col-qty text-center">Qty</th>
+              <th class="col-rate text-right">Rate (₹)</th>
+              <th class="col-tax text-center">Tax (%)</th>
+              <th class="col-total text-right">Total (₹)</th>
+              <th class="col-actions text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of items(); track item.id) {
+              <tr class="table-row">
+                <td class="cell-code font-mono">{{ item.code }}</td>
+                <td class="cell-description font-semibold">{{ item.name }}</td>
+                <td class="cell-qty text-center">
+                  <input type="number" [value]="item.qty" class="qty-number-input" />
+                </td>
+                <td class="cell-rate text-right">
+                  <input type="number" [value]="item.rate" class="rate-number-input" />
+                </td>
+                <td class="cell-tax text-center">
+                  <span class="tax-percent-badge">{{ item.tax }}%</span>
+                </td>
+                <td class="cell-total font-bold text-right">₹{{ item.total.toLocaleString() }}</td>
+                <td class="cell-actions text-center">
+                  <button class="action-delete-btn">
+                    <lucide-icon [img]="Trash2Icon" class="btn-delete-icon"></lucide-icon>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-summary-footer">
+         <div class="summary-note">
+            <div class="note-icon-wrapper">
+               <lucide-icon [img]="AlertCircleIcon" class="note-icon"></lucide-icon>
+            </div>
+            <p class="note-text">Totals are calculated based on the item quantity and applied tax rates.</p>
+         </div>
+         <div class="totals-breakdown-card">
+            <div class="totals-row">
+              <span class="totals-label">Subtotal:</span>
+              <span class="totals-value">₹1,63,300.00</span>
+            </div>
+            <div class="totals-row">
+              <span class="totals-label">Tax Amount:</span>
+              <span class="totals-value">₹29,394.00</span>
+            </div>
+            <div class="totals-row grand-total-row">
+              <span class="totals-label grand-label">Grand Total:</span>
+              <span class="totals-value grand-value">₹1,92,694.00</span>
+            </div>
+         </div>
+      </div>
+    </div>
+
+  </main>
+</div>

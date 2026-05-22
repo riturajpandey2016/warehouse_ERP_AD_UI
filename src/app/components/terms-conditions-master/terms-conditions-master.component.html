@@ -1,0 +1,81 @@
+<div class="company-master-container">
+  <!-- Page Title & Header Actions Strip -->
+  <header class="page-header">
+    <h1 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
+      <lucide-icon [img]="ClipboardSignatureIcon" class="w-4 h-4"></lucide-icon>
+      Terms & Conditions
+    </h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save Terms
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- SECTION 1 — CONFIGURATION -->
+    <div class="card-panel">
+      <app-section-header title="Terms Details" [expanded]="sections().info" (toggle)="toggleSection('info')"></app-section-header>
+      @if (sections().info) {
+        <div class="panel-body">
+           <div class="terms-form-grid">
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Module Name <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-select 
+                      [value]="formData().moduleName" 
+                      (valueChange)="updateForm('moduleName', $event)"
+                      [options]="moduleOptions">
+                    </app-erp-select>
+                 </div>
+              </div>
+              
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Page Name <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-select 
+                      [value]="formData().pageName" 
+                      (valueChange)="updateForm('pageName', $event)"
+                      [options]="pageOptions">
+                    </app-erp-select>
+                 </div>
+              </div>
+           </div>
+           
+           <div class="form-row-full">
+              <div class="form-label-box">
+                 <span class="form-label-text">Terms & Conditions <span class="required-asterisk">*</span>:</span>
+              </div>
+              <div class="form-input-element-full">
+                 <app-erp-textarea 
+                   [rows]="3"
+                   [value]="formData().termsText" 
+                   (valueChange)="updateForm('termsText', $event)"
+                   placeholder="Enter Terms & Conditions details...">
+                 </app-erp-textarea>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2 — TABLE DATABASE -->
+    <div class="card-panel table-panel">
+       <app-section-header title="Terms & Conditions Registry" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+          <div class="panel-table-container">
+             <app-terms-conditions-table></app-terms-conditions-table>
+          </div>
+       }
+    </div>
+
+  </main>
+</div>

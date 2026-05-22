@@ -1,0 +1,113 @@
+﻿<div class="table-card">
+  <!-- Table Toolbar -->
+  <div class="table-toolbar">
+    <div class="toolbar-left">
+       <div class="search-box">
+          <lucide-icon [img]="SearchIcon" class="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400"></lucide-icon>
+          <input 
+            type="text" 
+            placeholder="Search districts..." 
+            class="search-input"
+          />
+       </div>
+       <button class="btn-toolbar btn-filter">
+          <lucide-icon [img]="FilterIcon" class="w-3 h-3"></lucide-icon> Filter
+       </button>
+    </div>
+    <div class="toolbar-right">
+       <button class="btn-toolbar btn-add">
+          <lucide-icon [img]="PlusIcon" class="w-3 h-3"></lucide-icon> Add New
+       </button>
+       <button class="btn-toolbar btn-filter">
+          <lucide-icon [img]="DownloadIcon" class="w-3 h-3"></lucide-icon> Export
+       </button>
+    </div>
+  </div>
+
+  <!-- Table Content -->
+  <div class="table-scroll-container">
+    <table class="data-table">
+      <thead>
+        <tr class="table-header-row">
+          <th class="px-3 py-2 w-10 border-r border-slate-200 text-center">
+            <input
+              type="checkbox"
+              [checked]="allSelected()"
+              (change)="toggleSelectAll()"
+              class="checkbox-input"
+            />
+          </th>
+          <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">Dist. Code</th>
+          <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">District Name</th>
+          <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">State</th>
+          <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200 text-center">Status</th>
+          <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase text-center w-24">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+        @for (district of districts(); track district.id) {
+          <tr class="table-body-row">
+            <td class="cell-checkbox">
+              <input
+                type="checkbox"
+                [checked]="isSelected(district.id)"
+                (change)="toggleSelect(district.id)"
+                class="checkbox-input"
+              />
+            </td>
+            <td class="cell-base-company">{{ district.districtCode }}</td>
+            <td class="cell-category-link">{{ district.districtName }}</td>
+            <td class="cell-base-company italic">
+               {{ district.stateName }}
+            </td>
+            <td class="cell-checkbox">
+              <span 
+                class="status-pill"
+                [class.active]
+                
+                
+                [class.inactive]
+                
+                
+              >
+                {{ district.status }}
+              </span>
+            </td>
+            <td class="cell-actions">
+              <div class="action-buttons-group">
+                <button class="action-btn">
+                  <lucide-icon [img]="EditIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button class="action-btn">
+                  <lucide-icon [img]="CopyIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button class="action-btn">
+                  <lucide-icon [img]="HistoryIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button class="action-btn btn-delete">
+                  <lucide-icon [img]="Trash2Icon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="px-3 py-4 text-center text-[11px] font-bold text-slate-500">No districts found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="table-pagination">
+    <div class="pagination-info">
+       Showing 1 to {{ districts().length }} of {{ districts().length }} entries
+    </div>
+    <div class="pagination-buttons">
+       <button class="btn-page btn-page-disabled">Prev</button>
+       <button class="btn-page btn-page-active">1</button>
+       <button class="btn-page btn-page-disabled">Next</button>
+    </div>
+  </div>
+</div>

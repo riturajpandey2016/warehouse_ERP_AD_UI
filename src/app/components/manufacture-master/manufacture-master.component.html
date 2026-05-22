@@ -1,0 +1,141 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- DETAILS SECTION -->
+    <div class="card-panel">
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Manufacturer Details</span>
+      </div>
+      <div class="panel-body">
+         <div class="manufacturer-form-grid">
+            
+            <!-- Row 1 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Manufacturer Code :</span>
+               </div>
+               <div class="form-input-element">
+                  <input 
+                    type="text"
+                    [value]="formData().manufacturerCode" 
+                    (input)="updateForm('manufacturerCode', $any($event.target).value)"
+                    placeholder="Manufacturer Code"
+                    class="custom-legacy-input"
+                  />
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Manufacturer Name :</span>
+               </div>
+               <div class="form-input-element">
+                  <input 
+                    type="text"
+                    [value]="formData().manufacturerName" 
+                    (input)="updateForm('manufacturerName', $any($event.target).value)"
+                    placeholder="Manufacturer Name"
+                    class="custom-legacy-input"
+                  />
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Contact Person :</span>
+               </div>
+               <div class="form-input-element">
+                  <input 
+                    type="text"
+                    [value]="formData().contactPerson" 
+                    (input)="updateForm('contactPerson', $any($event.target).value)"
+                    placeholder="Contact Person"
+                    class="custom-legacy-input"
+                  />
+               </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Address :</span>
+               </div>
+               <div class="form-input-element">
+                  <input 
+                    type="text"
+                    [value]="formData().address" 
+                    (input)="updateForm('address', $any($event.target).value)"
+                    placeholder="Address"
+                    class="custom-legacy-input"
+                  />
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Phone :</span>
+               </div>
+               <div class="form-input-element">
+                  <input 
+                    type="text"
+                    [value]="formData().phone" 
+                    (input)="updateForm('phone', $any($event.target).value)"
+                    placeholder="Phone"
+                    class="custom-legacy-input"
+                  />
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Email :</span>
+               </div>
+               <div class="form-input-element">
+                  <input 
+                    type="text"
+                    [value]="formData().email" 
+                    (input)="updateForm('email', $any($event.target).value)"
+                    placeholder="Email"
+                    class="custom-legacy-input"
+                  />
+               </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="form-row-side span-two-cols">
+               <div class="form-label-box">
+                  <span class="form-label-text">Website :</span>
+               </div>
+               <div class="form-input-element">
+                  <input 
+                    type="text"
+                    [value]="formData().website" 
+                    (input)="updateForm('website', $any($event.target).value)"
+                    placeholder="Website"
+                    class="custom-legacy-input"
+                  />
+               </div>
+            </div>
+
+            <!-- Save and Reset Buttons aligned in the 3rd column -->
+            <div class="grid-buttons-row">
+               <button class="btn-legacy-save">Save</button>
+               <button (click)="handleReset()" class="btn-legacy-reset">Reset</button>
+            </div>
+
+         </div>
+      </div>
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="card-panel table-panel">
+       <div class="custom-slim-header table-blue-header">
+          <span class="custom-header-title">Manufacturer Details</span>
+       </div>
+       <div class="panel-table-container">
+          <app-manufacture-table></app-manufacture-table>
+       </div>
+    </div>
+
+  </main>
+</div>

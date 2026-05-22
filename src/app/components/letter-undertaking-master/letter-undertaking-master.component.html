@@ -1,0 +1,101 @@
+<div class="company-master-container">
+  <!-- Page Title & Header Actions Strip -->
+  <header class="page-header">
+    <h1 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
+      <lucide-icon [img]="FileTextIcon" class="w-4 h-4"></lucide-icon>
+      Letter Of Undertaking (LUT) Entry
+    </h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save LUT
+       </button>
+       <button class="btn-update">
+          <lucide-icon [img]="EditIcon" class="w-3.5 h-3.5"></lucide-icon> Update
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+       <button class="btn-reset">
+          <lucide-icon [img]="FileSpreadsheetIcon" class="w-3.5 h-3.5"></lucide-icon> Import
+       </button>
+       <button class="btn-reset">
+          <lucide-icon [img]="DownloadIcon" class="w-3.5 h-3.5"></lucide-icon> Export
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- SECTION 1 — CONFIGURATION -->
+    <div class="card-panel">
+      <app-section-header title="LUT Registration Details" [expanded]="sections().info" (toggle)="toggleSection('info')"></app-section-header>
+      @if (sections().info) {
+        <div class="panel-body">
+           <div class="lut-form-grid">
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Target Branch <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-select 
+                      [value]="formData().targetBranch" 
+                      (valueChange)="updateForm('targetBranch', $event)"
+                      [options]="branchOptions">
+                    </app-erp-select>
+                 </div>
+              </div>
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Financial Session <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-select 
+                      [value]="formData().finSession" 
+                      (valueChange)="updateForm('finSession', $event)"
+                      [options]="finSessionOptions">
+                    </app-erp-select>
+                 </div>
+              </div>
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">LUT (ARN) No. <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-input 
+                      [value]="formData().arnNo" 
+                      (valueChange)="updateForm('arnNo', $event)"
+                      placeholder="Enter ARN number">
+                    </app-erp-input>
+                 </div>
+              </div>
+           </div>
+           
+           <div class="form-row-full">
+              <div class="form-label-box">
+                 <span class="form-label-text">Description:</span>
+              </div>
+              <div class="form-input-element-full">
+                 <app-erp-textarea 
+                   [rows]="2"
+                   [value]="formData().description" 
+                   (valueChange)="updateForm('description', $event)"
+                   placeholder="Brief overview or additional details...">
+                 </app-erp-textarea>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2 — TABLE DATABASE -->
+    <div class="card-panel table-panel">
+       <app-section-header title="LUT Registry Database" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+          <div class="panel-table-container">
+             <app-letter-undertaking-table></app-letter-undertaking-table>
+          </div>
+       }
+    </div>
+
+  </main>
+</div>

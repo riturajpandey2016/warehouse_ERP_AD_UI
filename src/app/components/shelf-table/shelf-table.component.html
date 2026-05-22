@@ -1,0 +1,128 @@
+<!-- SHELF DETAILS ACCORDION HEADER -->
+<div class="custom-slim-header table-title-header">
+   <span class="custom-header-title">Shelf Details</span>
+</div>
+
+<!-- DATA GRID -->
+<div class="data-table-container">
+   <table class="data-table">
+      <thead>
+         <tr class="table-header-row">
+            <th class="w-16 text-center">Serial Number</th>
+            <th>CC Center</th>
+            <th>Store</th>
+            <th>Room</th>
+            <th>Shelf</th>
+            <th>Description</th>
+            <th class="w-36 text-center">Action</th>
+         </tr>
+         <tr class="table-search-row">
+            <th></th>
+            <th>
+               <input type="text" [ngModel]="filterCc()" (ngModelChange)="filterCc.set($event); onFilterChange()" class="header-search-input" />
+            </th>
+            <th>
+               <input type="text" [ngModel]="filterStore()" (ngModelChange)="filterStore.set($event); onFilterChange()" class="header-search-input" />
+            </th>
+            <th>
+               <input type="text" [ngModel]="filterRoom()" (ngModelChange)="filterRoom.set($event); onFilterChange()" class="header-search-input" />
+            </th>
+            <th>
+               <input type="text" [ngModel]="filterShelf()" (ngModelChange)="filterShelf.set($event); onFilterChange()" class="header-search-input" />
+            </th>
+            <th>
+               <input type="text" [ngModel]="filterDesc()" (ngModelChange)="filterDesc.set($event); onFilterChange()" class="header-search-input" />
+            </th>
+            <th></th>
+         </tr>
+      </thead>
+      
+      <tbody>
+         @for (item of filteredData(); track item.id; let idx = $index) {
+            <tr class="table-body-row">
+               <!-- SNO -->
+               <td class="sno-cell">{{ idx + 1 }}</td>
+               
+               <!-- CC CENTER -->
+               <td>
+                  <span class="cell-text">{{ item.ccCenter }}</span>
+               </td>
+
+               <!-- STORE -->
+               <td>
+                  <span class="cell-text">{{ item.store }}</span>
+               </td>
+
+               <!-- ROOM -->
+               <td>
+                  <span class="cell-text">{{ item.room }}</span>
+               </td>
+
+               <!-- SHELF -->
+               <td>
+                  <span class="cell-text">{{ item.shelf }}</span>
+               </td>
+
+               <!-- DESCRIPTION -->
+               <td>
+                  <span class="cell-text">{{ item.description }}</span>
+               </td>
+
+               <!-- ACTIONS -->
+               <td>
+                  <div class="action-buttons-group justify-center">
+                     <button class="action-icon-btn btn-edit" title="Edit Shelf">
+                        <lucide-icon [img]="EditIcon" class="w-3.5 h-3.5"></lucide-icon>
+                     </button>
+                     <button class="action-icon-btn btn-green-circle" title="Active">
+                        <lucide-icon [img]="CheckIcon" class="w-3.5 h-3.5"></lucide-icon>
+                     </button>
+                     <button class="action-icon-btn btn-delete-row" (click)="deleteShelf(item.id)" title="Delete Shelf">
+                        <lucide-icon [img]="CancelIcon" class="w-3.5 h-3.5"></lucide-icon>
+                     </button>
+                  </div>
+               </td>
+
+            </tr>
+         } @empty {
+            <tr>
+               <td colspan="7" class="px-6 py-12 text-center text-slate-400 font-medium uppercase text-xs">
+                  No shelf records found. Click "Save" above to insert.
+               </td>
+            </tr>
+         }
+      </tbody>
+   </table>
+</div>
+
+<!-- PAGINATION FOOTER ROW -->
+<div class="table-pagination-bar">
+   <div class="pagination-buttons">
+      <button class="btn-pager-control" title="First Page">
+         <lucide-icon [img]="ChevronsLeftIcon" class="w-3.5 h-3.5"></lucide-icon>
+      </button>
+      <button class="btn-pager-control" title="Previous Page">
+         <lucide-icon [img]="ChevronLeftIcon" class="w-3.5 h-3.5"></lucide-icon>
+      </button>
+      <span class="page-number-box">1</span>
+      <button class="btn-pager-control" title="Next Page">
+         <lucide-icon [img]="ChevronRightIcon" class="w-3.5 h-3.5"></lucide-icon>
+      </button>
+      <button class="btn-pager-control" title="Last Page">
+         <lucide-icon [img]="ChevronsRightIcon" class="w-3.5 h-3.5"></lucide-icon>
+      </button>
+   </div>
+
+   <div class="pager-size-control">
+      <span class="pager-label">Page size:</span>
+      <select class="pager-select">
+         <option value="10">10</option>
+         <option value="25">25</option>
+         <option value="50">50</option>
+      </select>
+   </div>
+
+   <div class="pager-count-status">
+      <span>{{ filteredData().length }} items in 1 pages</span>
+   </div>
+</div>

@@ -1,0 +1,414 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- DETAILS FORM SECTION -->
+    <div class="card-panel">
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Item Creation Details</span>
+      </div>
+      
+      <div class="panel-body">
+         <div class="item-form-grid">
+            
+            <!-- Column 1 Elements -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Item Name :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" [value]="formData().itemName" (input)="updateForm('itemName', $any($event.target).value)" class="custom-legacy-input" />
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <!-- Column 2 Elements -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Item Code :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" [value]="formData().itemCode" (input)="updateForm('itemCode', $any($event.target).value)" class="custom-legacy-input" />
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <!-- Column 3 Elements -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Item Type :</span>
+               </div>
+               <div class="form-input-element">
+                  <select [value]="formData().itemType" (change)="updateForm('itemType', $any($event.target).value)" class="custom-legacy-input">
+                     <option value="Select Item Type">Select Item Type</option>
+                     <option value="Laptop">Laptop</option>
+                     <option value="FURNITURE">FURNITURE</option>
+                     <option value="Yoghurt">Yoghurt</option>
+                     <option value="Butter">Butter</option>
+                     <option value="Milk">Milk</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Group :</span>
+               </div>
+               <div class="form-input-element">
+                  <select [value]="formData().group" (change)="updateForm('group', $any($event.target).value)" class="custom-legacy-input">
+                     <option value="Select Product Group">Select Product Group</option>
+                     <option value="ASSETS">ASSETS</option>
+                     <option value="DAIRY">DAIRY</option>
+                     <option value="RAW MATERIALS">RAW MATERIALS</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Unit Group :</span>
+               </div>
+               <div class="form-input-element">
+                  <select [value]="formData().unitGroup" (change)="updateForm('unitGroup', $any($event.target).value)" class="custom-legacy-input">
+                     <option value="Select Unit Of Measure">Select Unit Of Measure</option>
+                     <option value="PCS">PCS</option>
+                     <option value="Litre Unit">Litre Unit</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <!-- Row 2 Col 3 Empty space or spacer -->
+            <div class="form-row-side"></div>
+
+            <!-- Row 3 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Purchase Unit :</span>
+               </div>
+               <div class="form-input-element">
+                  <select [value]="formData().purchaseUnit" (change)="updateForm('purchaseUnit', $any($event.target).value)" class="custom-legacy-input">
+                     <option value="">Select Unit</option>
+                     <option value="PCS">PCS</option>
+                     <option value="Litre Unit">Litre Unit</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Sales Unit :</span>
+               </div>
+               <div class="form-input-element">
+                  <select [value]="formData().salesUnit" (change)="updateForm('salesUnit', $any($event.target).value)" class="custom-legacy-input">
+                     <option value="">Select Unit</option>
+                     <option value="PCS">PCS</option>
+                     <option value="Litre Unit">Litre Unit</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Issue Unit :</span>
+               </div>
+               <div class="form-input-element">
+                  <select [value]="formData().issueUnit" (change)="updateForm('issueUnit', $any($event.target).value)" class="custom-legacy-input">
+                     <option value="">Select Unit</option>
+                     <option value="PCS">PCS</option>
+                     <option value="Litre Unit">Litre Unit</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <!-- Row 4 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Item Category :</span>
+               </div>
+               <div class="form-input-element">
+                  <select [value]="formData().itemCategory" (change)="updateForm('itemCategory', $any($event.target).value)" class="custom-legacy-input">
+                     <option value="Select Category">Select Category</option>
+                     <option value="IT Hardware">IT Hardware</option>
+                     <option value="Office Furniture">Office Furniture</option>
+                     <option value="Dairy Products">Dairy Products</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Item Material Type :</span>
+               </div>
+               <div class="form-input-element">
+                  <select [value]="formData().itemMaterialType" (change)="updateForm('itemMaterialType', $any($event.target).value)" class="custom-legacy-input">
+                     <option value="Select Item Type">Select Item Type</option>
+                     <option value="Standard">Standard</option>
+                     <option value="Fragile">Fragile</option>
+                     <option value="Perishable">Perishable</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Status :</span>
+               </div>
+               <div class="form-input-element radio-group">
+                  <label>
+                     <input type="radio" name="status" value="Active" [checked]="formData().status === 'Active'" (change)="updateForm('status', 'Active')" /> Active
+                  </label>
+                  <label>
+                     <input type="radio" name="status" value="Inactive" [checked]="formData().status === 'Inactive'" (change)="updateForm('status', 'Inactive')" /> Inactive
+                  </label>
+               </div>
+            </div>
+
+            <!-- Row 5 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Is Serial :</span>
+               </div>
+               <div class="form-input-element radio-group">
+                  <label>
+                     <input type="radio" name="isSerial" value="Yes" [checked]="formData().isSerial === 'Yes'" (change)="updateForm('isSerial', 'Yes')" /> Yes
+                  </label>
+                  <label>
+                     <input type="radio" name="isSerial" value="No" [checked]="formData().isSerial === 'No'" (change)="updateForm('isSerial', 'No')" /> No
+                  </label>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Is BarCode :</span>
+               </div>
+               <div class="form-input-element radio-group">
+                  <label>
+                     <input type="radio" name="isBarcode" value="Yes" [checked]="formData().isBarcode === 'Yes'" (change)="updateForm('isBarcode', 'Yes')" /> Yes
+                  </label>
+                  <label>
+                     <input type="radio" name="isBarcode" value="No" [checked]="formData().isBarcode === 'No'" (change)="updateForm('isBarcode', 'No')" /> No
+                  </label>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Entry Date :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" [value]="formData().entryDate" (input)="updateForm('entryDate', $any($event.target).value)" class="custom-legacy-input" />
+               </div>
+            </div>
+
+            <!-- Row 6 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">MfgCode/Make/Brand :</span>
+               </div>
+               <div class="form-input-element">
+                  <select [value]="formData().mfgCode" (change)="updateForm('mfgCode', $any($event.target).value)" class="custom-legacy-input">
+                     <option value="Select Manufacture">Select Manufacture</option>
+                     <option value="Logitech">Logitech</option>
+                     <option value="Dell">Dell</option>
+                     <option value="Milky Mist">Milky Mist</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Warranty Period :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" [value]="formData().warrantyPeriod" (input)="updateForm('warrantyPeriod', $any($event.target).value)" class="custom-legacy-input" />
+                  <span class="input-suffix-text">in Months</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Guarantee Period :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" [value]="formData().guaranteePeriod" (input)="updateForm('guaranteePeriod', $any($event.target).value)" class="custom-legacy-input" />
+                  <span class="input-suffix-text">in Months</span>
+               </div>
+            </div>
+
+            <!-- Row 7 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Maximum Level :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" [value]="formData().maxLevel" (input)="updateForm('maxLevel', $any($event.target).value)" class="custom-legacy-input" />
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Minimum Level :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" [value]="formData().minLevel" (input)="updateForm('minLevel', $any($event.target).value)" class="custom-legacy-input" />
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Re-order level :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" [value]="formData().reorderLevel" (input)="updateForm('reorderLevel', $any($event.target).value)" class="custom-legacy-input" />
+               </div>
+            </div>
+
+            <!-- Row 8 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Effective Date :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" [value]="formData().effectiveDate" (input)="updateForm('effectiveDate', $any($event.target).value)" class="custom-legacy-input" />
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">HSN/SAC :</span>
+               </div>
+               <div class="form-input-element">
+                  <select [value]="formData().hsn" (change)="updateForm('hsn', $any($event.target).value)" class="custom-legacy-input">
+                     <option value="Select HSN / SAC Code">Select HSN / SAC Code</option>
+                     <option value="3917 (18.00%)">3917 (18.00%)</option>
+                     <option value="84713020 (18.00%)">84713020 (18.00%)</option>
+                     <option value="04031010 (5.00%)">04031010 (5.00%)</option>
+                  </select>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Scrap Item :</span>
+               </div>
+               <div class="form-input-element">
+                  <select [value]="formData().scrapItem" (change)="updateForm('scrapItem', $any($event.target).value)" class="custom-legacy-input">
+                     <option value="Select Scrap Item">Select Scrap Item</option>
+                     <option value="Yes">Yes</option>
+                     <option value="No">No</option>
+                  </select>
+               </div>
+            </div>
+
+            <!-- Row 9 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Remarks :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" [value]="formData().remarks" (input)="updateForm('remarks', $any($event.target).value)" class="custom-legacy-input" />
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Asset Category :</span>
+               </div>
+               <div class="form-input-element">
+                  <select [value]="formData().assetCategory" (change)="updateForm('assetCategory', $any($event.target).value)" class="custom-legacy-input">
+                     <option value="Select Asset Category">Select Asset Category</option>
+                     <option value="IT Hardware">IT Hardware</option>
+                     <option value="Office Equipment">Office Equipment</option>
+                  </select>
+               </div>
+            </div>
+
+            <div class="form-row-side"></div>
+
+            <!-- Row 10 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Upload Image :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" readonly placeholder="No file selected" class="custom-legacy-input" />
+                  <button class="select-btn">Select</button>
+               </div>
+            </div>
+
+         </div>
+
+         <!-- DOCUMENT UPLOAD SUB-SECTION -->
+         <div class="sub-header-row">
+            <span class="sub-header-text">Document Upload</span>
+         </div>
+         
+         <div class="doc-upload-grid">
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Documents Name :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" placeholder="Document Name" class="custom-legacy-input" />
+               </div>
+            </div>
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Upload File :</span>
+               </div>
+               <div class="form-input-element">
+                  <input type="text" readonly placeholder="No file selected" class="custom-legacy-input" />
+                  <button class="select-btn">Select</button>
+               </div>
+            </div>
+         </div>
+
+         <!-- Centered Buttons Row -->
+         <div class="form-actions-centered">
+            <button class="btn-legacy-save font-bold">Add Document</button>
+            <button class="btn-legacy-save font-bold">Save Item</button>
+            <button (click)="handleReset()" class="btn-legacy-reset font-bold">Reset</button>
+         </div>
+      </div>
+    </div>
+
+    <!-- SEARCH BAR SECTION -->
+    <div class="card-panel">
+       <div class="hide-search-row">
+          <span class="hide-search-link">Click to Hide Search Content</span>
+       </div>
+       <div class="search-bar-body">
+          <span class="form-label-text font-bold">Search By :</span>
+          <select class="custom-legacy-input max-w-[150px]">
+             <option value="Select All">Select All</option>
+             <option value="Item Name">Item Name</option>
+             <option value="Item Code">Item Code</option>
+          </select>
+          <button class="btn-search font-bold">
+             <lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5"></lucide-icon> Search
+          </button>
+       </div>
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="card-panel table-panel">
+       <div class="custom-slim-header table-blue-header">
+          <span class="custom-header-title">Item Lists</span>
+       </div>
+       <div class="panel-table-container">
+          <app-product-creation-table></app-product-creation-table>
+       </div>
+    </div>
+
+  </main>
+</div>

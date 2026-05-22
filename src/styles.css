@@ -1,0 +1,279 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ERP Global Base Fixes */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+/* Fix Angular component host elements */
+app-root {
+  display: block;
+  height: 100%;
+}
+
+/* Ensure lucide icons render inline */
+lucide-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fix common table issues */
+table {
+  border-collapse: collapse;
+}
+
+/* Fix input/select consistency */
+input, select, textarea, button {
+  font-family: inherit;
+}
+
+/* Global scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Remove default min-height: 100vh on component containers 
+   as it causes double scrollbars when nested in erp-main */
+.company-master-container {
+  min-height: unset !important;
+}
+
+/* ============================================================
+   ERP GLOBAL LAYOUT OVERRIDES
+   Applied after Tailwind base to fix Angular ERP layout issues
+   ============================================================ */
+
+/* ── Fix Tailwind base reset for ERP buttons ── */
+/* Tailwind resets button padding/border to 0. Our component CSS re-adds them
+   but the cascade order matters. Component encapsulated styles override global
+   Tailwind base, so this is fine — no additional fix needed here. */
+
+/* ── Prevent double-scrollbar from nested components ── */
+.company-master-container,
+.erp-page-container {
+  min-height: unset !important;
+  height: auto;
+}
+
+/* ── Ensure all page wrappers fill available width ── */
+app-company-master,
+app-country-master,
+app-zone-master,
+app-state-master,
+app-district-master,
+app-department-master,
+app-designation-master,
+app-company-category-master,
+app-transport-mode-master,
+app-vehicle-type-master,
+app-financial-year-master,
+app-historical-day-master,
+app-news-events-master,
+app-database-backup,
+app-purchase-quotation,
+app-sales-quotation,
+app-sales-supply-sub-type-master,
+app-sales-supply-type-master,
+app-letter-undertaking-master,
+app-ad-code-master,
+app-terms-conditions-master,
+app-hsn-master,
+app-unit-master,
+app-uom-group-setup,
+app-manufacture-master,
+app-product-category-master,
+app-product-state-type-master,
+app-product-material-type-master,
+app-warehouse-master,
+app-group-master,
+app-inventory-setup,
+app-inventory-product-setup,
+app-product-price-group,
+app-product-document-upload,
+app-product-creation,
+app-bulk-product-creation,
+app-bulk-product-hsn,
+app-product-assign-branch,
+app-client-price-list,
+app-product-rate-update,
+app-product-journal,
+app-store-entry,
+app-room-entry,
+app-shelf-entry,
+app-rack-entry,
+app-demand-slip,
+app-demand-slip-approval,
+app-requisition,
+app-requisition-approval,
+app-issue-slip,
+app-issue-return,
+app-bin-sub-level,
+app-bin-inout-settings,
+app-opening-stock-bin,
+app-issue-stock-bin,
+app-dashboard-layout {
+  display: block;
+  width: 100%;
+}
+
+/* ── Sidebar host alignment fix ── */
+app-sidebar {
+  display: flex;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+/* ── Lucide icons - fix Angular-specific render issues ── */
+lucide-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Fix table layouts being too wide / overflow issues ── */
+.table-scroll-container,
+.data-table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Fix form grid gaps being too wide on small screens ── */
+@media (max-width: 900px) {
+  .form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  .search-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .config-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .search-grid,
+  .config-grid,
+  .criteria-row-triple {
+    grid-template-columns: 1fr !important;
+  }
+  .page-content {
+    padding: 8px !important;
+  }
+  .panel-body {
+    padding: 12px !important;
+  }
+  .table-toolbar {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+  .search-input {
+    width: 100% !important;
+  }
+}
+
+/* ── Sticky page-header within scroll container ── */
+/* Works correctly when .main-scroll has overflow-y: auto */
+.page-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: #ffffff;
+}
+
+/* ── Fix overlapping caused by Tailwind base margin-reset on h1/p ── */
+.page-title {
+  margin: 0;
+}
+
+/* ── Dashboard KPI cards responsive fix ── */
+@media (max-width: 640px) {
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .dashboard-split-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .analytics-row-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Fix nav-tabs overflow on mid-size screens ── */
+@media (max-width: 1024px) {
+  .nav-tabs {
+    display: none;
+  }
+}
+
+/* ── Fix input[type=checkbox] Tailwind reset ── */
+input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  accent-color: #1a3a6b;
+}
+
+/* ── Fix select arrow visibility after Tailwind reset ── */
+select.search-input,
+select.table-inline-select,
+select.filter-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 28px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* ── Fix bullet points in sidebar (Tailwind resets ol/ul) ── */
+.menu-list,
+.submenu-list,
+.subgroup-container-list,
+.nested-leaf-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* ── Dashboard layout host padding ── */
+app-dashboard-layout {
+  box-sizing: border-box;
+}
+
+/* ── Responsive sidebar ── */
+@media (max-width: 768px) {
+  .sidebar-container {
+    position: fixed !important;
+    top: 56px;
+    left: 0;
+    height: calc(100vh - 56px) !important;
+    z-index: 50;
+  }
+  .sidebar-container.collapsed {
+    transform: translateX(-100%);
+    width: 260px;
+  }
+}

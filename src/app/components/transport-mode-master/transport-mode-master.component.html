@@ -1,0 +1,67 @@
+<div class="company-master-container">
+  <!-- Page Title -->
+  <header class="page-header">
+    <h1 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
+      <lucide-icon [img]="TruckIcon" class="w-4 h-4"></lucide-icon>
+      Transport Mode Type Master
+    </h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save Transport
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- DETAILS SECTION -->
+    <div class="card-panel">
+      <app-section-header 
+        title="Transport Mode Details" 
+        [expanded]="sections().details" 
+        (toggle)="toggleSection('details')">
+      </app-section-header>
+      
+      @if (sections().details) {
+        <div class="panel-body">
+           <div class="form-grid">
+           <app-erp-input 
+             label="Transport Name" 
+             [required]="true" 
+             width="w-32" 
+             [value]="formData().transportName" 
+             (valueChange)="updateForm('transportName', $event)"
+             placeholder="e.g. Road, Rail, Air">
+           </app-erp-input>
+           <app-erp-input 
+             label="Description" 
+             width="w-32" 
+             [value]="formData().transportDescription" 
+             (valueChange)="updateForm('transportDescription', $event)"
+             placeholder="Brief overview...">
+           </app-erp-input>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="card-panel">
+       <app-section-header 
+         title="Transport Mode Registry" 
+         [expanded]="sections().table" 
+         (toggle)="toggleSection('table')" 
+         [blue]="true">
+       </app-section-header>
+       
+       @if (sections().table) {
+         <div class="panel-table-container">
+            <app-transport-mode-table></app-transport-mode-table>
+         </div>
+       }
+    </div>
+
+  </main></div>

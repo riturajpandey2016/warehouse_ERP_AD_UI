@@ -1,0 +1,413 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- DEMAND SLIP HEADER & CONFIGURATION CARD -->
+    <div class="card-panel">
+       <div class="custom-slim-header" (click)="toggleSlip()">
+          <span class="custom-header-title">Demand Slip</span>
+          <lucide-icon [img]="showSlip() ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 toggle-arrow"></lucide-icon>
+       </div>
+       
+       @if (showSlip()) {
+          <div class="panel-body">
+             <div class="config-grid">
+                
+                <!-- COLUMN 1 -->
+                <div class="config-column">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Demand Date :</span>
+                      </div>
+                      <div class="filter-input-element relative-wrapper">
+                         <input type="date" [ngModel]="demandDate()" (ngModelChange)="demandDate.set($event)" class="custom-legacy-input" />
+                         <lucide-icon [img]="CalendarIcon" class="w-3.5 h-3.5 input-calendar-icon"></lucide-icon>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group mt-3">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">CC Center <span class="red-asterisk">*</span>:</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="selectedCcCenter()" (ngModelChange)="selectedCcCenter.set($event)" class="custom-legacy-input select-wide">
+                            <option value="">Select CC Center</option>
+                            <option value="Mumbai Central">Mumbai Central</option>
+                            <option value="New Delhi Hub">New Delhi Hub</option>
+                            <option value="Bangalore Store">Bangalore Store</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group mt-3">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Project Name :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="projectName()" (ngModelChange)="projectName.set($event)" class="custom-legacy-input select-wide">
+                            <option value="">Select Project / Production Name</option>
+                            <option value="Building Block A">Building Block A</option>
+                            <option value="Slab Polishing Line">Slab Polishing Line</option>
+                            <option value="Warehouse Expansion">Warehouse Expansion</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group mt-3">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Remarks :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <textarea [ngModel]="remarks()" (ngModelChange)="remarks.set($event)" class="custom-legacy-textarea"></textarea>
+                      </div>
+                   </div>
+                </div>
+
+                <!-- COLUMN 2 -->
+                <div class="config-column">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Reference No :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <input type="text" [ngModel]="referenceNo()" (ngModelChange)="referenceNo.set($event)" class="custom-legacy-input" />
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group mt-3">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Department <span class="red-asterisk">*</span>:</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="selectedDepartment()" (ngModelChange)="selectedDepartment.set($event)" class="custom-legacy-input select-wide">
+                            <option value="">Select Department</option>
+                            <option value="Civil Department">Civil Department</option>
+                            <option value="Production Dept">Production Dept</option>
+                            <option value="Logistics Hub">Logistics Hub</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group mt-3">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Project Code :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <input type="text" [ngModel]="projectCode()" (ngModelChange)="projectCode.set($event)" class="custom-legacy-input" />
+                      </div>
+                   </div>
+                </div>
+
+                <!-- COLUMN 3 -->
+                <div class="config-column">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Company :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="selectedCompany()" (ngModelChange)="selectedCompany.set($event)" class="custom-legacy-input select-wide font-semibold text-red-600">
+                            <option value="ILICO SERVICES LTD.(vERP)">ILICO SERVICES LTD.(vERP)</option>
+                            <option value="GLOBAL TRANSPORT INC.">GLOBAL TRANSPORT INC.</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group mt-3">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Production Unit <span class="red-asterisk">*</span>:</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="selectedProductionUnit()" (ngModelChange)="selectedProductionUnit.set($event)" class="custom-legacy-input select-wide">
+                            <option value="">Select Production Unit</option>
+                            <option value="Stone Crushing Unit A">Stone Crushing Unit A</option>
+                            <option value="Slab Cutting Unit 2">Slab Cutting Unit 2</option>
+                            <option value="Lobby Tiling Section">Lobby Tiling Section</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group mt-3">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Project Description :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <textarea [ngModel]="projectDescription()" (ngModelChange)="projectDescription.set($event)" class="custom-legacy-textarea"></textarea>
+                      </div>
+                   </div>
+                </div>
+
+             </div>
+
+             <!-- Item searching criteria section inside Card Panel -->
+             <div class="item-search-criteria-section">
+                <span class="criteria-red-title">Item searching criteria</span>
+                <div class="criteria-row mt-1">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Group :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="selectedGroup()" (ngModelChange)="selectedGroup.set($event)" class="custom-legacy-input select-wide">
+                            <option value="RAW MATERIALS">RAW MATERIALS</option>
+                            <option value="CONSUMABLES">CONSUMABLES</option>
+                            <option value="OFFICE SUPPLIES">OFFICE SUPPLIES</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Item Type :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="selectedItemType()" (ngModelChange)="selectedItemType.set($event)" class="custom-legacy-input select-wide">
+                            <option value="Stone">Stone</option>
+                            <option value="Granite">Granite</option>
+                            <option value="Marble">Marble</option>
+                         </select>
+                      </div>
+                   </div>
+                </div>
+                
+                <div class="centered-btn-row mt-3">
+                   <button (click)="searchItems()" class="btn-legacy-action">Search</button>
+                   <button (click)="saveDemandSlip()" class="btn-legacy-action ml-2">Submit Slip</button>
+                   <button (click)="resetSlipForm()" class="btn-legacy-action ml-2 btn-gray">Reset</button>
+                </div>
+             </div>
+
+          </div>
+       }
+    </div>
+
+    <!-- ITEM DETAILS TABLE CARD -->
+    <div class="card-panel">
+       <div class="custom-slim-header" (click)="toggleItems()">
+          <span class="criteria-red-title font-bold text-xs">Item Details</span>
+          <lucide-icon [img]="showItems() ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 toggle-arrow"></lucide-icon>
+       </div>
+       
+       @if (showItems()) {
+          <div class="panel-body p-0">
+             <div class="data-table-container">
+                <table class="data-table">
+                   <thead>
+                      <tr class="table-header-row">
+                         <th class="w-16 text-center">S.No</th>
+                         <th>Item Code</th>
+                         <th>Item Name</th>
+                         <th>Unit</th>
+                         <th>Available Stock</th>
+                         <th>Demand Qty</th>
+                         <th>Remarks</th>
+                         <th class="w-24 text-center">Action</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      @for (itm of demandItems(); track itm.id; let idx = $index) {
+                         <tr class="table-body-row">
+                            <td class="sno-cell">{{ idx + 1 }}</td>
+                            <td><span class="cell-text font-bold text-slate-600">{{ itm.itemCode }}</span></td>
+                            <td><span class="cell-text font-semibold text-blue-900">{{ itm.itemName }}</span></td>
+                            <td><span class="cell-text">{{ itm.unit }}</span></td>
+                            <td><span class="cell-text text-emerald-600 font-bold">{{ itm.availableStock }}</span></td>
+                            <td>
+                               <input type="number" [(ngModel)]="itm.demandQty" class="table-inline-input" />
+                            </td>
+                            <td>
+                               <input type="text" [(ngModel)]="itm.remarks" class="table-inline-input w-full" />
+                            </td>
+                            <td>
+                               <div class="action-buttons-group justify-center">
+                                  <button class="action-icon-btn btn-delete-row" (click)="deleteDemandItem(itm.id)" title="Remove Item">
+                                     <lucide-icon [img]="TrashIcon" class="w-3.5 h-3.5"></lucide-icon>
+                                  </button>
+                               </div>
+                            </td>
+                         </tr>
+                      } @empty {
+                         <tr>
+                            <td colspan="8" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">
+                               No items added to demand list. Use search above.
+                            </td>
+                         </tr>
+                      }
+                   </tbody>
+                </table>
+             </div>
+          </div>
+       }
+    </div>
+
+    <!-- DEMAND SEARCHING CRITERIA CARD -->
+    <div class="card-panel">
+       <div class="custom-slim-header" (click)="toggleSearch()">
+          <span class="criteria-red-title font-bold text-xs">Demand searching criteria</span>
+          <lucide-icon [img]="showSearch() ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 toggle-arrow"></lucide-icon>
+       </div>
+       
+       @if (showSearch()) {
+          <div class="panel-body">
+             <div class="searching-criteria-grid">
+                
+                <!-- ROW 1 -->
+                <div class="criteria-row-triple">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box label-wide">
+                         <span class="filter-label-text">From Date :</span>
+                      </div>
+                      <div class="filter-input-element relative-wrapper">
+                         <input type="date" [ngModel]="searchFromDate()" (ngModelChange)="searchFromDate.set($event)" class="custom-legacy-input" />
+                         <lucide-icon [img]="CalendarIcon" class="w-3.5 h-3.5 input-calendar-icon"></lucide-icon>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group">
+                      <div class="filter-label-box label-wide">
+                         <span class="filter-label-text">To Date :</span>
+                      </div>
+                      <div class="filter-input-element relative-wrapper">
+                         <input type="date" [ngModel]="searchToDate()" (ngModelChange)="searchToDate.set($event)" class="custom-legacy-input" />
+                         <lucide-icon [img]="CalendarIcon" class="w-3.5 h-3.5 input-calendar-icon"></lucide-icon>
+                      </div>
+                   </div>
+                </div>
+
+                <!-- ROW 2 -->
+                <div class="criteria-row-triple mt-3">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box label-wide">
+                         <span class="filter-label-text">Company :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="searchCompany()" (ngModelChange)="searchCompany.set($event)" class="custom-legacy-input select-wide font-semibold text-red-600">
+                            <option value="ILICO SERVICES LTD.(vERP)">ILICO SERVICES LTD.(vERP)</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group">
+                      <div class="filter-label-box label-wide">
+                         <span class="filter-label-text">CC Center :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="searchCcCenter()" (ngModelChange)="searchCcCenter.set($event)" class="custom-legacy-input select-wide">
+                            <option value="">Select CC Center</option>
+                            <option value="Mumbai Central">Mumbai Central</option>
+                            <option value="New Delhi Hub">New Delhi Hub</option>
+                         </select>
+                      </div>
+                   </div>
+                </div>
+
+                <!-- ROW 3 -->
+                <div class="criteria-row-triple mt-3">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box label-wide">
+                         <span class="filter-label-text">Department :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="searchDepartment()" (ngModelChange)="searchDepartment.set($event)" class="custom-legacy-input select-wide">
+                            <option value="">Select Department</option>
+                            <option value="Civil Department">Civil Department</option>
+                            <option value="Production Dept">Production Dept</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group">
+                      <div class="filter-label-box label-wide">
+                         <span class="filter-label-text">Production Unit :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="searchProductionUnit()" (ngModelChange)="searchProductionUnit.set($event)" class="custom-legacy-input select-wide">
+                            <option value="">Select Production Unit</option>
+                            <option value="Stone Crushing Unit A">Stone Crushing Unit A</option>
+                         </select>
+                      </div>
+                   </div>
+                </div>
+
+                <!-- ROW 4 -->
+                <div class="criteria-row-triple mt-3">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box label-wide">
+                         <span class="filter-label-text">Reference No :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <input type="text" [ngModel]="searchReferenceNo()" (ngModelChange)="searchReferenceNo.set($event)" class="custom-legacy-input select-wide" />
+                      </div>
+                   </div>
+                </div>
+
+                <div class="centered-btn-row mt-4">
+                   <button (click)="searchDemandSlips()" class="btn-legacy-action">Demand Search</button>
+                </div>
+
+             </div>
+          </div>
+       }
+    </div>
+
+    <!-- DEMAND DETAILS CARD -->
+    <div class="card-panel">
+       <div class="custom-slim-header" (click)="toggleDetails()">
+          <span class="criteria-red-title font-bold text-xs">Demand Details</span>
+          <lucide-icon [img]="showDetails() ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 toggle-arrow"></lucide-icon>
+       </div>
+       
+       @if (showDetails()) {
+          <div class="panel-body p-0">
+             <div class="data-table-container">
+                <table class="data-table">
+                   <thead>
+                      <tr class="table-header-row">
+                         <th class="w-16 text-center">S.No</th>
+                         <th>Demand Date</th>
+                         <th>Demand Slip No</th>
+                         <th>CC Center</th>
+                         <th>Department</th>
+                         <th>Project Name</th>
+                         <th>Status</th>
+                         <th class="w-24 text-center">Action</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      @for (slip of filteredDemandSlips(); track slip.id; let idx = $index) {
+                         <tr class="table-body-row">
+                            <td class="sno-cell">{{ idx + 1 }}</td>
+                            <td><span class="cell-text">{{ slip.demandDate }}</span></td>
+                            <td><span class="cell-text font-bold text-blue-900">{{ slip.demandNo }}</span></td>
+                            <td><span class="cell-text uppercase">{{ slip.ccCenter }}</span></td>
+                            <td><span class="cell-text italic">{{ slip.department }}</span></td>
+                            <td><span class="cell-text font-semibold text-slate-700">{{ slip.projectName }}</span></td>
+                            <td>
+                               @if (slip.status === 'APPROVED') {
+                                  <span class="badge-status bg-emerald-100 text-emerald-800 border-emerald-200">Approved</span>
+                               } @else {
+                                  <span class="badge-status bg-amber-100 text-amber-800 border-amber-200">Pending</span>
+                               }
+                            </td>
+                            <td>
+                               <div class="action-buttons-group justify-center">
+                                  <button class="action-icon-btn btn-edit" title="Edit Slip">
+                                     <lucide-icon [img]="EditIcon" class="w-3.5 h-3.5"></lucide-icon>
+                                  </button>
+                               </div>
+                            </td>
+                         </tr>
+                      } @empty {
+                         <tr>
+                            <td colspan="8" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">
+                               No demand slips found matching search criteria.
+                            </td>
+                         </tr>
+                      }
+                   </tbody>
+                </table>
+             </div>
+          </div>
+       }
+    </div>
+
+  </main>
+</div>

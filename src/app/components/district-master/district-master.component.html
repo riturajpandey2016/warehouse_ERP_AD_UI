@@ -1,0 +1,87 @@
+﻿<div class="company-master-container">
+  <!-- Page Title -->
+  <header class="page-header">
+    <h1 class="page-title">District Master</h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save District
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+  <main class="page-content">
+    
+    <!-- SECTION 1 â€” BASIC INFORMATION -->
+    <div class="card-panel">
+      <app-section-header title="Basic District Information" [expanded]="sections().basicInfo" (toggle)="toggleSection('basicInfo')"></app-section-header>
+      @if (sections().basicInfo) {
+        <div class="panel-body">
+           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-2.5">
+              <app-erp-select label="Country" [required]="true" [options]="countryOptions" [value]="formData().country" (valueChange)="updateForm('country', $event)"></app-erp-select>
+              <app-erp-select label="Zone" [required]="true" [options]="zoneOptions" [value]="formData().zone" (valueChange)="updateForm('zone', $event)"></app-erp-select>
+              <app-erp-select label="State" [required]="true" [options]="stateOptions" [value]="formData().state" (valueChange)="updateForm('state', $event)"></app-erp-select>
+              
+              <app-erp-input label="District Name" [required]="true" [value]="formData().districtName" (valueChange)="updateForm('districtName', $event)"></app-erp-input>
+              <app-erp-input label="District Code" [required]="true" [value]="formData().districtCode" (valueChange)="updateForm('districtCode', $event)"></app-erp-input>
+              <app-erp-input label="Short Name" [value]="formData().districtShortName" (valueChange)="updateForm('districtShortName', $event)"></app-erp-input>
+
+              <app-erp-select label="Region Type" [required]="true" [options]="regionTypeOptions" [value]="formData().regionType" (valueChange)="updateForm('regionType', $event)"></app-erp-select>
+              <app-erp-select label="Delivery Area" [required]="true" [options]="deliveryAreaOptions" [value]="formData().deliveryArea" (valueChange)="updateForm('deliveryArea', $event)"></app-erp-select>
+              <app-erp-select label="Territory" [options]="territoryOptions" [value]="formData().operationalTerritory" (valueChange)="updateForm('operationalTerritory', $event)"></app-erp-select>
+
+              <div class="lg:col-span-3">
+                 <app-erp-textarea label="Description" [value]="formData().description" (valueChange)="updateForm('description', $event)"></app-erp-textarea>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2 â€” CONFIGURATION -->
+    <div class="card-panel">
+       <app-section-header title="Configuration Settings" [expanded]="sections().configuration" (toggle)="toggleSection('configuration')"></app-section-header>
+       @if (sections().configuration) {
+         <div class="panel-body">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-3">
+               <app-erp-toggle label="Active Status" [checked]="formData().isActive" (checkedChange)="updateForm('isActive', $event)"></app-erp-toggle>
+               <app-erp-toggle label="Set as Default" [checked]="formData().isDefault" (checkedChange)="updateForm('isDefault', $event)"></app-erp-toggle>
+               <app-erp-toggle label="Warehouse Mapping" [checked]="formData().warehouseServiceMapping" (checkedChange)="updateForm('warehouseServiceMapping', $event)"></app-erp-toggle>
+               <app-erp-toggle label="Delivery Zone Mapping" [checked]="formData().deliveryZoneMapping" (checkedChange)="updateForm('deliveryZoneMapping', $event)"></app-erp-toggle>
+            </div>
+         </div>
+       }
+    </div>
+
+    <!-- SECTION 3 â€” SEARCH -->
+    <div class="card-panel">
+       <app-section-header title="Search Districts" [expanded]="sections().search" (toggle)="toggleSection('search')"></app-section-header>
+       @if (sections().search) {
+         <div class="search-body">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-2.5">
+               <app-erp-input label="District Name" width="w-24"></app-erp-input>
+               <app-erp-select label="State" width="w-24"></app-erp-select>
+               <app-erp-select label="Zone" width="w-24"></app-erp-select>
+               <app-erp-select label="Country" width="w-24"></app-erp-select>
+            </div>
+            <div class="search-action-row">
+               <button class="btn-search">
+                  <lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5"></lucide-icon> Search
+               </button>
+            </div>
+         </div>
+       }
+    </div>
+
+    <!-- SECTION 4 â€” TABLE -->
+    <div class="card-panel">
+       <app-section-header title="District Registry List" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+         <div class="panel-table-container">
+            <app-district-table></app-district-table>
+         </div>
+       }
+    </div>
+
+  </main></div>

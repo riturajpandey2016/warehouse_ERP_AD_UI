@@ -1,0 +1,51 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- SEARCH SECTION -->
+    <div class="card-panel">
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Item HSN / SAC code update</span>
+      </div>
+      <div class="panel-body">
+         <div class="search-bar-body">
+            <span class="form-label-text font-bold">Search By :</span>
+            <select class="custom-legacy-input">
+               <option value="Select All">Select All</option>
+               <option value="Item Name">Item Name</option>
+               <option value="Item Code">Item Code</option>
+            </select>
+            <button class="btn-search font-bold">
+               <lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5"></lucide-icon> Search
+            </button>
+         </div>
+      </div>
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="card-panel table-panel">
+       <div class="panel-table-container">
+          <app-bulk-product-hsn-table></app-bulk-product-hsn-table>
+       </div>
+    </div>
+
+    <!-- UPDATE SECTION -->
+    <div class="card-panel">
+       <div class="custom-slim-header table-blue-header">
+          <span class="custom-header-title">Selected Items for HSN / SAC code update</span>
+       </div>
+       <div class="hsn-update-body">
+          <span class="form-label-text font-bold">HSN / SAC Code :</span>
+          <select class="custom-legacy-input max-w-[250px]">
+             <option value="Select HSN / SAC Code">Select HSN / SAC Code</option>
+             <option value="3917 (18.00%)">3917 (18.00%)</option>
+             <option value="84713020 (18.00%)">84713020 (18.00%)</option>
+             <option value="04031010 (5.00%)">04031010 (5.00%)</option>
+             <option value="04051010 (5.00%)">04051010 (5.00%)</option>
+             <option value="04011000 (0.00%)">04011000 (0.00%)</option>
+          </select>
+          <button class="btn-legacy-save font-bold">Save</button>
+       </div>
+    </div>
+
+  </main>
+</div>

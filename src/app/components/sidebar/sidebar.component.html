@@ -1,0 +1,131 @@
+<aside class="sidebar-container" [class.collapsed]="collapsed">
+  <!-- Module Selector / Label -->
+  <div class="sidebar-header" *ngIf="!collapsed">
+    <div class="status-indicator-dot small-pulse"></div>
+    <span class="header-title">DASHBOARD MODULE</span>
+  </div>
+
+  <!-- Menu Content Scroll -->
+  <div class="sidebar-content">
+    <ul class="menu-list">
+      <li *ngFor="let item of menuItems" class="menu-list-item">
+        <!-- Type A: Accordion with SUBGROUPS (e.g., Organization Module) -->
+        <ng-container *ngIf="item.isExpandable && item.subGroups; else directSubItemsCheck">
+          <button 
+            class="menu-link expandable-header" 
+            [class.active]="isChildActive(item)"
+            (click)="toggleGroup(item.id)">
+            <div class="link-left">
+              <lucide-icon [img]="item.icon" class="menu-icon"></lucide-icon>
+              <span class="link-text" *ngIf="!collapsed">{{ item.name }}</span>
+            </div>
+            <lucide-icon 
+              *ngIf="!collapsed"
+              [img]="isGroupExpanded(item.id) ? ChevronDownIcon : ChevronRightIcon" 
+              class="chevron-icon">
+            </lucide-icon>
+          </button>
+
+          <!-- Level 2 Subgroups accordion list -->
+          <ul 
+            class="subgroup-container-list" 
+            *ngIf="!collapsed"
+            [class.expanded]="isGroupExpanded(item.id)">
+            <li *ngFor="let subGroup of item.subGroups" class="subgroup-item">
+              <button 
+                class="subgroup-header-btn" 
+                [class.active]="isSubGroupExpanded(subGroup.id)"
+                (click)="toggleSubGroup(subGroup.id, $event)">
+                <div class="subgroup-left">
+                  <span class="subgroup-text">{{ subGroup.name }}</span>
+                </div>
+                <lucide-icon 
+                  [img]="isSubGroupExpanded(subGroup.id) ? ChevronDownIcon : ChevronRightIcon" 
+                  class="chevron-icon mini">
+                </lucide-icon>
+              </button>
+
+              <!-- Level 3 Leaf Items -->
+              <ul 
+                class="nested-leaf-list" 
+                [class.expanded]="isSubGroupExpanded(subGroup.id)">
+                <li *ngFor="let leaf of subGroup.items" class="leaf-item">
+                  <button 
+                    class="submenu-link leaf-link" 
+                    [class.active]="activeMenuId() === leaf.id"
+                    (click)="onSelectSubMenu(item.id, leaf.id)">
+                    <span class="submenu-dot"></span>
+                    <span class="submenu-text">{{ leaf.name }}</span>
+                  </button>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </ng-container>
+
+        <!-- Type B: Accordion with DIRECT SUBITEMS (e.g., Inventory, Purchase, Sales) -->
+        <ng-template #directSubItemsCheck>
+          <ng-container *ngIf="item.isExpandable && item.subItems; else standardLink">
+            <button 
+              class="menu-link expandable-header" 
+              [class.active]="isChildActive(item)"
+              (click)="toggleGroup(item.id)">
+              <div class="link-left">
+                <lucide-icon [img]="item.icon" class="menu-icon"></lucide-icon>
+                <span class="link-text" *ngIf="!collapsed">{{ item.name }}</span>
+              </div>
+              <lucide-icon 
+                *ngIf="!collapsed"
+                [img]="isGroupExpanded(item.id) ? ChevronDownIcon : ChevronRightIcon" 
+                class="chevron-icon">
+              </lucide-icon>
+            </button>
+
+            <!-- Nested Accordion Submenu Items -->
+            <ul 
+              class="submenu-list" 
+              *ngIf="!collapsed"
+              [class.expanded]="isGroupExpanded(item.id)">
+              <li *ngFor="let sub of item.subItems" class="submenu-list-item">
+                <button 
+                  class="submenu-link" 
+                  [class.active]="activeMenuId() === sub.id"
+                  (click)="onSelectSubMenu(item.id, sub.id)">
+                  <span class="submenu-dot"></span>
+                  <span class="submenu-text">{{ sub.name }}</span>
+                </button>
+              </li>
+            </ul>
+          </ng-container>
+        </ng-template>
+
+        <!-- Type C: Standard Parent Menu Link (e.g., Main Dashboard, POS, Global Settings) -->
+        <ng-template #standardLink>
+          <button 
+            class="menu-link" 
+            [class.active]="activeMenuId() === item.id"
+            (click)="onSelectMenu(item.id)">
+            <div class="link-left">
+              <lucide-icon [img]="item.icon" class="menu-icon"></lucide-icon>
+              <span class="link-text" *ngIf="!collapsed">{{ item.name }}</span>
+            </div>
+          </button>
+        </ng-template>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Bottom Connected Status Card -->
+  <div class="sidebar-footer" *ngIf="!collapsed">
+    <div class="status-card">
+      <div class="status-card-icon">ERP</div>
+      <div class="status-card-details">
+        <span class="status-title">INSTANCE: LIVE PROD</span>
+        <div class="status-connection">
+          <span class="connection-dot pulsing"></span>
+          <span class="connection-text">Connected v2.4.0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>

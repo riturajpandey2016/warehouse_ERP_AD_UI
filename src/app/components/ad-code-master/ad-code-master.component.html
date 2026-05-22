@@ -1,0 +1,81 @@
+<div class="company-master-container">
+  <!-- Page Title & Header Actions Strip -->
+  <header class="page-header">
+    <h1 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
+      <lucide-icon [img]="ShieldCheckIcon" class="w-4 h-4"></lucide-icon>
+      Authorised Dealer (AD) Code Entry
+    </h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save AD Code
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- SECTION 1 — CONFIGURATION -->
+    <div class="card-panel">
+      <app-section-header title="AD Code Configuration" [expanded]="sections().info" (toggle)="toggleSection('info')"></app-section-header>
+      @if (sections().info) {
+        <div class="panel-body">
+           <div class="form-container-flex">
+              <div class="form-row-align">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Branch <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-box">
+                    <app-erp-select 
+                      [value]="formData().branch" 
+                      (valueChange)="updateForm('branch', $event)"
+                      [options]="branchOptions">
+                    </app-erp-select>
+                 </div>
+              </div>
+              
+              <div class="form-row-align">
+                 <div class="form-label-box">
+                    <span class="form-label-text">AD Code <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-box">
+                    <app-erp-input 
+                      [value]="formData().adCode" 
+                      (valueChange)="updateForm('adCode', $event)"
+                      placeholder="e.g. 0004450-1023009">
+                    </app-erp-input>
+                 </div>
+              </div>
+              
+              <div class="form-row-align">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Description:</span>
+                 </div>
+                 <div class="form-input-box-textarea">
+                    <app-erp-textarea 
+                      [rows]="2"
+                      [value]="formData().description" 
+                      (valueChange)="updateForm('description', $event)"
+                      placeholder="e.g. SBI, KOTAK">
+                    </app-erp-textarea>
+                 </div>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2 — TABLE DATABASE -->
+    <div class="card-panel table-panel">
+       <app-section-header title="AD Code Registry" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+          <div class="panel-table-container">
+             <app-ad-code-table></app-ad-code-table>
+          </div>
+       }
+    </div>
+
+  </main>
+</div>

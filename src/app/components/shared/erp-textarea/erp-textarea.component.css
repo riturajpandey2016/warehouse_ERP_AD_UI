@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* ERP Input overrides */
+:host ::ng-deep input,
+:host ::ng-deep select,
+:host ::ng-deep textarea {
+  font-size: 14px !important;
+  min-height: 36px !important;
+  padding: 6px 12px !important;
+  box-sizing: border-box;
+}
+
+:host ::ng-deep label {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #212529 !important;
+}
+  display: block;
+  width: 100%;
+}

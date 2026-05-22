@@ -1,0 +1,216 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.company-master-container {
+  background-color: #f5f7fa;
+  min-height: unset;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  color: #212529;
+  padding-bottom: 40px;
+}
+
+.page-content {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.card-panel {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  overflow: hidden;
+}
+
+.custom-slim-header {
+  background-color: #cbd5e1;
+  border-bottom: 1px solid #b0c4de;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.custom-header-title {
+  font-size: 11px;
+  font-weight: 900;
+  color: #1c3d5a;
+  text-decoration: underline;
+  text-transform: capitalize;
+}
+
+.panel-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sub-header-row {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #c00000;
+  padding-bottom: 2px;
+}
+
+.sub-header-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #c00000;
+}
+
+.form-row-side {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 4px 0;
+}
+
+.form-label-box {
+  width: 180px;
+  text-align: right;
+  padding-right: 8px;
+}
+
+.form-label-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #212529;
+  white-space: nowrap;
+}
+
+.form-input-element {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.red-asterisk-right {
+  position: absolute;
+  right: -10px;
+  color: #dc3545;
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.custom-legacy-input {
+  height: 22px;
+  width: 100%;
+  max-width: 250px;
+  padding: 0 6px;
+  font-size: 11px;
+  border: 1px solid #b0c4de;
+  border-radius: 2px;
+  background-color: #ffffff;
+  color: #334155;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.custom-legacy-input:focus {
+  border-color: #1a3a6b;
+  outline: none;
+}
+
+.btn-legacy-save, .btn-legacy-reset {
+  height: 22px;
+  padding: 0 12px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid #102a43;
+  background-color: #334e68;
+  color: #ffffff;
+  min-width: 60px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 1px 1px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-legacy-save:hover, .btn-legacy-reset:hover {
+  background-color: #243b53;
+}
+
+.custom-file-input {
+  font-size: 11px;
+  color: #475569;
+}
+
+.custom-file-input::file-selector-button {
+  height: 22px;
+  padding: 0 12px;
+  border: 1px solid #b0c4de;
+  border-radius: 2px;
+  background-color: #f1f5f9;
+  font-size: 11px;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: all 0.15s ease;
+}
+
+.custom-file-input::file-selector-button:hover {
+  background-color: #e2e8f0;
+}
+
+/* Two-column layout for Import section */
+.import-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* Large box for preview/instructions */
+.preview-box {
+  width: 100%;
+  min-height: 200px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  padding: 16px;
+  font-size: 11px;
+  color: #64748b;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.instruction-title {
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.instruction-list {
+  padding-left: 16px;
+  margin: 0;
+}
+
+.instruction-list li {
+  margin-bottom: 4px;
+}
+
+@media (max-width: 768px) {
+  .import-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-row-side {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .form-label-box {
+    text-align: left;
+    padding-bottom: 2px;
+    width: 100%;
+  }
+}

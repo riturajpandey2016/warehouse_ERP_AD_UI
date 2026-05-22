@@ -1,0 +1,91 @@
+<div class="company-master-container">
+  <!-- Page Title -->
+  <header class="page-header">
+    <h1 class="page-title">Department Master</h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save Department
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- SECTION 1 â€” DEPARTMENT INFO -->
+    <div class="card-panel">
+      <app-section-header title="Department Information" [expanded]="sections().info" (toggle)="toggleSection('info')"></app-section-header>
+      @if (sections().info) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <app-erp-select 
+                label="Company" 
+                [required]="true" 
+                [options]="companyOptions" 
+                [value]="formData().company" 
+                (valueChange)="updateForm('company', $event)">
+              </app-erp-select>
+              <app-erp-select 
+                label="CC Center" 
+                [required]="true" 
+                [options]="ccCenterOptions" 
+                [value]="formData().ccCenter" 
+                (valueChange)="updateForm('ccCenter', $event)">
+              </app-erp-select>
+              <app-erp-input 
+                label="Dept Name" 
+                [required]="true" 
+                [value]="formData().departmentName" 
+                (valueChange)="updateForm('departmentName', $event)">
+              </app-erp-input>
+              <app-erp-input 
+                label="Date" 
+                type="date" 
+                [required]="true" 
+                [value]="formData().date" 
+                (valueChange)="updateForm('date', $event)">
+              </app-erp-input>
+              <div class="form-fullwidth">
+                 <app-erp-textarea 
+                   label="Description" 
+                   [value]="formData().description" 
+                   (valueChange)="updateForm('description', $event)">
+                 </app-erp-textarea>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2 â€” SEARCH -->
+    <div class="card-panel">
+       <app-section-header title="Search Departments" [expanded]="sections().search" (toggle)="toggleSection('search')"></app-section-header>
+       @if (sections().search) {
+         <div class="search-body">
+            <div class="search-grid">
+               <app-erp-input label="Dept Name" width="w-24"></app-erp-input>
+               <app-erp-select label="Company" width="w-24"></app-erp-select>
+               <app-erp-select label="CC Center" width="w-24"></app-erp-select>
+            </div>
+            <div class="search-action-row">
+               <button class="btn-search">
+                  <lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5"></lucide-icon> Search
+               </button>
+            </div>
+         </div>
+       }
+    </div>
+
+    <!-- SECTION 3 â€” TABLE -->
+    <div class="card-panel">
+       <app-section-header title="Department Registry List" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+         <div class="panel-table-container">
+            <app-department-table></app-department-table>
+         </div>
+       }
+    </div>
+
+  </main></div>

@@ -1,0 +1,65 @@
+﻿<div class="category-master-container">
+  <!-- Page Title / Header Strip -->
+  <header class="page-header">
+    <h1 class="page-title">
+      <lucide-icon [img]="BriefcaseIcon" class="header-icon"></lucide-icon>
+      Company Category Master
+    </h1>
+    <div class="header-actions">
+       <button (click)="handleSave()" class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save Category
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="btn-icon"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- DETAILS SECTION -->
+    <section class="card-panel">
+      <app-section-header title="Category Information" [expanded]="sections().details" (toggle)="toggleSection('details')"></app-section-header>
+      @if (sections().details) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <app-erp-input 
+                label="Company Category" 
+                [required]="true" 
+                placeholder="e.g. LOGISTICS DIVISIONS"
+                [value]="formData().companyCategory" 
+                (valueChange)="updateForm('companyCategory', $event)">
+              </app-erp-input>
+              <app-erp-input 
+                label="Entry Date" 
+                type="date" 
+                [required]="true" 
+                [value]="formData().entryDate" 
+                (valueChange)="updateForm('entryDate', $event)">
+              </app-erp-input>
+           </div>
+           <div class="form-fullwidth">
+              <app-erp-textarea 
+                label="Description" 
+                [rows]="3"
+                placeholder="Provide a brief explanation of this company type..."
+                [value]="formData().description" 
+                (valueChange)="updateForm('description', $event)">
+              </app-erp-textarea>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- TABLE SECTION -->
+    <section class="card-panel table-panel">
+       <app-section-header title="Category Registry" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+          <div class="panel-table-container">
+             <app-company-category-table></app-company-category-table>
+          </div>
+       }
+    </section>
+
+  </main>
+</div>

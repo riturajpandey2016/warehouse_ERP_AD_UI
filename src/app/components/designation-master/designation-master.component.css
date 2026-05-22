@@ -1,0 +1,276 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.company-master-container {
+  background-color: #f5f7fa;
+  min-height: unset;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  color: #212529;
+  padding-bottom: 40px;
+}
+
+/* Page Title & Sticky Header Strip Styles */
+.page-header {
+  background-color: #ffffff;
+  border-bottom: 2px solid #cbd5e1;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+  font-size: 14px;
+  font-weight: 900;
+  color: #1a3a6b; /* Deep Navy Blue */
+  text-transform: uppercase;
+  letter-spacing: 0.25px;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Header Buttons styling */
+.btn-save, .btn-reset {
+  height: 28px;
+  padding: 0 16px;
+  font-size: 10px;
+  font-weight: 850;
+  text-transform: uppercase;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-save {
+  background-color: #1a3a6b; /* Deep Navy Blue */
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 2px 4px rgba(26, 58, 107, 0.15);
+}
+
+.btn-save:hover {
+  background-color: #122a4f;
+  transform: translateY(-0.5px);
+}
+
+.btn-reset {
+  background-color: #ffffff;
+  border: 1px solid #1a3a6b;
+  color: #1a3a6b;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.btn-reset:hover {
+  background-color: #f0f4ff;
+  border-color: #152f57;
+}
+
+.btn-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Page content and card panels styling */
+.page-content {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.card-panel {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  overflow: hidden;
+}
+
+/* Form Card Header Overrides using deep nested selectors */
+.card-panel app-section-header ::ng-deep .px-3.py-1\.5 {
+  background-color: #e8edf5 !important; /* Light Blue-Grey */
+  color: #1a3a6b !important; /* Deep Navy Blue */
+  border-bottom: 1px solid #cbd5e1 !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  transition: background-color 0.2s ease;
+}
+
+.card-panel app-section-header ::ng-deep .px-3.py-1\.5:hover {
+  background-color: #dfe5f0 !important;
+}
+
+.card-panel app-section-header ::ng-deep h2 {
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.25px !important;
+}
+
+/* Company List Card Header styling override */
+.table-panel app-section-header ::ng-deep .px-3.py-1\.5 {
+  background-color: #1a3a6b !important; /* Navy background */
+  color: #ffffff !important;
+  border-bottom: none !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+}
+
+.table-panel app-section-header ::ng-deep h2 {
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.25px !important;
+}
+
+/* Card Body spacing and Form layouts */
+.panel-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 32px;
+  width: 100%;
+}
+
+.form-grid.border-top {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 16px;
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+.form-fullwidth {
+  grid-column: span 2;
+  /* max-width removed for enterprise width */
+  margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .form-fullwidth {
+    grid-column: span 1;
+  }
+}
+
+/* Toggle element row customization */
+.toggle-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  width: 160px; /* Aligns toggle box with other inputs */
+  text-align: right;
+  padding-right: 8px;
+}
+
+.toggle-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Active slider customization */
+app-erp-toggle ::ng-deep button.bg-blue-600 {
+  background-color: #1a3a6b !important; /* Deep Navy Blue */
+}
+
+/* Search Card styling overrides */
+.search-panel {
+  border-color: #dee2e6 !important;
+}
+
+.search-body {
+  padding: 16px;
+  background-color: #f8fafc;
+}
+
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 32px;
+  width: 100%;
+}
+
+@media (max-width: 992px) {
+  .search-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .search-grid {
+     grid-template-columns: 1fr;
+  }
+}
+
+.search-action-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Search Button precisely styled like Screenshot 1 */
+.btn-search {
+  height: 32px;
+  padding: 0 40px;
+  background-color: #1a2536 !important; /* Dark Slate Blue exactly matching */
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.5px !important;
+  border-radius: 4px !important;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-search:hover {
+  background-color: #111a26 !important;
+  transform: translateY(-0.5px);
+}
+
+.panel-table-container {
+  padding: 0;
+}
+/* Vertical spacing between stacked form fields inside grid columns */
+.form-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

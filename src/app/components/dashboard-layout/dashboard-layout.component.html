@@ -1,0 +1,109 @@
+<div class="dashboard-wrapper">
+  <!-- Top Control Center Header -->
+  <div class="control-header">
+    <div class="header-left">
+      <div class="title-with-icon">
+        <lucide-icon [img]="TrendingUpIcon" class="title-trend-icon"></lucide-icon>
+        <h1 class="header-title">Enterprise Control Center</h1>
+      </div>
+      <p class="header-subtitle">
+        Real-time Operational Overview <span class="bullet-divider">•</span> <span class="accent-text">ERP.BZ Instance</span>
+      </p>
+    </div>
+    
+    <div class="header-right-actions">
+      <!-- Fiscal Year selector -->
+      <div class="dropdown-wrapper">
+        <button class="action-dropdown-btn">
+          <lucide-icon [img]="CalendarIcon" class="w-4 h-4 text-blue"></lucide-icon>
+          <span>{{ selectedFy() }}</span>
+        </button>
+      </div>
+
+      <!-- Generate Report Button -->
+      <button class="primary-cta-btn" (click)="generateReport()">
+        <lucide-icon [img]="DownloadIcon" class="w-4 h-4"></lucide-icon>
+        <span>GENERATE REPORT</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Row 1: KPI Stat Cards Grid (4 Column Layout) -->
+  <div class="kpi-grid">
+    <app-stat-card 
+      title="TOTAL REVENUE" 
+      value="₹ 8.42 Cr" 
+      trendText="+12.5%" 
+      trendType="up" 
+      [icon]="TrendingUpIcon" 
+      themeColor="blue">
+    </app-stat-card>
+
+    <app-stat-card 
+      title="ACTIVE INVENTORY" 
+      value="42,850" 
+      trendText="-2.4%" 
+      trendType="down" 
+      [icon]="BoxesIcon" 
+      themeColor="green">
+    </app-stat-card>
+
+    <app-stat-card 
+      title="TOTAL BRANCHES" 
+      value="24" 
+      trendText="+2" 
+      trendType="neutral" 
+      [icon]="BuildingIcon" 
+      themeColor="purple">
+    </app-stat-card>
+
+    <app-stat-card 
+      title="PENDING APPROVALS" 
+      value="18" 
+      trendText="Critical" 
+      trendType="critical" 
+      [icon]="ShieldAlertIcon" 
+      themeColor="red">
+    </app-stat-card>
+  </div>
+
+  <!-- Row 2: Split Grid (Left Column is Analytics & Tables, Right Column is Timeline Logs) -->
+  <div class="dashboard-split-grid">
+    <!-- Left Column: Operations (Analytics Cards & Orders Table) -->
+    <div class="operations-column">
+      <!-- Sub-Grid: Analytics cards (3 Columns) -->
+      <div class="analytics-row-grid">
+        <app-analytics-card 
+          title="INVENTORY STATUS" 
+          [items]="inventoryStatusItems" 
+          reportId="inventory-reports"
+          (viewReport)="handleViewReport($event)">
+        </app-analytics-card>
+
+        <app-analytics-card 
+          title="SALES PERFORMANCE" 
+          [items]="salesPerformanceItems" 
+          reportId="sales-quotation"
+          (viewReport)="handleViewReport($event)">
+        </app-analytics-card>
+
+        <app-analytics-card 
+          title="PURCHASE ORDERS" 
+          [items]="purchaseOrdersItems" 
+          reportId="purchase-quotation"
+          (viewReport)="handleViewReport($event)">
+        </app-analytics-card>
+      </div>
+
+      <!-- Orders Table -->
+      <div class="table-row-container">
+        <app-orders-table></app-orders-table>
+      </div>
+    </div>
+
+    <!-- Right Column: System Events Logs -->
+    <div class="events-column">
+      <app-event-log-panel class="timeline-component-wrap"></app-event-log-panel>
+    </div>
+  </div>
+</div>

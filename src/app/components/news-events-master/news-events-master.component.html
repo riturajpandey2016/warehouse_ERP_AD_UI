@@ -1,0 +1,162 @@
+<div class="company-master-container">
+  <!-- Page Title & Header Actions Strip -->
+  <header class="page-header">
+    <h1 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
+      <lucide-icon [img]="MegaphoneIcon" class="w-4 h-4"></lucide-icon>
+      Company News & Events
+    </h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save Event
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- SECTION 1 — CONFIGURATION -->
+    <div class="card-panel">
+      <app-section-header title="Event Details" [expanded]="sections().info" (toggle)="toggleSection('info')"></app-section-header>
+      @if (sections().info) {
+        <div class="panel-body">
+           <div class="lut-form-grid">
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Company <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-select 
+                      [value]="formData().company" 
+                      (valueChange)="updateForm('company', $event)"
+                      [options]="companyOptions">
+                    </app-erp-select>
+                 </div>
+              </div>
+              
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Event Date <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-input 
+                      type="date"
+                      [value]="formData().eventDate" 
+                      (valueChange)="updateForm('eventDate', $event)">
+                    </app-erp-input>
+                 </div>
+              </div>
+              
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">CC Center <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-select 
+                      [value]="formData().ccCenter" 
+                      (valueChange)="updateForm('ccCenter', $event)"
+                      [options]="ccCenterOptions">
+                    </app-erp-select>
+                 </div>
+              </div>
+
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Department <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-select 
+                      [value]="formData().department" 
+                      (valueChange)="updateForm('department', $event)"
+                      [options]="departmentOptions">
+                    </app-erp-select>
+                 </div>
+              </div>
+           </div>
+           
+           <div class="form-row-full">
+              <div class="form-label-box">
+                 <span class="form-label-text">Announcement / News <span class="required-asterisk">*</span>:</span>
+              </div>
+              <div class="form-input-element-full">
+                 <app-erp-textarea 
+                   [rows]="2"
+                   [value]="formData().announcement" 
+                   (valueChange)="updateForm('announcement', $event)"
+                   placeholder="Brief overview or additional details...">
+                 </app-erp-textarea>
+              </div>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2 — FILTER REGISTRY -->
+    <div class="card-panel">
+      <app-section-header title="Filter Registry" [expanded]="sections().filter" (toggle)="toggleSection('filter')"></app-section-header>
+      @if (sections().filter) {
+        <div class="panel-body">
+           <div class="filter-registry-container">
+              <div class="filter-grid">
+                 <div class="form-row-side">
+                    <div class="form-label-box">
+                       <span class="form-label-text">Company:</span>
+                    </div>
+                    <div class="form-input-element">
+                       <app-erp-select 
+                         [value]="filterData().company" 
+                         (valueChange)="updateFilter('company', $event)"
+                         [options]="companyOptions">
+                       </app-erp-select>
+                    </div>
+                 </div>
+                 
+                 <div class="form-row-side">
+                    <div class="form-label-box">
+                       <span class="form-label-text">CC Center:</span>
+                    </div>
+                    <div class="form-input-element">
+                       <app-erp-select 
+                         [value]="filterData().ccCenter" 
+                         (valueChange)="updateFilter('ccCenter', $event)"
+                         [options]="ccCenterOptions">
+                       </app-erp-select>
+                    </div>
+                 </div>
+                 
+                 <div class="form-row-side">
+                    <div class="form-label-box">
+                       <span class="form-label-text">Date:</span>
+                    </div>
+                    <div class="form-input-element">
+                       <app-erp-input 
+                         type="date"
+                         [value]="filterData().date" 
+                         (valueChange)="updateFilter('date', $event)">
+                       </app-erp-input>
+                    </div>
+                 </div>
+              </div>
+              
+              <button class="btn-filter-trigger">
+                 <lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5"></lucide-icon> FILTER
+              </button>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 3 — TABLE DATABASE -->
+    <div class="card-panel table-panel">
+       <app-section-header title="Event Registry" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+          <div class="panel-table-container">
+             <app-news-events-table></app-news-events-table>
+          </div>
+       }
+    </div>
+
+  </main>
+</div>

@@ -1,0 +1,125 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- DETAILS SECTION -->
+    <div class="card-panel">
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Item Group Details</span>
+      </div>
+      <div class="panel-body">
+         <div class="warehouse-form-grid">
+            
+            <!-- Row 1 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Group Name :</span>
+               </div>
+               <div class="form-input-element relative-asterisk">
+                  <input 
+                    type="text"
+                    [value]="formData().groupName" 
+                    (input)="updateForm('groupName', $any($event.target).value)"
+                    class="custom-legacy-input"
+                  />
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Group Code :</span>
+               </div>
+               <div class="form-input-element relative-asterisk">
+                  <input 
+                    type="text"
+                    [value]="formData().groupCode" 
+                    (input)="updateForm('groupCode', $any($event.target).value)"
+                    class="custom-legacy-input"
+                  />
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Item Type :</span>
+               </div>
+               <div class="form-input-element relative-asterisk">
+                  <select 
+                    [value]="formData().itemType" 
+                    (change)="updateForm('itemType', $any($event.target).value)"
+                    class="custom-legacy-input"
+                  >
+                     <option value="Select Item Type">Select Item Type</option>
+                     <option value="Inventory">Inventory</option>
+                     <option value="Service">Service</option>
+                     <option value="Asset">Asset</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Entry Date :</span>
+               </div>
+               <div class="form-input-element relative-asterisk">
+                  <input 
+                    type="text"
+                    [value]="formData().entryDate" 
+                    readonly
+                    class="custom-legacy-input bg-slate-50 cursor-not-allowed"
+                  />
+                  <!-- Optional calendar icon could go here if needed -->
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Status :</span>
+               </div>
+               <div class="form-input-element radio-group">
+                  <label>
+                     <input 
+                       type="radio" 
+                       name="status" 
+                       value="Active" 
+                       [checked]="formData().status === 'Active'"
+                       (change)="updateForm('status', 'Active')"
+                     > Active
+                  </label>
+                  <label>
+                     <input 
+                       type="radio" 
+                       name="status" 
+                       value="Inactive" 
+                       [checked]="formData().status === 'Inactive'"
+                       (change)="updateForm('status', 'Inactive')"
+                     > Inactive
+                  </label>
+               </div>
+            </div>
+
+         </div>
+
+         <!-- Centered Buttons Row -->
+         <div class="form-actions-centered">
+            <button class="btn-legacy-save font-bold">Save</button>
+            <button (click)="handleReset()" class="btn-legacy-reset font-bold">Reset</button>
+         </div>
+      </div>
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="card-panel table-panel">
+       <div class="custom-slim-header table-blue-header">
+          <span class="custom-header-title">Item Group Details</span>
+       </div>
+       <div class="panel-table-container">
+          <app-group-table></app-group-table>
+       </div>
+    </div>
+
+  </main>
+</div>

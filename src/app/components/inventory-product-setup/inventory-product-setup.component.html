@@ -1,0 +1,154 @@
+<div class="setup-container">
+  <main class="page-content">
+    
+    <div class="card-panel">
+      <!-- Title Header -->
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Product Setup Settings</span>
+      </div>
+      
+      <div class="panel-body">
+         <div class="setup-form-grid">
+            
+            <!-- Row 1 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Product Code Generation :</span>
+               </div>
+               <div class="form-input-element">
+                  <select 
+                    [value]="formData().codeGeneration" 
+                    (change)="updateForm('codeGeneration', $any($event.target).value)"
+                    class="custom-legacy-input"
+                  >
+                     <option value="Automatic">Automatic</option>
+                     <option value="Manual">Manual</option>
+                  </select>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Product Code Prefix :</span>
+               </div>
+               <div class="form-input-element">
+                  <input 
+                    type="text"
+                    [value]="formData().codePrefix" 
+                    (input)="updateForm('codePrefix', $any($event.target).value)"
+                    [disabled]="formData().codeGeneration === 'Manual'"
+                    class="custom-legacy-input"
+                  />
+               </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Default Valuation Method :</span>
+               </div>
+               <div class="form-input-element">
+                  <select 
+                    [value]="formData().valuationMethod" 
+                    (change)="updateForm('valuationMethod', $any($event.target).value)"
+                    class="custom-legacy-input"
+                  >
+                     <option value="FIFO">First In First Out (FIFO)</option>
+                     <option value="LIFO">Last In First Out (LIFO)</option>
+                     <option value="Weighted Average">Weighted Average</option>
+                  </select>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Enable Batch Tracking :</span>
+               </div>
+               <div class="form-input-element radio-group">
+                  <label>
+                     <input 
+                       type="radio" 
+                       name="batchTracking" 
+                       value="Yes" 
+                       [checked]="formData().batchTracking === 'Yes'"
+                       (change)="updateForm('batchTracking', 'Yes')"
+                     > Yes
+                  </label>
+                  <label>
+                     <input 
+                       type="radio" 
+                       name="batchTracking" 
+                       value="No" 
+                       [checked]="formData().batchTracking === 'No'"
+                       (change)="updateForm('batchTracking', 'No')"
+                     > No
+                  </label>
+               </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Enable Serial Tracking :</span>
+               </div>
+               <div class="form-input-element radio-group">
+                  <label>
+                     <input 
+                       type="radio" 
+                       name="serialTracking" 
+                       value="Yes" 
+                       [checked]="formData().serialTracking === 'Yes'"
+                       (change)="updateForm('serialTracking', 'Yes')"
+                     > Yes
+                  </label>
+                  <label>
+                     <input 
+                       type="radio" 
+                       name="serialTracking" 
+                       value="No" 
+                       [checked]="formData().serialTracking === 'No'"
+                       (change)="updateForm('serialTracking', 'No')"
+                     > No
+                  </label>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Allow Duplicate Products :</span>
+               </div>
+               <div class="form-input-element radio-group">
+                  <label>
+                     <input 
+                       type="radio" 
+                       name="allowDuplicates" 
+                       value="Yes" 
+                       [checked]="formData().allowDuplicates === 'Yes'"
+                       (change)="updateForm('allowDuplicates', 'Yes')"
+                     > Yes
+                  </label>
+                  <label>
+                     <input 
+                       type="radio" 
+                       name="allowDuplicates" 
+                       value="No" 
+                       [checked]="formData().allowDuplicates === 'No'"
+                       (change)="updateForm('allowDuplicates', 'No')"
+                     > No
+                  </label>
+               </div>
+            </div>
+
+         </div>
+
+         <!-- Bottom Actions -->
+         <div class="form-actions-centered">
+            <button class="btn-legacy-save">Save Settings</button>
+            <button (click)="handleReset()" class="btn-legacy-reset">Reset</button>
+         </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>

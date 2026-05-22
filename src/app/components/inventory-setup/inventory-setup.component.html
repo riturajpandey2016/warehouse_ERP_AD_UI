@@ -1,0 +1,89 @@
+<div class="setup-container">
+  <main class="page-content">
+    
+    <div class="card-panel">
+      <!-- Title Header -->
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Bin Management</span>
+      </div>
+      
+      <div class="panel-body">
+         <!-- Row 1: Base Level -->
+         <div class="form-row-side">
+            <div class="form-label-box">
+               <span class="form-label-text">Base Level :</span>
+            </div>
+            <div class="form-input-element">
+               <input 
+                 type="text"
+                 [value]="baseLevel()" 
+                 (input)="updateBaseLevel($any($event.target).value)"
+                 class="custom-legacy-input"
+               />
+            </div>
+         </div>
+
+         <!-- Row 2: Number of Levels -->
+         <div class="form-row-side">
+            <div class="form-label-box">
+               <span class="form-label-text">Number of Levels :</span>
+            </div>
+            <div class="form-input-element">
+               <input 
+                 type="number"
+                 [value]="numLevels()" 
+                 (input)="updateNumLevels($any($event.target).value)"
+                 class="custom-legacy-input"
+                 min="1"
+                 max="10"
+               />
+            </div>
+         </div>
+
+         <!-- Table Row: Level and Level Name -->
+         <div class="levels-table-container">
+            <div class="form-label-box mt-2">
+               <span class="form-label-text">Level :</span>
+            </div>
+            <div class="levels-table-wrapper">
+               <table class="levels-table">
+                 <thead>
+                   <tr class="table-header-row">
+                     <th class="w-16">Level</th>
+                     <th>Level Name</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   @for (level of levels(); track level.id; let idx = $index) {
+                     <tr>
+                       <td>{{ idx + 1 }}</td>
+                       <td>
+                         <input 
+                           type="text" 
+                           [value]="level.name"
+                           (input)="updateLevelName(idx, $any($event.target).value)"
+                           class="custom-legacy-input level-input"
+                         />
+                       </td>
+                     </tr>
+                   } @empty {
+                     <tr>
+                       <td colspan="2" class="text-center py-2 text-slate-500 text-[11px]">No levels defined.</td>
+                     </tr>
+                   }
+                 </tbody>
+               </table>
+            </div>
+         </div>
+
+         <!-- Bottom Actions -->
+         <div class="form-actions-right">
+            <button class="btn-legacy-save">Update</button>
+            <button (click)="handleReset()" class="btn-legacy-reset">Reset</button>
+         </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>

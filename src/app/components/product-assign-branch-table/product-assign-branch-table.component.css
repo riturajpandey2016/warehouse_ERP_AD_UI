@@ -1,0 +1,154 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.table-card {
+  background-color: #ffffff;
+  border-top: 1px solid #dee2e6;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+.table-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table-header-row {
+  background-color: #7a9cc5;
+  color: #ffffff;
+}
+
+.data-table th {
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  border-bottom: 1px solid #dee2e6;
+  border-right: 1px solid #5d81aa;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.data-table th:last-child {
+  border-right: none;
+}
+
+.table-body-row {
+  border-bottom: 1px solid #dee2e6;
+  transition: background-color 0.1s;
+}
+
+.table-body-row:hover {
+  background-color: #f0f4ff;
+}
+
+.data-table td {
+  padding: 8px 10px;
+  font-size: 11px;
+  border-right: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.data-table td:last-child {
+  border-right: none;
+}
+
+.cell-actions {
+  text-align: center;
+}
+
+.action-buttons-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.action-btn {
+  width: 22px;
+  height: 22px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #6c757d;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  padding: 0;
+}
+
+.action-btn:hover {
+  background-color: #f0f4ff;
+  border-color: #1a3a6b;
+}
+
+.btn-delete:hover {
+  background-color: #fff5f5;
+  border-color: #fa5252;
+}
+
+.red-cross {
+  font-size: 10px;
+  line-height: 1;
+}
+
+.table-pagination {
+  padding: 8px 12px;
+  background-color: #f8fafc;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.pagination-info {
+  color: #6c757d;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.pagination-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.btn-page {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid #dee2e6;
+  background-color: #ffffff;
+  color: #1a3a6b;
+}
+
+.btn-page:hover:not(.btn-page-disabled):not(.btn-page-active) {
+  background-color: #f0f4ff;
+  border-color: #1a3a6b;
+}
+
+.btn-page-active {
+  background-color: #1a3a6b;
+  color: #ffffff;
+  border-color: #1a3a6b;
+}
+
+.btn-page-disabled {
+  color: #ced4da;
+  border-color: #dee2e6;
+  background-color: #ffffff;
+  opacity: 0.6;
+  cursor: not-allowed;
+}

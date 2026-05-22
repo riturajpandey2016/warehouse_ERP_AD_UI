@@ -1,0 +1,85 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- DETAILS SECTION -->
+    <div class="card-panel">
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Warehouse Master</span>
+      </div>
+      <div class="panel-body">
+         <div class="warehouse-form-grid">
+            
+            <!-- Row 1: Branch/Location & WareHouse Name -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Branch/Location :</span>
+               </div>
+               <div class="form-input-element relative-asterisk">
+                  <select 
+                    [value]="formData().branchLocation" 
+                    (change)="updateForm('branchLocation', $any($event.target).value)"
+                    class="custom-legacy-input"
+                  >
+                     <option value="Select CC Center">Select CC Center</option>
+                     <option value="Head Office">Head Office</option>
+                     <option value="Kolkata Branch">Kolkata Branch</option>
+                  </select>
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">WareHouse Name :</span>
+               </div>
+               <div class="form-input-element relative-asterisk">
+                  <input 
+                    type="text"
+                    [value]="formData().warehouseName" 
+                    (input)="updateForm('warehouseName', $any($event.target).value)"
+                    placeholder="WareHouse Name"
+                    class="custom-legacy-input"
+                  />
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+            <!-- Row 2: Warehouse Code -->
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Warehouse Code :</span>
+               </div>
+               <div class="form-input-element relative-asterisk">
+                  <input 
+                    type="text"
+                    [value]="formData().warehouseCode" 
+                    (input)="updateForm('warehouseCode', $any($event.target).value)"
+                    placeholder="Warehouse Code"
+                    class="custom-legacy-input"
+                  />
+                  <span class="red-asterisk-right">*</span>
+               </div>
+            </div>
+
+         </div>
+
+         <!-- Centered Buttons Row -->
+         <div class="form-actions-centered">
+            <button class="btn-legacy-save font-bold">Save</button>
+            <button (click)="handleReset()" class="btn-legacy-reset font-bold">Reset</button>
+         </div>
+      </div>
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="card-panel table-panel">
+       <div class="custom-slim-header table-blue-header">
+          <span class="custom-header-title">WareHouse Details</span>
+       </div>
+       <div class="panel-table-container">
+          <app-warehouse-table></app-warehouse-table>
+       </div>
+    </div>
+
+  </main>
+</div>

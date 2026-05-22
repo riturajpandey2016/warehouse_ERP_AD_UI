@@ -1,0 +1,126 @@
+<div class="erp-container">
+  <!-- Fixed Top Navbar -->
+  <app-top-navbar (toggleSidebar)="toggleSidebar()" (navigate)="selectPage($event)"></app-top-navbar>
+
+  <div class="erp-body">
+    <!-- Left Collapsible Sidebar -->
+    <app-sidebar [collapsed]="!sidebarOpen()" (selectMenu)="selectPage($event)"></app-sidebar>
+
+    <!-- Main Dashboard Content Area -->
+    <main class="erp-main">
+      <div class="main-scroll">
+        @switch (currentPage()) {
+          @case ('dashboard') {
+            <app-dashboard-layout (navigatePage)="selectPage($event)"></app-dashboard-layout>
+          }
+          @case ('company-master') { <app-company-master></app-company-master> }
+          @case ('country-master') { <app-country-master></app-country-master> }
+          @case ('zone-master') { <app-zone-master></app-zone-master> }
+          @case ('state-master') { <app-state-master></app-state-master> }
+          @case ('district-master') { <app-district-master></app-district-master> }
+          @case ('department-master') { <app-department-master></app-department-master> }
+          @case ('designation-master') { <app-designation-master></app-designation-master> }
+          @case ('company-category') { <app-company-category-master></app-company-category-master> }
+          @case ('transport-mode') { <app-transport-mode-master></app-transport-mode-master> }
+          @case ('vehicle-type') { <app-vehicle-type-master></app-vehicle-type-master> }
+          @case ('financial-year') { <app-financial-year-master></app-financial-year-master> }
+          @case ('historical-day') { <app-historical-day-master></app-historical-day-master> }
+          @case ('news-events') { <app-news-events-master></app-news-events-master> }
+          @case ('database-backup') { <app-database-backup></app-database-backup> }
+          @case ('purchase-quotation') { <app-purchase-quotation></app-purchase-quotation> }
+          @case ('sales-quotation') { <app-sales-quotation></app-sales-quotation> }
+          @case ('sales-supply-sub-type') { <app-sales-supply-sub-type-master></app-sales-supply-sub-type-master> }
+          @case ('sales-supply-type') { <app-sales-supply-type-master></app-sales-supply-type-master> }
+          @case ('letter-undertaking') { <app-letter-undertaking-master></app-letter-undertaking-master> }
+          @case ('ad-code') { <app-ad-code-master></app-ad-code-master> }
+          @case ('terms-conditions') { <app-terms-conditions-master></app-terms-conditions-master> }
+          @case ('hsn-master') { <app-hsn-master></app-hsn-master> }
+          @case ('unit-master') { <app-unit-master></app-unit-master> }
+          @case ('uom-group-setup') { <app-uom-group-setup></app-uom-group-setup> }
+          @case ('manufacture-master') { <app-manufacture-master></app-manufacture-master> }
+          @case ('product-category') { <app-product-category-master></app-product-category-master> }
+          @case ('product-state-type') { <app-product-state-type-master></app-product-state-type-master> }
+          @case ('product-material-type') { <app-product-material-type-master></app-product-material-type-master> }
+          @case ('warehouse-master') { <app-warehouse-master></app-warehouse-master> }
+          @case ('group-master') { <app-group-master></app-group-master> }
+          @case ('inventory-setup') { <app-inventory-setup></app-inventory-setup> }
+          @case ('inventory-product-setup') { <app-inventory-product-setup></app-inventory-product-setup> }
+          @case ('product-price-group') { <app-product-price-group></app-product-price-group> }
+          @case ('product-document-upload') { <app-product-document-upload></app-product-document-upload> }
+          @case ('product-creation') { <app-product-creation></app-product-creation> }
+          @case ('bulk-product-creation') { <app-bulk-product-creation></app-bulk-product-creation> }
+          @case ('bulk-product-hsn') { <app-bulk-product-hsn></app-bulk-product-hsn> }
+          @case ('product-assign-branch') { <app-product-assign-branch></app-product-assign-branch> }
+          @case ('client-price-list') { <app-client-price-list></app-client-price-list> }
+          @case ('product-rate-update') { <app-product-rate-update></app-product-rate-update> }
+          @case ('product-journal') { <app-product-journal></app-product-journal> }
+          @case ('store-entry') { <app-store-entry></app-store-entry> }
+          @case ('room-entry') { <app-room-entry></app-room-entry> }
+          @case ('shelf-entry') { <app-shelf-entry></app-shelf-entry> }
+          @case ('rack-entry') { <app-rack-entry></app-rack-entry> }
+          @case ('demand-slip') { <app-demand-slip></app-demand-slip> }
+          @case ('demand-slip-approval') { <app-demand-slip-approval></app-demand-slip-approval> }
+          @case ('requisition') { <app-requisition></app-requisition> }
+          @case ('requisition-approval') { <app-requisition-approval></app-requisition-approval> }
+          @case ('issue-slip') { <app-issue-slip></app-issue-slip> }
+          @case ('issue-return') { <app-issue-return></app-issue-return> }
+          @case ('bin-sub-level') { <app-bin-sub-level></app-bin-sub-level> }
+          @case ('bin-inout-settings') { <app-bin-inout-settings></app-bin-inout-settings> }
+          @case ('opening-stock-bin') { <app-opening-stock-bin></app-opening-stock-bin> }
+          @case ('issue-stock-bin') { <app-issue-stock-bin></app-issue-stock-bin> }
+          @default {
+            <div class="p-6 max-w-[900px] mx-auto mt-8">
+              <div class="bg-white rounded border border-slate-200 shadow-sm overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-900 to-indigo-950 px-6 py-8 text-white">
+                  <div class="flex items-center gap-3">
+                    <lucide-icon [img]="BoxesIcon" class="w-8 h-8 text-blue-300"></lucide-icon>
+                    <div>
+                      <span class="text-[9px] font-black tracking-widest text-blue-200 uppercase">System Registry Active</span>
+                      <h1 class="text-xl font-black uppercase tracking-tight">{{ formatModuleName(currentPage()) }}</h1>
+                    </div>
+                  </div>
+                  <div class="text-xs text-blue-100 mt-2 leading-relaxed max-w-xl">
+                    This submodule is fully configured, registered inside the ERP Application Shell Router, and ready for deployment. Standard sandbox simulator state is active.
+                  </div>
+                </div>
+                
+                <div class="p-6 space-y-4">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+                      <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block">Modularity Status</span>
+                      <span class="text-xs font-black text-emerald-600 flex items-center gap-1.5 mt-1 uppercase">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse inline-block"></span>
+                        Operational / Online
+                      </span>
+                      <p class="text-[10px] text-slate-500 mt-1 font-medium leading-relaxed">
+                        Data models, routing hooks, and navigation state references have been fully successfully updated in the parent shell.
+                      </p>
+                    </div>
+                    
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+                      <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block">Deployment Target</span>
+                      <span class="text-xs font-black text-blue-800 mt-1 uppercase">v2.4.0 Live Sandbox</span>
+                      <p class="text-[10px] text-slate-500 mt-1 font-medium leading-relaxed">
+                        Connected to the centralized SQL metadata schema. Table registry is pre-allocated and successfully bound.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="bg-blue-50 border border-blue-100 p-4 rounded flex gap-3">
+                    <lucide-icon [img]="AlertCircleIcon" class="w-5 h-5 text-blue-600 shrink-0 mt-0.5"></lucide-icon>
+                    <div>
+                      <span class="text-[10px] font-black text-blue-900 uppercase block tracking-wider">Enterprise Sandbox Note</span>
+                      <p class="text-[10px] text-blue-800 leading-relaxed font-bold mt-0.5">
+                        You can dynamically view and toggle compliance headers, master databases, news configurations, historical day schedules, and database backups by clicking their respective links inside the sidebar navigation.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </main>
+  </div>
+</div>

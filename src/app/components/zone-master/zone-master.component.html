@@ -1,0 +1,85 @@
+<div class="zone-master-container">
+  <!-- Page Title -->
+  <header class="page-header">
+    <h1 class="page-title">Zone Master</h1>
+    <div class="header-actions">
+   <button (click)="handleSave()" class="btn-save">
+      <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save Zone
+   </button>
+   <button (click)="handleReset()" class="btn-reset">
+      <lucide-icon [img]="RotateCcwIcon" class="btn-icon"></lucide-icon> Reset
+   </button>
+</div>
+  </header>
+  <main class="page-content">
+    
+    <!-- SECTION 1 â€” ZONE ENTRY -->
+    <div class="card-panel">
+      <app-section-header title="Zone Configuration Details" [expanded]="sections().zoneEntry" (toggle)="toggleSection('zoneEntry')"></app-section-header>
+      @if (sections().zoneEntry) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <div>
+                 <app-erp-select label="Country" [required]="true" [options]="countryOptions" [value]="formData().country" (valueChange)="updateForm('country', $event)"></app-erp-select>
+                 <app-erp-input label="Zone Name" [required]="true" [value]="formData().zoneName" (valueChange)="updateForm('zoneName', $event)"></app-erp-input>
+                 <app-erp-input label="Zone Code" [required]="true" [value]="formData().zoneCode" (valueChange)="updateForm('zoneCode', $event)"></app-erp-input>
+                 <app-erp-input label="Zone Short Name" [value]="formData().zoneShortName" (valueChange)="updateForm('zoneShortName', $event)"></app-erp-input>
+              </div>
+              <div>
+                 <app-erp-select label="Region Type" [required]="true" [options]="regionTypeOptions" [value]="formData().regionType" (valueChange)="updateForm('regionType', $event)"></app-erp-select>
+                 <app-erp-select label="Parent Mapping" [options]="parentRegionOptions" [value]="formData().parentRegionMapping" (valueChange)="updateForm('parentRegionMapping', $event)"></app-erp-select>
+                 <app-erp-select label="Operational Area" [options]="operationalAreaOptions" [value]="formData().operationalArea" (valueChange)="updateForm('operationalArea', $event)"></app-erp-select>
+              </div>
+           </div>
+           <div class="form-fullwidth">
+              <app-erp-textarea label="Description" [value]="formData().description" (valueChange)="updateForm('description', $event)"></app-erp-textarea>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2 â€” CONFIGURATION -->
+    <div class="card-panel">
+       <app-section-header title="Settings & Parameters" [expanded]="sections().configuration" (toggle)="toggleSection('configuration')"></app-section-header>
+       @if (sections().configuration) {
+         <div class="panel-body">
+            <div class="form-grid">
+               <app-erp-toggle label="Active Status" [checked]="formData().isActive" (checkedChange)="updateForm('isActive', $event)"></app-erp-toggle>
+               <app-erp-toggle label="Set as Default" [checked]="formData().isDefault" (checkedChange)="updateForm('isDefault', $event)"></app-erp-toggle>
+               <app-erp-toggle label="Tax Mapping" [checked]="formData().taxRegionMapping" (checkedChange)="updateForm('taxRegionMapping', $event)"></app-erp-toggle>
+               <app-erp-toggle label="Delivery Zone" [checked]="formData().deliveryZoneMapping" (checkedChange)="updateForm('deliveryZoneMapping', $event)"></app-erp-toggle>
+            </div>
+         </div>
+       }
+    </div>
+
+    <!-- SECTION 3 â€” SEARCH -->
+    <div class="card-panel">
+       <app-section-header title="Search Zones" [expanded]="sections().search" (toggle)="toggleSection('search')"></app-section-header>
+       @if (sections().search) {
+         <div class="search-body">
+            <div class="search-grid">
+               <app-erp-input label="Zone Name" width="w-24"></app-erp-input>
+               <app-erp-input label="Zone Code" width="w-24"></app-erp-input>
+               <app-erp-select label="Country" width="w-24" [options]="countryOptions"></app-erp-select>
+            </div>
+            <div class="search-action-row">
+               <button class="btn-search">
+                  <lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5"></lucide-icon> Search
+               </button>
+            </div>
+         </div>
+       }
+    </div>
+
+    <!-- SECTION 4 â€” TABLE -->
+    <div class="card-panel">
+       <app-section-header title="Zone Registry List" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+         <div class="panel-table-container">
+            <app-zone-table></app-zone-table>
+         </div>
+       }
+    </div>
+
+  </main></div>

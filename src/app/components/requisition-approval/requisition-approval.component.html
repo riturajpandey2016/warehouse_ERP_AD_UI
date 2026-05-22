@@ -1,0 +1,372 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- REQUISITION APPROVAL HEADER -->
+    <div class="card-panel">
+       <div class="custom-slim-header" (click)="togglePendingPanel()">
+          <span class="custom-header-title">Requisition Approval</span>
+          <lucide-icon [img]="showPendingPanel() ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 toggle-arrow"></lucide-icon>
+       </div>
+       
+       @if (showPendingPanel()) {
+          <div class="panel-body">
+             <div class="searching-criteria-grid">
+                
+                <!-- ROW 1 -->
+                <div class="criteria-row-triple">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Date From :</span>
+                      </div>
+                      <div class="filter-input-element relative-wrapper">
+                         <input type="date" [ngModel]="pendingDateFrom()" (ngModelChange)="pendingDateFrom.set($event)" class="custom-legacy-input" />
+                         <lucide-icon [img]="CalendarIcon" class="w-3.5 h-3.5 input-calendar-icon"></lucide-icon>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Date To :</span>
+                      </div>
+                      <div class="filter-input-element relative-wrapper">
+                         <input type="date" [ngModel]="pendingDateTo()" (ngModelChange)="pendingDateTo.set($event)" class="custom-legacy-input" />
+                         <lucide-icon [img]="CalendarIcon" class="w-3.5 h-3.5 input-calendar-icon"></lucide-icon>
+                      </div>
+                   </div>
+                </div>
+
+                <!-- ROW 2 -->
+                <div class="criteria-row-triple mt-3">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Branch :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="pendingBranch()" (ngModelChange)="pendingBranch.set($event)" class="custom-legacy-input select-wide">
+                            <option value="Head Office">Head Office</option>
+                            <option value="Main Warehouse">Main Warehouse</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Project Name :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="pendingProjectName()" (ngModelChange)="pendingProjectName.set($event)" class="custom-legacy-input select-wide">
+                            <option value="">Select Project Name</option>
+                            <option value="Building Block A">Building Block A</option>
+                         </select>
+                      </div>
+                   </div>
+                </div>
+
+                <!-- ROW 3 -->
+                <div class="criteria-row-triple mt-3">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Entry By :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="pendingEmployee()" (ngModelChange)="pendingEmployee.set($event)" class="custom-legacy-input select-wide">
+                            <option value="">Select Employee</option>
+                            <option value="Amit Sharma">Amit Sharma</option>
+                            <option value="Rahul Varma">Rahul Varma</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Reference No :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <input type="text" [ngModel]="pendingRefNo()" (ngModelChange)="pendingRefNo.set($event)" class="custom-legacy-input" />
+                      </div>
+                   </div>
+                </div>
+
+                <div class="centered-btn-row mt-4">
+                   <button (click)="searchPending()" class="btn-legacy-action">Search</button>
+                </div>
+
+             </div>
+          </div>
+       }
+    </div>
+
+    <!-- PENDING REQUISITION DETAILS TABLE CARD -->
+    <div class="card-panel">
+       <div class="table-title-bar-red">
+          <span class="criteria-red-title font-bold text-xs">Requisition Details</span>
+       </div>
+       
+       <div class="panel-body p-0">
+          <div class="data-table-container">
+             <table class="data-table">
+                <thead>
+                   <tr class="table-header-row">
+                      <th class="w-16 text-center">Serial Number</th>
+                      <th>Requisition Ref No</th>
+                      <th>Requisition Date</th>
+                      <th>Branch</th>
+                      <th>Entry By</th>
+                      <th class="w-36 text-center">Action</th>
+                   </tr>
+                   <tr class="table-search-row">
+                      <th></th>
+                      <th>
+                         <div class="search-cell-filter">
+                            <input type="text" [ngModel]="filterPendingRef()" (ngModelChange)="filterPendingRef.set($event); onPendingFilterChange()" class="header-search-input" />
+                            <lucide-icon [img]="FilterIcon" class="w-3 h-3 text-slate-400"></lucide-icon>
+                         </div>
+                      </th>
+                      <th></th>
+                      <th>
+                         <div class="search-cell-filter">
+                            <input type="text" [ngModel]="filterPendingBranch()" (ngModelChange)="filterPendingBranch.set($event); onPendingFilterChange()" class="header-search-input" />
+                            <lucide-icon [img]="FilterIcon" class="w-3 h-3 text-slate-400"></lucide-icon>
+                         </div>
+                      </th>
+                      <th>
+                         <div class="search-cell-filter">
+                            <input type="text" [ngModel]="filterPendingEmployee()" (ngModelChange)="filterPendingEmployee.set($event); onPendingFilterChange()" class="header-search-input" />
+                            <lucide-icon [img]="FilterIcon" class="w-3 h-3 text-slate-400"></lucide-icon>
+                         </div>
+                      </th>
+                      <th></th>
+                   </tr>
+                </thead>
+                <tbody>
+                   @for (item of filteredPendingReqs(); track item.id; let idx = $index) {
+                      <tr class="table-body-row">
+                         <td class="sno-cell">{{ idx + 1 }}</td>
+                         <td><span class="cell-text font-bold text-blue-900">{{ item.refNo }}</span></td>
+                         <td><span class="cell-text">{{ item.date }}</span></td>
+                         <td><span class="cell-text uppercase">{{ item.branch }}</span></td>
+                         <td><span class="cell-text font-semibold text-slate-700">{{ item.entryBy }}</span></td>
+                         <td>
+                            <div class="action-buttons-group justify-center">
+                               <button class="action-icon-btn btn-green-circle" (click)="approveReq(item.id)" title="Approve Requisition">
+                                  <lucide-icon [img]="ThumbsUpIcon" class="w-3.5 h-3.5"></lucide-icon>
+                               </button>
+                               <button class="action-icon-btn btn-delete-row" (click)="rejectReq(item.id)" title="Reject Requisition">
+                                  <lucide-icon [img]="ThumbsDownIcon" class="w-3.5 h-3.5"></lucide-icon>
+                               </button>
+                            </div>
+                         </td>
+                      </tr>
+                   } @empty {
+                      <tr>
+                         <td colspan="6" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">
+                            No pending requisitions found.
+                         </td>
+                      </tr>
+                   }
+                </tbody>
+             </table>
+          </div>
+
+          <!-- Pagination Footer -->
+          <div class="table-pagination-bar">
+             <div class="pagination-buttons">
+                <button class="btn-pager-control" title="First Page">
+                   <lucide-icon [img]="ChevronsLeftIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button class="btn-pager-control" title="Previous Page">
+                   <lucide-icon [img]="ChevronLeftIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <span class="page-number-box">1</span>
+                <button class="btn-pager-control" title="Next Page">
+                   <lucide-icon [img]="ChevronRightIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button class="btn-pager-control" title="Last Page">
+                   <lucide-icon [img]="ChevronsRightIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+             </div>
+
+             <div class="pager-size-control">
+                <span class="pager-label">Page size:</span>
+                <select class="pager-select">
+                   <option value="10">10</option>
+                   <option value="25">25</option>
+                </select>
+             </div>
+
+             <div class="pager-count-status">
+                <span>{{ filteredPendingReqs().length }} items in 1 pages</span>
+             </div>
+          </div>
+
+       </div>
+    </div>
+
+    <!-- APPROVED / REJECTED REQUISITION DETAILS CARD -->
+    <div class="card-panel">
+       <div class="custom-slim-header" (click)="toggleResolvedPanel()">
+          <span class="criteria-red-title font-bold text-xs">Approved / Rejected Requisition Details</span>
+          <lucide-icon [img]="showResolvedPanel() ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 toggle-arrow"></lucide-icon>
+       </div>
+       
+       @if (showResolvedPanel()) {
+          <div class="panel-body">
+             <div class="searching-criteria-grid">
+                
+                <!-- ROW 1 -->
+                <div class="criteria-row-triple">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Date From :</span>
+                      </div>
+                      <div class="filter-input-element relative-wrapper">
+                         <input type="date" [ngModel]="resolvedDateFrom()" (ngModelChange)="resolvedDateFrom.set($event)" class="custom-legacy-input" />
+                         <lucide-icon [img]="CalendarIcon" class="w-3.5 h-3.5 input-calendar-icon"></lucide-icon>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Date To :</span>
+                      </div>
+                      <div class="filter-input-element relative-wrapper">
+                         <input type="date" [ngModel]="resolvedDateTo()" (ngModelChange)="resolvedDateTo.set($event)" class="custom-legacy-input" />
+                         <lucide-icon [img]="CalendarIcon" class="w-3.5 h-3.5 input-calendar-icon"></lucide-icon>
+                      </div>
+                   </div>
+                </div>
+
+                <!-- ROW 2 -->
+                <div class="criteria-row-triple mt-3">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Branch :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="resolvedBranch()" (ngModelChange)="resolvedBranch.set($event)" class="custom-legacy-input select-wide">
+                            <option value="Head Office">Head Office</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Project Name :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="resolvedProjectName()" (ngModelChange)="resolvedProjectName.set($event)" class="custom-legacy-input select-wide">
+                            <option value="">Select Project Name</option>
+                            <option value="Building Block A">Building Block A</option>
+                         </select>
+                      </div>
+                   </div>
+                </div>
+
+                <!-- ROW 3 -->
+                <div class="criteria-row-triple mt-3">
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Entry By :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <select [ngModel]="resolvedEmployee()" (ngModelChange)="resolvedEmployee.set($event)" class="custom-legacy-input select-wide">
+                            <option value="">Select Employee</option>
+                            <option value="Amit Sharma">Amit Sharma</option>
+                         </select>
+                      </div>
+                   </div>
+
+                   <div class="filter-input-group">
+                      <div class="filter-label-box">
+                         <span class="filter-label-text">Reference No :</span>
+                      </div>
+                      <div class="filter-input-element">
+                         <input type="text" [ngModel]="resolvedRefNo()" (ngModelChange)="resolvedRefNo.set($event)" class="custom-legacy-input" />
+                      </div>
+                   </div>
+                </div>
+
+                <div class="centered-btn-row mt-4">
+                   <button (click)="searchResolved()" class="btn-legacy-action">Search</button>
+                </div>
+
+             </div>
+          </div>
+       }
+    </div>
+
+    <!-- RESOLVED REQUISITIONS LIST TABLE CARD -->
+    <div class="card-panel">
+       <div class="panel-body p-0">
+          <div class="data-table-container">
+             <table class="data-table">
+                <thead>
+                   <tr class="table-header-row">
+                      <th class="w-16 text-center">Serial Number</th>
+                      <th>Requisition Ref No</th>
+                      <th>Requisition Date</th>
+                      <th>Branch</th>
+                      <th>Entry By</th>
+                      <th>Approved/Rejected By</th>
+                      <th>Approved/Rejected Date</th>
+                      <th class="w-24 text-center">Action</th>
+                   </tr>
+                   <tr class="table-search-row">
+                      <th></th>
+                      <th>
+                         <div class="search-cell-filter">
+                            <input type="text" [ngModel]="filterResolvedRef()" (ngModelChange)="filterResolvedRef.set($event); onResolvedFilterChange()" class="header-search-input" />
+                            <lucide-icon [img]="FilterIcon" class="w-3 h-3 text-slate-400"></lucide-icon>
+                         </div>
+                      </th>
+                      <th></th>
+                      <th>
+                         <div class="search-cell-filter">
+                            <input type="text" [ngModel]="filterResolvedBranch()" (ngModelChange)="filterResolvedBranch.set($event); onResolvedFilterChange()" class="header-search-input" />
+                            <lucide-icon [img]="FilterIcon" class="w-3 h-3 text-slate-400"></lucide-icon>
+                         </div>
+                      </th>
+                      <th>
+                         <div class="search-cell-filter">
+                            <input type="text" [ngModel]="filterResolvedEmployee()" (ngModelChange)="filterResolvedEmployee.set($event); onResolvedFilterChange()" class="header-search-input" />
+                            <lucide-icon [img]="FilterIcon" class="w-3 h-3 text-slate-400"></lucide-icon>
+                         </div>
+                      </th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                   </tr>
+                </thead>
+                <tbody>
+                   @for (req of filteredResolvedReqs(); track req.id; let idx = $index) {
+                      <tr class="table-body-row">
+                         <td class="sno-cell">{{ idx + 1 }}</td>
+                         <td><span class="cell-text font-bold text-blue-900">{{ req.refNo }}</span></td>
+                         <td><span class="cell-text">{{ req.date }}</span></td>
+                         <td><span class="cell-text uppercase">{{ req.branch }}</span></td>
+                         <td><span class="cell-text font-semibold text-slate-600">{{ req.entryBy }}</span></td>
+                         <td><span class="cell-text font-semibold text-slate-800">{{ req.resolvedBy }}</span></td>
+                         <td><span class="cell-text font-bold text-indigo-950">{{ req.resolvedDate }}</span></td>
+                         <td>
+                            @if (req.status === 'APPROVED') {
+                               <span class="badge-status bg-emerald-100 text-emerald-800 border-emerald-200">Approved</span>
+                            } @else {
+                               <span class="badge-status bg-red-100 text-red-800 border-red-200">Rejected</span>
+                            }
+                         </td>
+                      </tr>
+                   } @empty {
+                      <tr>
+                         <td colspan="8" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">
+                            No resolved requisitions found matching search criteria.
+                         </td>
+                      </tr>
+                   }
+                </tbody>
+             </table>
+          </div>
+       </div>
+    </div>
+
+  </main>
+</div>

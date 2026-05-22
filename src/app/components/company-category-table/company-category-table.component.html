@@ -1,0 +1,97 @@
+﻿<div class="table-card">
+  <!-- Table Toolbar -->
+  <div class="table-toolbar">
+    <div class="toolbar-left">
+       <div class="search-box">
+          <lucide-icon [img]="SearchIcon" class="search-icon"></lucide-icon>
+          <input 
+            type="text" 
+            placeholder="Search category..." 
+            class="search-input"
+          />
+       </div>
+       <button class="btn-toolbar btn-filter">
+          <lucide-icon [img]="FilterIcon" class="toolbar-icon"></lucide-icon> Filter
+       </button>
+    </div>
+    <div class="toolbar-right">
+       <button class="btn-toolbar btn-add">
+          <lucide-icon [img]="PlusIcon" class="toolbar-icon"></lucide-icon> Add New
+       </button>
+       <button class="btn-toolbar btn-export">
+          <lucide-icon [img]="DownloadIcon" class="toolbar-icon"></lucide-icon> Export
+       </button>
+    </div>
+  </div>
+
+  <!-- Table Content -->
+  <div class="table-scroll-container">
+    <table class="data-table">
+      <thead>
+        <tr class="table-header-row">
+          <th class="col-checkbox">
+            <input type="checkbox" class="checkbox-input" />
+          </th>
+          <th class="col-text">Category Type</th>
+          <th class="col-text">Description</th>
+          <th class="col-text">Created On</th>
+          <th class="col-status">Status</th>
+          <th class="col-actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+        @for (item of data(); track item.id; let idx = $index) {
+          <tr class="table-body-row">
+            <td class="cell-checkbox">
+              <input type="checkbox" class="checkbox-input" />
+            </td>
+            <td class="cell-category-link">{{ item.companyType }}</td>
+            <td class="cell-description">{{ item.description }}</td>
+            <td class="cell-date">{{ item.creationDate }}</td>
+            <td class="cell-status">
+              <span 
+                class="status-pill"
+                [class.active]="item.isActive"
+                [class.inactive]="!item.isActive"
+              >
+                {{ item.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td class="cell-actions">
+              <div class="action-buttons-group">
+                <button class="action-btn" title="Edit">
+                  <lucide-icon [img]="EditIcon" class="btn-action-icon"></lucide-icon>
+                </button>
+                <button class="action-btn" title="Copy">
+                  <lucide-icon [img]="CopyIcon" class="btn-action-icon"></lucide-icon>
+                </button>
+                <button class="action-btn" title="History">
+                  <lucide-icon [img]="HistoryIcon" class="btn-action-icon"></lucide-icon>
+                </button>
+                <button class="action-btn btn-delete" title="Delete">
+                  <lucide-icon [img]="Trash2Icon" class="btn-action-icon"></lucide-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr class="table-empty-row">
+            <td colspan="6" class="cell-empty">No category master records found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="table-pagination">
+    <div class="pagination-info">
+       Showing 1 to {{ data().length }} of {{ data().length }} entries
+    </div>
+    <div class="pagination-buttons">
+       <button class="btn-page btn-page-disabled">Prev</button>
+       <button class="btn-page btn-page-active">1</button>
+       <button class="btn-page btn-page-disabled">Next</button>
+    </div>
+  </div>
+</div>

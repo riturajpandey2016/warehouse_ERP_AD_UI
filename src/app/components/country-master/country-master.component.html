@@ -1,0 +1,100 @@
+<div class="country-master-container">
+  <!-- Page Title -->
+  <header class="page-header">
+    <h1 class="page-title">Country Master</h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save Country
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+        </div>
+  </header>
+  <main class="page-content">
+    
+    <!-- SECTION 1 â€” COUNTRY ENTRY -->
+    <div class="card-panel">
+      <app-section-header title="Country Configuration Details" [expanded]="sections().countryEntry" (toggle)="toggleSection('countryEntry')"></app-section-header>
+      @if (sections().countryEntry) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <div>
+                 <app-erp-input 
+                    label="Country Name" [required]="true" 
+                    [value]="formData().countryName"
+                    (valueChange)="updateForm('countryName', $event)">
+                 </app-erp-input>
+                 <app-erp-input 
+                    label="Country Code" [required]="true" 
+                    [value]="formData().countryCode"
+                    (valueChange)="updateForm('countryCode', $event)">
+                 </app-erp-input>
+                 <app-erp-input 
+                    label="ISO Code" [required]="true" 
+                    [value]="formData().isoCode"
+                    (valueChange)="updateForm('isoCode', $event)">
+                 </app-erp-input>
+                 <app-erp-input 
+                    label="Short Name" 
+                    [value]="formData().shortName"
+                    (valueChange)="updateForm('shortName', $event)">
+                 </app-erp-input>
+              </div>
+              <div>
+                 <app-erp-input 
+                    label="Nationality" [required]="true" 
+                    [value]="formData().nationality"
+                    (valueChange)="updateForm('nationality', $event)">
+                 </app-erp-input>
+                 <app-erp-input 
+                    label="Dial Code" [required]="true" 
+                    [value]="formData().dialCode"
+                    (valueChange)="updateForm('dialCode', $event)">
+                 </app-erp-input>
+                 <app-erp-select 
+                    label="Currency" [required]="true" 
+                    [value]="formData().currency"
+                    (valueChange)="updateForm('currency', $event)"
+                    [options]="currencyOptions">
+                 </app-erp-select>
+              </div>
+           </div>
+           <div class="form-grid border-top">
+              <app-erp-toggle label="Active Status" [checked]="formData().isActive" (checkedChange)="updateForm('isActive', $event)"></app-erp-toggle>
+              <app-erp-toggle label="Set as Default" [checked]="formData().isDefault" (checkedChange)="updateForm('isDefault', $event)"></app-erp-toggle>
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2 â€” SEARCH -->
+    <div class="card-panel">
+       <app-section-header title="Click to Show/Hide Search Contents" [expanded]="sections().search" (toggle)="toggleSection('search')"></app-section-header>
+       @if (sections().search) {
+         <div class="search-body">
+            <div class="search-grid">
+               <app-erp-input label="Country Name" width="w-24"></app-erp-input>
+               <app-erp-input label="Country Code" width="w-24"></app-erp-input>
+               <app-erp-select label="Status" width="w-24" [options]="statusOptions"></app-erp-select>
+            </div>
+            <div class="search-action-row">
+               <button class="btn-search">
+                  <lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5"></lucide-icon> Search
+               </button>
+            </div>
+         </div>
+       }
+    </div>
+
+    <!-- SECTION 3 â€” TABLE -->
+    <div class="card-panel">
+       <app-section-header title="Country List" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+         <div class="panel-table-container">
+            <app-country-table></app-country-table>
+         </div>
+       }
+    </div>
+
+  </main></div>

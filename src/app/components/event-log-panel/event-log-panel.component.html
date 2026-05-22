@@ -1,0 +1,42 @@
+<div class="event-panel-container">
+  <!-- Panel Header -->
+  <div class="panel-header">
+    <div class="header-left">
+      <lucide-icon [img]="ClockIcon" class="header-icon"></lucide-icon>
+      <h3 class="panel-title">SYSTEM EVENT LOGS</h3>
+    </div>
+    <button class="refresh-btn" (click)="refreshLogs()" aria-label="Refresh Logs">
+      <lucide-icon [img]="RefreshIcon" class="w-3.5 h-3.5"></lucide-icon>
+    </button>
+  </div>
+
+  <!-- Scrollable Timeline Content -->
+  <div class="panel-body scrollable-area">
+    <div class="timeline">
+      <!-- Timeline Track Line -->
+      <div class="timeline-track"></div>
+
+      <!-- Timeline Items -->
+      <div *ngFor="let log of logs()" class="timeline-item">
+        <!-- Event node dot -->
+        <div class="timeline-node" [ngClass]="getStatusClass(log.status)">
+          <span class="node-inner"></span>
+        </div>
+
+        <!-- Event details box -->
+        <div class="timeline-content">
+          <div class="content-header">
+            <span class="user-role-label">{{ log.userRole }}</span>
+            <span class="time-label">{{ log.time }}</span>
+          </div>
+          <p class="event-action-text">{{ log.action }}</p>
+          <div class="content-footer">
+            <span class="category-tag" [ngClass]="getCategoryClass(log.category)">
+              {{ log.category }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

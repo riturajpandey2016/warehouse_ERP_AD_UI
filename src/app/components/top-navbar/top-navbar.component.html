@@ -1,0 +1,77 @@
+<header class="navbar-container">
+  <!-- Left Section: Toggle & Logo -->
+  <div class="nav-left">
+    <button class="sidebar-toggle-btn" (click)="onToggleSidebar()" aria-label="Toggle Sidebar">
+      <lucide-icon [img]="MenuIcon" class="w-5 h-5"></lucide-icon>
+    </button>
+    <div class="logo-container" (click)="selectTab('home')">
+      <span class="logo-main">ERP<span class="logo-sub">.BZ</span></span>
+      <span class="logo-dashboard-tag">DASHBOARD</span>
+    </div>
+  </div>
+
+  <!-- Middle Section: Navigation Tabs -->
+  <nav class="nav-tabs">
+    <button 
+      class="nav-tab" 
+      [class.active]="activeTab() === 'home'" 
+      (click)="selectTab('home')">
+      <lucide-icon [img]="HomeIcon" class="w-4 h-4 tab-icon"></lucide-icon>
+      <span>Home</span>
+    </button>
+    <button 
+      class="nav-tab" 
+      [class.active]="activeTab() === 'ui'" 
+      (click)="selectTab('ui')">
+      <lucide-icon [img]="LayoutIcon" class="w-4 h-4 tab-icon"></lucide-icon>
+      <span>User Interface</span>
+    </button>
+    <button 
+      class="nav-tab" 
+      [class.active]="activeTab() === 'reports'" 
+      (click)="selectTab('reports')">
+      <lucide-icon [img]="FileTextIcon" class="w-4 h-4 tab-icon"></lucide-icon>
+      <span>Report</span>
+    </button>
+  </nav>
+
+  <!-- Right Section: Actions & Profile -->
+  <div class="nav-right">
+    <!-- Notification Bell -->
+    <div class="action-btn-wrapper">
+      <button class="action-btn" aria-label="Notifications">
+        <lucide-icon [img]="BellIcon" class="w-5 h-5"></lucide-icon>
+        <span class="notification-badge" *ngIf="notificationCount() > 0">{{ notificationCount() }}</span>
+      </button>
+    </div>
+
+    <!-- Settings -->
+    <div class="action-btn-wrapper">
+      <button class="action-btn" aria-label="Settings">
+        <lucide-icon [img]="SettingsIcon" class="w-5 h-5"></lucide-icon>
+      </button>
+    </div>
+
+    <!-- User Profile Dropdown -->
+    <div class="profile-dropdown">
+      <div class="profile-info-compact">
+        <span class="profile-name">Admin User</span>
+        <span class="profile-sub">DASHBOARD MODULE</span>
+      </div>
+      <div class="avatar-wrapper">
+        <lucide-icon [img]="UserIcon" class="w-5 h-5 avatar-icon"></lucide-icon>
+      </div>
+      <lucide-icon [img]="ChevronDownIcon" class="w-3.5 h-3.5 profile-chevron"></lucide-icon>
+    </div>
+
+    <!-- Divider -->
+    <div class="nav-divider"></div>
+
+    <!-- Logout -->
+    <div class="action-btn-wrapper">
+      <button class="action-btn logout-btn" (click)="logout()" aria-label="Logout">
+        <lucide-icon [img]="LogOutIcon" class="w-5 h-5"></lucide-icon>
+      </button>
+    </div>
+  </div>
+</header>

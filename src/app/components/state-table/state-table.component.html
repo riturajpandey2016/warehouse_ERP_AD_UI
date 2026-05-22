@@ -1,0 +1,121 @@
+﻿<div class="table-card">
+  <!-- Table Toolbar -->
+  <div class="table-toolbar">
+    <div class="toolbar-left">
+       <div class="search-box">
+          <lucide-icon [img]="SearchIcon" class="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400"></lucide-icon>
+          <input 
+            type="text" 
+            placeholder="Search states..." 
+            class="search-input"
+          />
+       </div>
+       <button class="btn-toolbar btn-filter">
+          <lucide-icon [img]="FilterIcon" class="w-3 h-3"></lucide-icon> Filter
+       </button>
+    </div>
+    <div class="toolbar-right">
+       <button class="btn-toolbar btn-add">
+          <lucide-icon [img]="PlusIcon" class="w-3 h-3"></lucide-icon> Add New
+       </button>
+       <button class="btn-toolbar btn-filter">
+          <lucide-icon [img]="DownloadIcon" class="w-3 h-3"></lucide-icon> Export
+       </button>
+    </div>
+  </div>
+
+  <!-- Table Content -->
+  <div class="table-scroll-container">
+    <table class="data-table">
+      <thead>
+        <tr class="table-header-row">
+          <th class="px-3 py-2 w-10 border-r border-slate-200 text-center">
+            <input
+              type="checkbox"
+              [checked]="allSelected()"
+              (change)="toggleSelectAll()"
+              class="checkbox-input"
+            />
+          </th>
+          <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">State Code</th>
+          <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">State Name</th>
+          <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">Country</th>
+          <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200">Zone</th>
+          <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200 text-center">TIN</th>
+          <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase border-r border-slate-200 text-center">Status</th>
+          <th class="px-3 py-2 text-[10px] font-black text-slate-500 uppercase text-center w-24">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+        @for (state of states(); track state.id) {
+          <tr class="table-body-row">
+            <td class="cell-checkbox">
+              <input
+                type="checkbox"
+                [checked]="isSelected(state.id)"
+                (change)="toggleSelect(state.id)"
+                class="checkbox-input"
+              />
+            </td>
+            <td class="cell-base-company">{{ state.stateCode }}</td>
+            <td class="cell-category-link">{{ state.stateName }}</td>
+            <td class="cell-base-company italic">
+               {{ state.countryName }}
+            </td>
+            <td class="cell-base-company italic">
+               {{ state.zoneName }}
+            </td>
+            <td class="cell-date text-center">
+               {{ state.stateTinNumber }}
+            </td>
+            <td class="cell-checkbox">
+              <span 
+                class="status-pill"
+                [class.active]
+                
+                
+                [class.inactive]
+                
+                
+              >
+                {{ state.status }}
+              </span>
+            </td>
+            <td class="cell-actions">
+              <div class="action-buttons-group">
+                <button class="action-btn">
+                  <lucide-icon [img]="EditIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button class="action-btn">
+                  <lucide-icon [img]="CopyIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button class="action-btn">
+                  <lucide-icon [img]="HistoryIcon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button class="action-btn btn-delete">
+                  <lucide-icon [img]="Trash2Icon" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="8" class="px-3 py-4 text-center text-[11px] font-bold text-slate-500">No states found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="table-pagination">
+    <div class="pagination-info">
+       Showing 1 to {{ states().length }} of {{ states().length }} entries
+    </div>
+    <div class="pagination-buttons">
+       <button class="btn-page btn-page-disabled">Prev</button>
+       <button class="btn-page btn-page-active">1</button>
+       <button class="btn-page btn-page-disabled">Next</button>
+    </div>
+  </div>
+</div>

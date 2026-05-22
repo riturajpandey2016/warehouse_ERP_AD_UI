@@ -1,0 +1,69 @@
+<div class="company-master-container">
+  <!-- Page Title & Header Actions Strip -->
+  <header class="page-header">
+    <h1 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
+      <lucide-icon [img]="ScaleIcon" class="w-4 h-4"></lucide-icon>
+      Unit Master
+    </h1>
+    <div class="header-actions">
+       <button class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="w-3.5 h-3.5"></lucide-icon> Save
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="w-3.5 h-3.5"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- DETAILS SECTION -->
+    <div class="card-panel">
+      <app-section-header title="Unit Master" [expanded]="sections().details" (toggle)="toggleSection('details')"></app-section-header>
+      @if (sections().details) {
+        <div class="panel-body">
+           <div class="unit-form-grid">
+              
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Unit <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element">
+                    <app-erp-input 
+                      [value]="formData().unit" 
+                      (valueChange)="updateForm('unit', $event)"
+                      placeholder="Unit">
+                    </app-erp-input>
+                 </div>
+              </div>
+
+              <div class="form-row-side">
+                 <div class="form-label-box">
+                    <span class="form-label-text">Description <span class="required-asterisk">*</span>:</span>
+                 </div>
+                 <div class="form-input-element flex-1-input">
+                    <app-erp-input 
+                      [value]="formData().description" 
+                      (valueChange)="updateForm('description', $event)"
+                      placeholder="Description">
+                    </app-erp-input>
+                 </div>
+              </div>
+
+           </div>
+        </div>
+      }
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="card-panel table-panel">
+       <app-section-header title="Unit Lists" [expanded]="sections().table" (toggle)="toggleSection('table')" [blue]="true"></app-section-header>
+       @if (sections().table) {
+          <div class="panel-table-container">
+             <app-unit-table></app-unit-table>
+          </div>
+       }
+    </div>
+
+  </main>
+</div>

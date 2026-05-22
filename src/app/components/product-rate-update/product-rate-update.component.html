@@ -1,0 +1,108 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- DETAILS CONFIGURATION SECTION -->
+    <div class="card-panel">
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Item rate update Branch wise</span>
+      </div>
+      
+      <div class="panel-body">
+         <div class="form-grid-centered">
+            
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Branch :</span>
+                </div>
+                <div class="form-input-element">
+                   <select class="custom-legacy-input" (change)="onBranchChange($event)">
+                      <option value="Select CC Center">Select CC Center</option>
+                      <option value="Head Office">Head Office</option>
+                      <option value="Main Warehouse">Main Warehouse</option>
+                   </select>
+                   <span class="red-asterisk-right">*</span>
+                </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Group :</span>
+                </div>
+                <div class="form-input-element">
+                   <select class="custom-legacy-input">
+                      <option value="Select Group">Select Group</option>
+                      <option value="ASSETS">ASSETS</option>
+                      <option value="DAIRY">DAIRY</option>
+                   </select>
+                </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Item Category:</span>
+                </div>
+                <div class="form-input-element">
+                   <select class="custom-legacy-input">
+                      <option value="Please Select Item Category">Please Select Item Categor</option>
+                      <option value="Laptop">Laptop</option>
+                      <option value="FURNITURE">FURNITURE</option>
+                   </select>
+                </div>
+            </div>
+
+            <div class="form-row-side">
+               <button (click)="handleView()" class="btn-view font-bold">View</button>
+            </div>
+
+         </div>
+
+         <!-- EXPORT ALL SECTION -->
+         <div class="sub-header-row">
+            <span class="sub-header-text">Select items for rate update Branches wise</span>
+         </div>
+         <div class="action-row-centered">
+            <button class="btn-blue-pill font-bold">Export all to Excel</button>
+         </div>
+
+         <!-- EXPORT SELECTED SECTION -->
+         <div class="sub-header-row">
+            <span class="sub-header-text">Selected items for rate update Branches wise</span>
+         </div>
+         <div class="action-row-centered">
+            <button class="btn-blue-pill font-bold">Export selected product to Excel</button>
+         </div>
+
+         <!-- IMPORT ITEMS SECTION -->
+         <div class="sub-header-row">
+            <span class="sub-header-text">Import Items for New Rate Update</span>
+         </div>
+         
+         <div class="form-grid-centered">
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Select Excel File :</span>
+               </div>
+               <div class="form-input-element import-row">
+                  <input type="file" class="custom-file-input" />
+                  <button class="btn-legacy-import font-bold">Import</button>
+               </div>
+            </div>
+         </div>
+
+      </div>
+    </div>
+
+    <!-- TABLE LISTINGS SECTION (DISPLAYED ON VIEW) -->
+    @if (showTable()) {
+       <div class="card-panel table-panel">
+          <div class="custom-slim-header">
+             <span class="custom-header-title">Matching Items List</span>
+          </div>
+          <div class="panel-table-container">
+             <app-product-rate-update-table></app-product-rate-update-table>
+          </div>
+       </div>
+    }
+
+  </main>
+</div>

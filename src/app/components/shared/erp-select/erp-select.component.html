@@ -1,0 +1,15 @@
+<div class="flex items-center gap-2">
+  <label [class]="'text-[11px] font-bold text-slate-600 shrink-0 text-right ' + width">
+    {{ label }}@if(required) { <span class="text-red-500 ml-0.5">*</span> }:
+  </label>
+  <select 
+    [value]="value"
+    (change)="onSelectChange($event)"
+    class="h-7 w-full px-1.5 text-[11px] border border-slate-300 rounded bg-white focus:border-blue-500 focus:outline-none shadow-sm"
+  >
+    <option value="">--Select--</option>
+    @for (opt of options; track opt.value) {
+      <option [value]="opt.value">{{ opt.label }}</option>
+    }
+  </select>
+</div>

@@ -1,0 +1,136 @@
+<div class="company-master-container">
+  <main class="page-content">
+    
+    <!-- TOP CONFIG SELECTION PANEL -->
+    <div class="card-panel">
+      <div class="custom-slim-header">
+         <span class="custom-header-title">Client Price Update</span>
+      </div>
+      
+      <div class="panel-body">
+         <div class="form-grid-centered">
+            
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Company Name :</span>
+               </div>
+               <div class="form-input-element">
+                  <select class="custom-legacy-input">
+                     <option value="ILICO SERVICES LTD.(vERP)">ILICO SERVICES LTD.(vERP)</option>
+                     <option value="ACME Corporation">ACME Corporation</option>
+                  </select>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Customer Care :</span>
+               </div>
+               <div class="form-input-element">
+                  <select class="custom-legacy-input">
+                     <option value="Head Office">Head Office</option>
+                     <option value="Main Warehouse">Main Warehouse</option>
+                  </select>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Category :</span>
+               </div>
+               <div class="form-input-element">
+                  <div class="radio-group-horizontal">
+                     <label class="radio-label">
+                        <input type="radio" name="category" value="Supplier" class="custom-radio" /> Supplier
+                     </label>
+                     <label class="radio-label">
+                        <input type="radio" name="category" value="Customer" checked class="custom-radio" /> Customer
+                     </label>
+                  </div>
+               </div>
+            </div>
+
+            <div class="form-row-side">
+               <div class="form-label-box">
+                  <span class="form-label-text">Select Code :</span>
+               </div>
+               <div class="form-input-element">
+                  <select class="custom-legacy-input">
+                     <option value="Select One">Select One</option>
+                     <option value="CUST-001">CUST-001</option>
+                     <option value="CUST-002">CUST-002</option>
+                  </select>
+               </div>
+            </div>
+
+         </div>
+      </div>
+    </div>
+
+    <!-- MAIN DATA TABLE SECTION -->
+    <div class="card-panel table-panel">
+       <div class="custom-slim-header table-blue-header">
+          <span class="custom-header-title">Stock List</span>
+       </div>
+       <div class="panel-table-container">
+          <app-client-price-table (editItem)="onEditItem($event)"></app-client-price-table>
+       </div>
+    </div>
+
+    <!-- EDIT DETAIL SECTION AT BOTTOM -->
+    <div class="card-panel">
+       <div class="custom-slim-header table-blue-header">
+          <span class="custom-header-title">Client Price List Details</span>
+       </div>
+       <div class="panel-body">
+          <div class="edit-details-grid">
+             
+             <div class="form-row-side col-span-2">
+                <div class="form-label-box">
+                   <span class="form-label-text">Product Name :</span>
+                </div>
+                <div class="form-input-element">
+                   <input type="text" [value]="selectedItem()?.itemName || ''" readonly class="custom-legacy-input max-w-[400px] bg-slate-100 cursor-not-allowed" />
+                </div>
+             </div>
+
+             <div class="form-row-side">
+                <div class="form-label-box">
+                   <span class="form-label-text">Item Code :</span>
+                </div>
+                <div class="form-input-element">
+                   <input type="text" [value]="selectedItem()?.itemCode || ''" readonly class="custom-legacy-input max-w-[150px] bg-slate-100 cursor-not-allowed" />
+                </div>
+             </div>
+
+             <div class="form-row-side">
+                <div class="form-label-box">
+                   <span class="form-label-text">Current Price :</span>
+                </div>
+                <div class="form-input-element">
+                   <input type="text" [value]="selectedItem()?.rate || '0.00'" readonly class="custom-legacy-input max-w-[150px] bg-slate-100 cursor-not-allowed" />
+                </div>
+             </div>
+
+             <div class="form-row-side">
+                <div class="form-label-box">
+                   <span class="form-label-text">New Updated Price :</span>
+                </div>
+                <div class="form-input-element">
+                   <input type="text" #newPriceInput class="custom-legacy-input max-w-[150px]" />
+                </div>
+             </div>
+
+             <div class="form-row-side">
+                <div class="form-label-box"></div>
+                <div class="form-input-element">
+                   <button (click)="handleUpdatePrice(newPriceInput.value)" class="btn-legacy-save font-bold">Save Details</button>
+                </div>
+             </div>
+
+          </div>
+       </div>
+    </div>
+
+  </main>
+</div>

@@ -1,0 +1,26 @@
+<div class="stat-card-container" [ngClass]="getThemeClass()">
+  <!-- Top section: Label & Icon -->
+  <div class="card-header-row">
+    <div class="card-title-group">
+      <span class="card-label-sub">TOTAL OVERVIEW</span>
+      <h3 class="card-title">{{ title }}</h3>
+    </div>
+    <div class="icon-bubble">
+      <lucide-icon [img]="icon" class="card-icon"></lucide-icon>
+    </div>
+  </div>
+
+  <!-- Middle section: Primary Metric Value -->
+  <div class="card-value-row">
+    <span class="card-value">{{ value }}</span>
+  </div>
+
+  <!-- Bottom section: Progress / Growth Trend indicator -->
+  <div class="card-footer-row">
+    <span class="trend-badge" [ngClass]="getTrendClass()">
+      <span class="trend-dot"></span>
+      <span class="trend-label">{{ trendText }}</span>
+    </span>
+    <span class="time-label">vs last month</span>
+  </div>
+</div>
