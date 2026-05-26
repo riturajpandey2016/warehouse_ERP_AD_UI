@@ -1,0 +1,240 @@
+<div class="sales-quotation-approval-container">
+  <!-- Page Title / Sticky Header Strip -->
+  <header class="page-header">
+    <h1 class="page-title">
+      Sales Quotation Approval
+    </h1>
+  </header>
+
+  <main class="page-content">
+     
+    <!-- SECTION 1: Pending Sales Quotation Details -->
+    <section class="card-panel">
+      <app-section-header 
+        title="Sales Quotation Details" 
+        [expanded]="sections().pendingApproval" 
+        (toggle)="toggleSection('pendingApproval')">
+      </app-section-header>
+      
+      @if (sections().pendingApproval) {
+        <div class="panel-body">
+           <!-- Search Form -->
+           <div class="search-form-container">
+              <div class="form-grid">
+                  <app-erp-input 
+                    label="From Date" 
+                    type="date"
+                    [value]="pendingSearchForm().fromDate" 
+                    (valueChange)="updatePendingForm('fromDate', $event)">
+                  </app-erp-input>
+                  
+                  <app-erp-input 
+                    label="To Date" 
+                    type="date"
+                    [value]="pendingSearchForm().toDate" 
+                    (valueChange)="updatePendingForm('toDate', $event)">
+                  </app-erp-input>
+                  
+                  <app-erp-select 
+                    label="Company" 
+                    [options]="companyOptions" 
+                    [value]="pendingSearchForm().company" 
+                    (valueChange)="updatePendingForm('company', $event)">
+                  </app-erp-select>
+                  
+                  <app-erp-select 
+                    label="CC Center" 
+                    [options]="ccCenterOptions" 
+                    [value]="pendingSearchForm().ccCenter" 
+                    (valueChange)="updatePendingForm('ccCenter', $event)">
+                  </app-erp-select>
+                  
+                  <app-erp-select 
+                    label="Entry By" 
+                    [options]="employeeOptions" 
+                    [value]="pendingSearchForm().entryBy" 
+                    (valueChange)="updatePendingForm('entryBy', $event)">
+                  </app-erp-select>
+                  
+                  <app-erp-input 
+                    label="Reference No" 
+                    placeholder="Search Reference No"
+                    [value]="pendingSearchForm().referenceNo" 
+                    (valueChange)="updatePendingForm('referenceNo', $event)">
+                  </app-erp-input>
+              </div>
+              <div class="search-action-row">
+                 <button (click)="handlePendingSearch()" class="btn-search">
+                    <lucide-icon [img]="SearchIcon" class="btn-icon"></lucide-icon> Search
+                 </button>
+              </div>
+           </div>
+
+           <!-- Data Table -->
+           <div class="table-responsive mt-4">
+              <table class="erp-data-table">
+                  <thead>
+                      <tr>
+                          <th>Serial Number</th>
+                          <th>Reference No</th>
+                          <th>Date</th>
+                          <th>CC Center</th>
+                          <th>Customer</th>
+                          <th>Grand Total</th>
+                          <th>Entry By</th>
+                          <th>Action</th>
+                      </tr>
+                      <tr class="filter-row">
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td></td>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td colspan="8" class="empty-state">No records to display.</td>
+                      </tr>
+                  </tbody>
+              </table>
+              <div class="table-pagination">
+                  <div class="pagination-controls">
+                      <button class="page-btn">|<</button>
+                      <button class="page-btn"><</button>
+                      <span class="page-num">1</span>
+                      <button class="page-btn">></button>
+                      <button class="page-btn">>|</button>
+                      <select class="page-size">
+                          <option value="10">Page size: 10</option>
+                          <option value="20">Page size: 20</option>
+                      </select>
+                  </div>
+                  <div class="pagination-info">0 items in 1 pages</div>
+              </div>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- SECTION 2: Approved / Rejected Sales Quotation Details -->
+    <section class="card-panel">
+      <app-section-header 
+        title="Approved / Rejected Sales Quotation Details" 
+        [expanded]="sections().processedApproval" 
+        (toggle)="toggleSection('processedApproval')">
+      </app-section-header>
+      
+      @if (sections().processedApproval) {
+        <div class="panel-body">
+           <!-- Search Form -->
+           <div class="search-form-container">
+              <div class="form-grid">
+                  <app-erp-input 
+                    label="From Date" 
+                    type="date"
+                    [value]="processedSearchForm().fromDate" 
+                    (valueChange)="updateProcessedForm('fromDate', $event)">
+                  </app-erp-input>
+                  
+                  <app-erp-input 
+                    label="To Date" 
+                    type="date"
+                    [value]="processedSearchForm().toDate" 
+                    (valueChange)="updateProcessedForm('toDate', $event)">
+                  </app-erp-input>
+                  
+                  <app-erp-select 
+                    label="Company" 
+                    [options]="companyOptions" 
+                    [value]="processedSearchForm().company" 
+                    (valueChange)="updateProcessedForm('company', $event)">
+                  </app-erp-select>
+                  
+                  <app-erp-select 
+                    label="CC Center" 
+                    [options]="ccCenterOptions" 
+                    [value]="processedSearchForm().ccCenter" 
+                    (valueChange)="updateProcessedForm('ccCenter', $event)">
+                  </app-erp-select>
+                  
+                  <app-erp-select 
+                    label="Entry By" 
+                    [options]="employeeOptions" 
+                    [value]="processedSearchForm().entryBy" 
+                    (valueChange)="updateProcessedForm('entryBy', $event)">
+                  </app-erp-select>
+                  
+                  <app-erp-input 
+                    label="Reference No" 
+                    placeholder="Search Reference No"
+                    [value]="processedSearchForm().referenceNo" 
+                    (valueChange)="updateProcessedForm('referenceNo', $event)">
+                  </app-erp-input>
+              </div>
+              <div class="search-action-row">
+                 <button (click)="handleProcessedSearch()" class="btn-search">
+                    <lucide-icon [img]="SearchIcon" class="btn-icon"></lucide-icon> Search
+                 </button>
+              </div>
+           </div>
+
+           <!-- Data Table -->
+           <div class="table-responsive mt-4">
+              <table class="erp-data-table">
+                  <thead>
+                      <tr>
+                          <th>Serial Number</th>
+                          <th>Reference No</th>
+                          <th>Date</th>
+                          <th>CC Center</th>
+                          <th>Customer</th>
+                          <th>Grand Total</th>
+                          <th>Entry By</th>
+                          <th>Approved/Rejected By</th>
+                          <th>Approved/Rejected Date</th>
+                          <th>Action</th>
+                      </tr>
+                      <tr class="filter-row">
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td></td>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td colspan="10" class="empty-state">No records to display.</td>
+                      </tr>
+                  </tbody>
+              </table>
+              <div class="table-pagination">
+                  <div class="pagination-controls">
+                      <button class="page-btn">|<</button>
+                      <button class="page-btn"><</button>
+                      <span class="page-num">1</span>
+                      <button class="page-btn">></button>
+                      <button class="page-btn">>|</button>
+                      <select class="page-size">
+                          <option value="10">Page size: 10</option>
+                          <option value="20">Page size: 20</option>
+                      </select>
+                  </div>
+                  <div class="pagination-info">0 items in 1 pages</div>
+              </div>
+           </div>
+        </div>
+      }
+    </section>
+
+  </main>
+</div>

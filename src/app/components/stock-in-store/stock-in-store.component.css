@@ -1,0 +1,210 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.stock-store-container {
+  background-color: #f5f7fa;
+  min-height: unset;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  color: #212529;
+  padding-bottom: 40px;
+}
+
+/* Page Title & Sticky Header Strip Styles */
+.page-header {
+  background-color: #a4bedc;
+  border-bottom: 2px solid #cbd5e1;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+  font-size: 14px;
+  font-weight: 900;
+  color: #0f172a;
+  text-transform: capitalize;
+  letter-spacing: 0.25px;
+  margin: 0;
+}
+
+/* Page content and card panels styling */
+.page-content {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 32px;
+  width: 100%;
+}
+
+.card-panel {
+  background-color: #ffffff;
+  border-top: 1px solid #94a3b8;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  overflow: hidden;
+}
+
+/* Form Card Header Overrides */
+.card-panel app-section-header ::ng-deep .px-3.py-1\.5 {
+  background-color: #a4bedc !important;
+  color: #0f172a !important;
+  border-bottom: 1px solid #cbd5e1 !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  transition: background-color 0.2s ease;
+}
+
+.card-panel app-section-header ::ng-deep h2 {
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.25px !important;
+}
+
+.panel-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.erp-text-input {
+  font-size: 12px !important;
+  padding: 4px 8px !important;
+  min-height: 24px !important;
+  box-sizing: border-box;
+  border: 1px solid #94a3b8;
+  outline: none;
+}
+
+.erp-text-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.3);
+}
+
+:host ::ng-deep app-erp-select select {
+  font-size: 12px !important;
+  padding: 2px 8px !important;
+  min-height: 24px !important;
+  box-sizing: border-box;
+  border-color: #94a3b8 !important;
+}
+
+.select-red-text ::ng-deep select {
+  color: #dc2626 !important;
+  font-weight: bold;
+}
+
+/* Actions */
+.btn-action {
+  height: 24px;
+  padding: 0 16px;
+  background-color: #4366a6 !important; /* Blue from screenshot */
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  border-radius: 4px !important;
+  border: 1px solid #1e3a8a;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.btn-action:hover {
+  background-color: #304e84 !important;
+}
+
+.btn-serial {
+  height: 24px;
+  padding: 0 8px;
+  background-color: #5c79b6 !important;
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  border: 1px solid #1e3a8a;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+/* Data Table Styling */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.erp-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.erp-data-table th {
+  background-color: #6481b0;
+  color: white;
+  padding: 6px 10px;
+  text-align: left;
+  border: 1px solid #94a3b8;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.erp-data-table td {
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.erp-data-table tbody tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+
+.filter-row td {
+  padding: 4px;
+  background-color: #d1d5db; /* Grey filter row */
+}
+
+.column-filter {
+  box-sizing: border-box;
+  padding: 2px 4px;
+  border: 1px solid #9ca3af;
+  border-right: none;
+  font-size: 11px;
+  height: 20px;
+  outline: none;
+}
+
+.filter-btn {
+  background-color: #e5e7eb;
+  border: 1px solid #9ca3af;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

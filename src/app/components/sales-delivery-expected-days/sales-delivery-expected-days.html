@@ -1,0 +1,56 @@
+<div class="sales-delivery-expected-days-container">
+  <!-- Page Title / Sticky Header Strip -->
+  <header class="page-header">
+    <h1 class="page-title">
+      Sales Delivery Expected Days
+    </h1>
+    <div class="header-actions">
+       <button (click)="handleSave()" class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="btn-icon"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <section class="card-panel">
+      <app-section-header 
+        title="Delivery Expected Days Details" 
+        [expanded]="sections().form" 
+        (toggle)="toggleSection('form')">
+      </app-section-header>
+      @if (sections().form) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <app-erp-select 
+                label="CC Center" 
+                [required]="true" 
+                [options]="ccCenterOptions" 
+                [value]="formData().ccCenter" 
+                (valueChange)="updateForm('ccCenter', $event)">
+              </app-erp-select>
+
+              <app-erp-select 
+                label="Country" 
+                [required]="true" 
+                [options]="countryOptions" 
+                [value]="formData().country" 
+                (valueChange)="updateForm('country', $event)">
+              </app-erp-select>
+           </div>
+           
+           <div class="form-action-row">
+               <button (click)="handleSave()" class="btn-save-inline">
+                  <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save
+               </button>
+               <button (click)="handleReset()" class="btn-reset-inline">
+                  <lucide-icon [img]="RotateCcwIcon" class="btn-icon"></lucide-icon> Reset
+               </button>
+           </div>
+        </div>
+      }
+    </section>
+  </main>
+</div>

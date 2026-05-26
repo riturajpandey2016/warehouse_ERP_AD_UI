@@ -1,0 +1,236 @@
+<div class="stock-store-container">
+  <!-- Page Title / Header -->
+  <header class="page-header">
+    <h1 class="page-title">Store Stock In Master</h1>
+  </header>
+
+  <main class="page-content">
+     
+    <!-- Top Entry Form Block -->
+    <div class="entry-block py-4 px-2 bg-[#eef2f9] mb-2 border-b border-[#cbd5e1]">
+       <div class="form-grid max-w-6xl mx-auto">
+          <!-- Left Column -->
+          <div class="flex flex-col gap-2">
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[120px] text-right">Company :</span>
+                <app-erp-select class="flex-grow" [options]="companyOptions" [value]="formData().company" (valueChange)="updateForm('company', $event)"></app-erp-select>
+                <span class="text-red-500 font-bold text-xs">*</span>
+             </div>
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[120px] text-right">CC Center:</span>
+                <app-erp-select class="flex-grow" [options]="ccCenterOptions" [value]="formData().ccCenter" (valueChange)="updateForm('ccCenter', $event)"></app-erp-select>
+                <span class="text-red-500 font-bold text-xs">*</span>
+             </div>
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[120px] text-right">Group :</span>
+                <app-erp-select class="flex-grow" [options]="groupOptions" [value]="formData().group" (valueChange)="updateForm('group', $event)"></app-erp-select>
+                <span class="text-transparent font-bold text-xs">*</span>
+             </div>
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[120px] text-right">Unit Group :</span>
+                <app-erp-select class="flex-grow select-red-text" [options]="unitGroupOptions" [value]="formData().unitGroup" (valueChange)="updateForm('unitGroup', $event)"></app-erp-select>
+                <span class="text-transparent font-bold text-xs">*</span>
+             </div>
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[120px] text-right">Sales Price : Rs.</span>
+                <input type="text" class="erp-text-input flex-grow" [value]="formData().salesPrice" (input)="updateForm('salesPrice', $any($event.target).value)">
+                <span class="text-transparent font-bold text-xs">*</span>
+             </div>
+          </div>
+          
+          <!-- Right Column -->
+          <div class="flex flex-col gap-2">
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[140px] text-right">PriceEffective Date:</span>
+                <input type="date" class="erp-text-input flex-grow" [value]="formData().priceEffectiveDate" (input)="updateForm('priceEffectiveDate', $any($event.target).value)">
+                <span class="text-transparent font-bold text-xs">*</span>
+             </div>
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[140px] text-right">Store :</span>
+                <app-erp-select class="flex-grow" [options]="storeOptions" [value]="formData().store" (valueChange)="updateForm('store', $event)"></app-erp-select>
+                <span class="text-red-500 font-bold text-xs">*</span>
+             </div>
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[140px] text-right">Product Name :</span>
+                <app-erp-select class="flex-grow" [options]="productOptions" [value]="formData().productName" (valueChange)="updateForm('productName', $event)"></app-erp-select>
+                <span class="text-red-500 font-bold text-xs">*</span>
+             </div>
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[140px] text-right">BaseUnit :</span>
+                <app-erp-select class="flex-grow" [options]="baseUnitOptions" [value]="formData().baseUnit" (valueChange)="updateForm('baseUnit', $event)"></app-erp-select>
+                <span class="text-red-500 font-bold text-xs">*</span>
+             </div>
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[140px] text-right">Opening Stock :</span>
+                <input type="text" class="erp-text-input flex-grow max-w-[150px]" [value]="formData().openingStock" (input)="updateForm('openingStock', $any($event.target).value)">
+                <button (click)="handleSerialShow()" class="btn-serial">Serial Show</button>
+                <span class="text-transparent font-bold text-xs">*</span>
+             </div>
+             
+             <!-- Price Rate label hanging below -->
+             <div class="flex items-center justify-end mt-2 pr-6">
+                 <span class="font-bold text-xs text-[#212529]">Price Rate In Other Currency :</span>
+             </div>
+          </div>
+       </div>
+       <div class="flex justify-center items-center gap-2 mt-4 hidden">
+          <!-- Hidden standard actions if needed later based on scrolling/form behavior -->
+          <button (click)="handleSave()" class="btn-action">Save</button>
+          <button (click)="handleReset()" class="btn-action">Reset</button>
+       </div>
+    </div>
+
+    <!-- Stock List Section -->
+    <section class="card-panel">
+      <app-section-header 
+        title="Stock List" 
+        [expanded]="sections().stockList" 
+        (toggle)="toggleSection('stockList')">
+      </app-section-header>
+      
+      @if (sections().stockList) {
+        <div class="panel-body bg-gray-50 p-0!">
+           <!-- Search Form -->
+           <div class="search-form-container py-3 bg-white flex flex-col items-center justify-center relative">
+              <div class="form-grid max-w-5xl mx-auto w-full">
+                 <div class="flex flex-col gap-1">
+                    <div class="flex items-center gap-2">
+                       <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[100px] text-right">Company :</span>
+                       <app-erp-select class="flex-grow max-w-xs" [options]="companyOptions" [value]="searchData().company" (valueChange)="updateSearch('company', $event)"></app-erp-select>
+                       <span class="text-red-500 font-bold text-xs">*</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                       <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[100px] text-right">CC Center:</span>
+                       <app-erp-select class="flex-grow max-w-xs" [options]="ccCenterOptions" [value]="searchData().ccCenter" (valueChange)="updateSearch('ccCenter', $event)"></app-erp-select>
+                       <span class="text-transparent font-bold text-xs">*</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                       <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[100px] text-right">Group :</span>
+                       <app-erp-select class="flex-grow max-w-xs" [options]="groupOptions" [value]="searchData().group" (valueChange)="updateSearch('group', $event)"></app-erp-select>
+                       <span class="text-transparent font-bold text-xs">*</span>
+                    </div>
+                 </div>
+                 
+                 <div class="flex flex-col gap-1">
+                    <div class="flex items-center gap-2">
+                       <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[100px] text-right">Store :</span>
+                       <app-erp-select class="flex-grow max-w-xs" [options]="storeOptions" [value]="searchData().store" (valueChange)="updateSearch('store', $event)"></app-erp-select>
+                       <span class="text-red-500 font-bold text-xs">*</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                       <span class="font-bold text-sm text-[#212529] whitespace-nowrap min-w-[100px] text-right">Product Name :</span>
+                       <app-erp-select class="flex-grow max-w-xs" [options]="productOptions" [value]="searchData().productName" (valueChange)="updateSearch('productName', $event)"></app-erp-select>
+                       <span class="text-red-500 font-bold text-xs">*</span>
+                    </div>
+                 </div>
+              </div>
+              <button (click)="handleSearch()" class="btn-action mt-2">
+                 Search
+              </button>
+           </div>
+
+           <!-- Data Table -->
+           <div class="table-responsive border-t border-[#94a3b8]">
+              <table class="erp-data-table min-w-[1400px] border-none">
+                  <thead>
+                      <tr>
+                          <th class="w-12">Sl. No.</th>
+                          <th>Item Name</th>
+                          <th>Item Code</th>
+                          <th>HSN/SAC</th>
+                          <th>Sales Price</th>
+                          <th>CC Center</th>
+                          <th>Store</th>
+                          <th>Price Effective Date</th>
+                          <th>Group</th>
+                          <th>Item Type</th>
+                          <th class="w-20">Action</th>
+                      </tr>
+                      <tr class="filter-row">
+                          <td></td>
+                          <td>
+                             <div class="flex">
+                                <input type="text" class="column-filter rounded-r-none w-full">
+                                <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                             </div>
+                          </td>
+                          <td>
+                             <div class="flex">
+                                <input type="text" class="column-filter rounded-r-none w-full">
+                                <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                             </div>
+                          </td>
+                          <td>
+                             <div class="flex">
+                                <input type="text" class="column-filter rounded-r-none w-full">
+                                <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                             </div>
+                          </td>
+                          <td></td>
+                          <td>
+                             <div class="flex">
+                                <input type="text" class="column-filter rounded-r-none w-full">
+                                <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                             </div>
+                          </td>
+                          <td>
+                             <div class="flex">
+                                <input type="text" class="column-filter rounded-r-none w-full">
+                                <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                             </div>
+                          </td>
+                          <td>
+                             <div class="flex">
+                                <input type="text" class="column-filter rounded-r-none w-full">
+                                <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                             </div>
+                          </td>
+                          <td>
+                             <div class="flex">
+                                <input type="text" class="column-filter rounded-r-none w-full">
+                                <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                             </div>
+                          </td>
+                          <td>
+                             <div class="flex">
+                                <input type="text" class="column-filter rounded-r-none w-full">
+                                <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                             </div>
+                          </td>
+                          <td></td>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @for (row of tableData(); track row.slNo) {
+                         <tr>
+                             <td>{{ row.slNo }}</td>
+                             <td>{{ row.itemName }}</td>
+                             <td>{{ row.itemCode }}</td>
+                             <td>{{ row.hsn }}</td>
+                             <td>{{ row.price }}</td>
+                             <td>{{ row.ccCenter }}</td>
+                             <td>{{ row.store }}</td>
+                             <td>{{ row.date }}</td>
+                             <td>{{ row.group }}</td>
+                             <td>{{ row.itemType }}</td>
+                             <td>
+                                <div class="flex items-center gap-1 justify-center">
+                                   <button (click)="editRow(row)" class="action-btn text-amber-600 hover:text-amber-800" title="Edit">
+                                      <lucide-icon [img]="EditIcon" class="w-4 h-4"></lucide-icon>
+                                   </button>
+                                   <button (click)="deleteRow(row)" class="action-btn text-red-500 hover:text-red-700" title="Delete">
+                                      <lucide-icon [img]="XCircleIcon" class="w-4 h-4"></lucide-icon>
+                                   </button>
+                                </div>
+                             </td>
+                         </tr>
+                      }
+                  </tbody>
+              </table>
+           </div>
+        </div>
+      }
+    </section>
+
+  </main>
+</div>

@@ -1,0 +1,115 @@
+<div class="invoice-upload-container">
+  <!-- Page Title / Sticky Header Strip -->
+  <header class="page-header">
+    <h1 class="page-title">
+      Sales Invoice Document Upload/Download
+    </h1>
+  </header>
+
+  <main class="page-content">
+     
+    <!-- SECTION 1: Search Filters -->
+    <section class="card-panel">
+      <app-section-header 
+        title="Click to Hide Details" 
+        [expanded]="sections().searchFilters" 
+        (toggle)="toggleSection('searchFilters')">
+      </app-section-header>
+      
+      @if (sections().searchFilters) {
+        <div class="panel-body bg-gray-50 p-3!">
+           <!-- Search Form -->
+           <div class="flex items-center gap-4">
+              <span class="font-bold text-sm text-[#212529] whitespace-nowrap ml-12">Search By :</span>
+              <app-erp-select class="w-48" [options]="searchByOptions" [value]="searchBy()" (valueChange)="searchBy.set($event)"></app-erp-select>
+              <button (click)="handleSearch()" class="btn-search">
+                 <lucide-icon [img]="SearchIcon" class="btn-icon"></lucide-icon> Search
+              </button>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- Data Table Section -->
+    <section class="card-panel mt-1">
+        <div class="table-responsive">
+           <table class="erp-data-table min-w-[1200px] border-none">
+               <thead>
+                   <tr>
+                       <th>Serial Number</th>
+                       <th>Invoice Date</th>
+                       <th>Reference No</th>
+                       <th>Customer Name</th>
+                       <th>Customer Code</th>
+                       <th>Address</th>
+                       <th>Upload Document</th>
+                       <th>Display Document</th>
+                   </tr>
+                   <tr class="filter-row">
+                       <td></td>
+                       <td>
+                          <div class="flex">
+                             <input type="text" class="column-filter rounded-r-none">
+                             <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                          </div>
+                       </td>
+                       <td>
+                          <div class="flex">
+                             <input type="text" class="column-filter rounded-r-none">
+                             <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                          </div>
+                       </td>
+                       <td>
+                          <div class="flex">
+                             <input type="text" class="column-filter rounded-r-none">
+                             <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                          </div>
+                       </td>
+                       <td>
+                          <div class="flex">
+                             <input type="text" class="column-filter rounded-r-none">
+                             <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                          </div>
+                       </td>
+                       <td>
+                          <div class="flex">
+                             <input type="text" class="column-filter rounded-r-none">
+                             <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                          </div>
+                       </td>
+                       <td></td>
+                       <td></td>
+                   </tr>
+               </thead>
+               <tbody>
+                   @for (row of tableData(); track row.serial) {
+                      <tr>
+                          <td class="text-center">{{ row.serial }}</td>
+                          <td>{{ row.invoiceDate }}</td>
+                          <td>{{ row.refNo }}</td>
+                          <td>{{ row.custName }}</td>
+                          <td>{{ row.custCode }}</td>
+                          <td class="max-w-[300px] whitespace-normal">{{ row.address }}</td>
+                          <td>
+                             <div class="upload-control">
+                                <div class="file-input-wrapper">
+                                   <input type="file" class="file-input">
+                                </div>
+                                <button class="btn-upload" (click)="handleUpload(row.serial)">Upload Document</button>
+                             </div>
+                          </td>
+                          <td class="text-center">
+                             @if (row.hasDoc) {
+                                <button class="text-blue-600 hover:text-blue-800" title="View Document">
+                                   <lucide-icon [img]="EyeIcon" class="w-4 h-4"></lucide-icon>
+                                </button>
+                             }
+                          </td>
+                      </tr>
+                   }
+               </tbody>
+           </table>
+        </div>
+    </section>
+  </main>
+</div>

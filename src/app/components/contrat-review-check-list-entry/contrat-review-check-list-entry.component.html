@@ -1,0 +1,121 @@
+<div class="contrat-review-container">
+  <!-- Page Title / Sticky Header Strip -->
+  <header class="page-header">
+    <h1 class="page-title">
+      Contract Review Check List Entry
+    </h1>
+    <div class="header-actions">
+       <button (click)="handleSave()" class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="btn-icon"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+     
+    <!-- SECTION 1: Checklist Form -->
+    <section class="card-panel">
+      <app-section-header 
+        title="Check List Details" 
+        [expanded]="sections().form" 
+        (toggle)="toggleSection('form')">
+      </app-section-header>
+      
+      @if (sections().form) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <app-erp-select 
+                label="CC Center" 
+                [required]="true"
+                [options]="ccCenterOptions" 
+                [value]="formData().ccCenter" 
+                (valueChange)="updateForm('ccCenter', $event)">
+              </app-erp-select>
+              
+              <app-erp-select 
+                label="Quotation No" 
+                [required]="true"
+                [options]="quotationOptions" 
+                [value]="formData().quotationNo" 
+                (valueChange)="updateForm('quotationNo', $event)">
+              </app-erp-select>
+
+              <app-erp-input 
+                label="Review Date" 
+                type="date"
+                [required]="true"
+                [value]="formData().reviewDate" 
+                (valueChange)="updateForm('reviewDate', $event)">
+              </app-erp-input>
+
+              <app-erp-input 
+                label="Customer Name" 
+                placeholder="Enter Customer Name"
+                [value]="formData().customerName" 
+                (valueChange)="updateForm('customerName', $event)">
+              </app-erp-input>
+
+              <app-erp-input 
+                label="Reviewer Name" 
+                placeholder="Enter Reviewer Name"
+                [value]="formData().reviewerName" 
+                (valueChange)="updateForm('reviewerName', $event)">
+              </app-erp-input>
+           </div>
+           
+           <div class="form-fullwidth mt-3">
+              <app-erp-textarea 
+                label="Remarks" 
+                [rows]="3"
+                placeholder="Enter any additional remarks or notes..."
+                [value]="formData().remarks" 
+                (valueChange)="updateForm('remarks', $event)">
+              </app-erp-textarea>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- SECTION 2: Checklist Items Data Table -->
+    <section class="card-panel">
+      <app-section-header 
+        title="Checklist Items" 
+        [expanded]="sections().list" 
+        (toggle)="toggleSection('list')">
+      </app-section-header>
+      
+      @if (sections().list) {
+        <div class="panel-body">
+           <div class="action-bar mb-3">
+              <button class="btn-add">
+                 <lucide-icon [img]="PlusCircleIcon" class="btn-icon"></lucide-icon> Add Item
+              </button>
+           </div>
+           
+           <div class="table-responsive">
+              <table class="erp-data-table">
+                  <thead>
+                      <tr>
+                          <th style="width: 50px;">S.No</th>
+                          <th>Question / Checkpoint</th>
+                          <th style="width: 150px;">Status</th>
+                          <th>Comments</th>
+                          <th style="width: 80px;">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td colspan="5" class="empty-state">No checklist items added yet.</td>
+                      </tr>
+                  </tbody>
+              </table>
+           </div>
+        </div>
+      }
+    </section>
+
+  </main>
+</div>

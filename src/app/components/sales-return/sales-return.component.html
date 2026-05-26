@@ -1,0 +1,198 @@
+<div class="sales-return-container">
+  <header class="page-header">
+    <h1 class="page-title">Sales Return / Credit Note</h1>
+    <div class="header-actions">
+       <button (click)="handleSave()" class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="btn-icon"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- TOP LEVEL RADIO / FIELDS -->
+    <div class="card-panel py-3 px-4 flex flex-col gap-3 bg-white mb-2">
+       <div class="flex justify-center items-center gap-4">
+         <label class="radio-label">
+           <input type="radio" name="returnAgainst" value="Return Against Challan" [checked]="returnAgainst() === 'Return Against Challan'" (change)="returnAgainst.set('Return Against Challan')"> Return Against Challan
+         </label>
+         <label class="radio-label">
+           <input type="radio" name="returnAgainst" value="Return Against Invoice" [checked]="returnAgainst() === 'Return Against Invoice'" (change)="returnAgainst.set('Return Against Invoice')"> Return Against Invoice
+         </label>
+       </div>
+       <div class="flex justify-center items-center gap-4">
+         <label class="radio-label">
+           <input type="radio" name="customerRole" value="Customer" [checked]="customerRole() === 'Customer'" (change)="customerRole.set('Customer')"> Customer
+         </label>
+         <label class="radio-label">
+           <input type="radio" name="customerRole" value="Delar" [checked]="customerRole() === 'Delar'" (change)="customerRole.set('Delar')"> Delar
+         </label>
+         <label class="radio-label">
+           <input type="radio" name="customerRole" value="Distributer" [checked]="customerRole() === 'Distributer'" (change)="customerRole.set('Distributer')"> Distributer
+         </label>
+       </div>
+       
+       <div class="form-grid mt-2 pt-2 border-t border-[#cbd5e1]">
+          <div class="flex items-center gap-4">
+             <span class="font-bold text-sm text-[#212529]">Invoice Type :</span>
+             <label class="radio-label text-blue-600"><input type="radio" name="invoiceType" value="General" [checked]="invoiceType() === 'General'" (change)="invoiceType.set('General')"> General</label>
+             <label class="radio-label text-red-600"><input type="radio" name="invoiceType" value="Commission" [checked]="invoiceType() === 'Commission'" (change)="invoiceType.set('Commission')"> Commission</label>
+             <label class="radio-label text-red-600"><input type="radio" name="invoiceType" value="Asset" [checked]="invoiceType() === 'Asset'" (change)="invoiceType.set('Asset')"> Asset</label>
+          </div>
+          <div></div> <!-- Spacer -->
+
+          <app-erp-input label="Credit Note No" placeholder="Auto Generated" [value]="formData().creditNoteNo" (valueChange)="updateForm('creditNoteNo', $event)"></app-erp-input>
+          <app-erp-input label="Credit Note Date" type="date" [value]="formData().creditNoteDate" (valueChange)="updateForm('creditNoteDate', $event)"></app-erp-input>
+          
+          <app-erp-input class="text-red-600-label" label="Customer Ref. No *" [value]="formData().customerRefNo" (valueChange)="updateForm('customerRefNo', $event)"></app-erp-input>
+          <app-erp-input label="Customer Ref. Date" type="date" [value]="formData().customerRefDate" (valueChange)="updateForm('customerRefDate', $event)"></app-erp-input>
+       </div>
+    </div>
+
+    <h3 class="font-bold text-sm text-[#1a3a6b] px-1 mb-1 mt-3">Sales Return Details</h3>
+
+    <!-- Entry Details -->
+    <section class="card-panel">
+      <app-section-header title="Entry Details" [expanded]="sections().entryDetails" (toggle)="toggleSection('entryDetails')"></app-section-header>
+      @if (sections().entryDetails) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <app-erp-select label="Company" [options]="companyOptions" [value]="formData().company" (valueChange)="updateForm('company', $event)"></app-erp-select>
+              
+              <div class="flex items-center gap-2">
+                 <app-erp-input class="flex-grow text-red-600-label" label="Customer *" [required]="true" [value]="formData().customer" (valueChange)="updateForm('customer', $event)"></app-erp-input>
+                 <label class="text-xs flex items-center gap-1 mt-6"><input type="checkbox" [checked]="formData().customerInactive" (change)="updateForm('customerInactive', !formData().customerInactive)"> Inactive</label>
+                 <a href="#" class="text-xs text-blue-800 font-bold hover:underline mt-6">CustomerDetails</a>
+              </div>
+
+              <app-erp-select class="text-red-600-label" label="CC Center *" [options]="ccCenterOptions" [value]="formData().ccCenter" (valueChange)="updateForm('ccCenter', $event)"></app-erp-select>
+              
+              <app-erp-select class="text-red-600-label" label="Sales Type *" [options]="salesTypeOptions" [value]="formData().salesType" (valueChange)="updateForm('salesType', $event)"></app-erp-select>
+
+              <app-erp-select label="Entry Type" [options]="[{label:'Sales',value:'Sales'}]" [value]="formData().entryType" (valueChange)="updateForm('entryType', $event)"></app-erp-select>
+              
+              <app-erp-select label="Profit Centre Group" [options]="profitCentreGroupOptions" [value]="formData().profitCentreGroup" (valueChange)="updateForm('profitCentreGroup', $event)"></app-erp-select>
+              
+              <div class="flex items-center gap-4 mt-2">
+                 <span class="font-bold text-sm text-[#212529]">Entry Relation :</span>
+                 <label class="radio-label"><input type="radio" name="entryRelation" value="Company" [checked]="entryRelation() === 'Company'" (change)="entryRelation.set('Company')"> Company</label>
+                 <label class="radio-label"><input type="radio" name="entryRelation" value="CC Center" [checked]="entryRelation() === 'CC Center'" (change)="entryRelation.set('CC Center')"> CC Center</label>
+              </div>
+
+              <app-erp-select label="Profit Centre Name" [options]="profitCentreNameOptions" [value]="formData().profitCentreName" (valueChange)="updateForm('profitCentreName', $event)"></app-erp-select>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- Invoice Details -->
+    <section class="card-panel">
+      <app-section-header title="Invoice Details" [expanded]="sections().invoiceDetails" (toggle)="toggleSection('invoiceDetails')"></app-section-header>
+      @if (sections().invoiceDetails) {
+        <div class="panel-body">
+           <div class="flex justify-end font-bold text-sm text-[#1a3a6b] border-b border-[#cbd5e1] pb-2 mb-2">
+              <span>Total Amount = 0.00</span>
+           </div>
+           
+           <div class="flex justify-end font-bold text-sm text-[#212529] mb-2 mt-4">
+              <span>Total =</span>
+           </div>
+           
+           <div class="flex justify-end items-center gap-2 mb-2">
+              <span class="font-bold text-sm text-[#212529]">Round Off :</span>
+              <select class="border border-[#cbd5e1] rounded px-1 text-sm h-7" (change)="roundOffSign.set($any($event.target).value)">
+                 <option value="+">+</option>
+                 <option value="-">-</option>
+              </select>
+              <input type="text" class="border border-[#cbd5e1] rounded px-2 w-24 h-7 text-sm text-right" [value]="formData().roundOffValue" (change)="updateForm('roundOffValue', $any($event.target).value)">
+           </div>
+           
+           <div class="flex justify-end font-bold text-sm text-[#212529]">
+              <span>Grand Total : 0.00</span>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- Search Return -->
+    <section class="card-panel search-panel mt-4">
+       <div class="search-body panel-body bg-gray-50">
+          <div class="form-grid">
+             <app-erp-select label="Company" [options]="companyOptions" [value]="formData().searchCompany" (valueChange)="updateForm('searchCompany', $event)"></app-erp-select>
+             <app-erp-select label="CC Center" [options]="ccCenterOptions" [value]="formData().searchCcCenter" (valueChange)="updateForm('searchCcCenter', $event)"></app-erp-select>
+             <app-erp-input label="Customer" [value]="formData().searchCustomer" (valueChange)="updateForm('searchCustomer', $event)"></app-erp-input>
+             <app-erp-input label="Reference No" [value]="formData().searchReferenceNo" (valueChange)="updateForm('searchReferenceNo', $event)"></app-erp-input>
+             <app-erp-input label="Amount From" [value]="formData().searchAmountFrom" (valueChange)="updateForm('searchAmountFrom', $event)"></app-erp-input>
+             <app-erp-input label="Amount To" [value]="formData().searchAmountTo" (valueChange)="updateForm('searchAmountTo', $event)"></app-erp-input>
+             <app-erp-input label="From Date" type="date" [value]="formData().searchFromDate" (valueChange)="updateForm('searchFromDate', $event)"></app-erp-input>
+             <app-erp-input label="To Date" type="date" [value]="formData().searchToDate" (valueChange)="updateForm('searchToDate', $event)"></app-erp-input>
+          </div>
+          <div class="flex justify-center mt-4 border-t border-[#cbd5e1] pt-4">
+             <button class="btn-search" (click)="handleSearchReturn()"><lucide-icon [img]="SearchIcon" class="btn-icon"></lucide-icon> Search</button>
+          </div>
+       </div>
+    </section>
+
+    <!-- Show Sales Return Table -->
+    <section class="card-panel">
+      <app-section-header title="Show Sales Return" [expanded]="sections().showSalesReturn" (toggle)="toggleSection('showSalesReturn')"></app-section-header>
+      @if (sections().showSalesReturn) {
+        <div class="panel-body p-0">
+           <div class="table-responsive">
+              <table class="erp-data-table min-w-[1500px] border-none">
+                  <thead>
+                      <tr>
+                          <th>Serial Number</th>
+                          <th>Module</th>
+                          <th>Entry Type</th>
+                          <th>Credit Note No</th>
+                          <th>Date</th>
+                          <th>Customer Ref. No</th>
+                          <th>Customer Ref. Date</th>
+                          <th>Challan / Invoice No</th>
+                          <th>CC Center</th>
+                          <th>Customer</th>
+                          <th>Credit Note Amount</th>
+                          <th>WithOut Credit Note Amount</th>
+                          <th>Entry By</th>
+                          <th>Entry Date</th>
+                          <th>Status</th>
+                          <th>Approved By</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>1</td>
+                          <td>Sales</td>
+                          <td>Return Against Invoice</td>
+                          <td>ISLSR25-26/00005</td>
+                          <td>12 Nov 2025</td>
+                          <td>ISLSR25-26/00005</td>
+                          <td>12 Nov 2025</td>
+                          <td></td>
+                          <td>Head Office</td>
+                          <td>P C Associates</td>
+                          <td>Rs. 1208.00</td>
+                          <td>Rs. 0.00</td>
+                          <td>Siddharta Dikshit</td>
+                          <td>12 Nov 2025</td>
+                          <td>Approved</td>
+                          <td>Siddharta Dikshit</td>
+                          <td class="flex gap-1 justify-center items-center">
+                             <button class="text-blue-600 hover:text-blue-800">Edit</button>
+                          </td>
+                      </tr>
+                      <!-- Added one empty state logic for when there's no data, but mocked one row to match screenshot -->
+                  </tbody>
+              </table>
+           </div>
+        </div>
+      }
+    </section>
+
+  </main>
+</div>

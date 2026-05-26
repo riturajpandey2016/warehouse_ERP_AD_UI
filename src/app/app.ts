@@ -64,6 +64,25 @@ import { BinSubLevelComponent } from './components/bin-sub-level/bin-sub-level.c
 import { BinInoutSettingsComponent } from './components/bin-inout-settings/bin-inout-settings.component';
 import { OpeningStockBinComponent } from './components/opening-stock-bin/opening-stock-bin.component';
 import { IssueStockBinComponent } from './components/issue-stock-bin/issue-stock-bin.component';
+import { SalesDeliveryExpectedDaysComponent } from './components/sales-delivery-expected-days/sales-delivery-expected-days';
+import { SalesQuotationApprovalComponent } from './components/sales-quotation-approval/sales-quotation-approval.component';
+import { ContratReviewCheckListEntryComponent } from './components/contrat-review-check-list-entry/contrat-review-check-list-entry.component';
+import { SalesOrderComponent } from './components/sales-order/sales-order.component';
+import { SalesOrderApprovalComponent } from './components/sales-order-approval/sales-order-approval.component';
+import { SalesChallanComponent } from './components/sales-challan/sales-challan.component';
+import { SalesInvoiceComponent } from './components/sales-invoice/sales-invoice.component';
+import { SalesDespatchComponent } from './components/sales-despatch/sales-despatch.component';
+import { SalesReturnComponent } from './components/sales-return/sales-return.component';
+import { InvoiceDocumentUploadDownloadComponent } from './components/invoice-document-upload-download/invoice-document-upload-download.component';
+import { CustomerFeedbackAnswerEntryComponent } from './components/customer-feedback-answer-entry/customer-feedback-answer-entry.component';
+import { CustomerFeedbackAnswerGroupEntryComponent } from './components/customer-feedback-answer-group-entry/customer-feedback-answer-group-entry.component';
+import { BranchStoreEntryComponent } from './components/branch-store-entry/branch-store-entry.component';
+import { StockInStoreComponent } from './components/stock-in-store/stock-in-store.component';
+import { ProductDiscountSchemeComponent } from './components/product-discount-scheme/product-discount-scheme.component';
+import { StoreRequisitionComponent } from './components/store-requisition/store-requisition.component';
+import { IssueSlipPosComponent } from './components/issue-slip-pos/issue-slip-pos.component';
+import { RewardMasterEntryComponent } from './components/reward-master-entry/reward-master-entry.component';
+import { PosInvoiceEntryComponent } from './components/pos-invoice-entry/pos-invoice-entry.component';
 
 // Import new dashboard subcomponents
 import { TopNavbarComponent } from './components/top-navbar/top-navbar.component';
@@ -132,6 +151,25 @@ import { DashboardLayoutComponent } from './components/dashboard-layout/dashboar
     BinInoutSettingsComponent,
     OpeningStockBinComponent,
     IssueStockBinComponent,
+    SalesDeliveryExpectedDaysComponent,
+    SalesQuotationApprovalComponent,
+    ContratReviewCheckListEntryComponent,
+    SalesOrderComponent,
+    SalesOrderApprovalComponent,
+    SalesChallanComponent,
+    SalesInvoiceComponent,
+    SalesDespatchComponent,
+    SalesReturnComponent,
+    InvoiceDocumentUploadDownloadComponent,
+    CustomerFeedbackAnswerEntryComponent,
+    CustomerFeedbackAnswerGroupEntryComponent,
+    BranchStoreEntryComponent,
+    StockInStoreComponent,
+    ProductDiscountSchemeComponent,
+    StoreRequisitionComponent,
+    IssueSlipPosComponent,
+    RewardMasterEntryComponent,
+    PosInvoiceEntryComponent,
     
     // Add dashboard layout subcomponents
     TopNavbarComponent,
@@ -222,6 +260,25 @@ export class App {
     else if (id === 'bin-inout-settings' || id === 'stock-out-order-settings') pageId = 'bin-inout-settings';
     else if (id === 'opening-stock-bin' || id === 'opening-item-bin' || id === 'opening-item-in-branch-bin-arrangement') pageId = 'opening-stock-bin';
     else if (id === 'issue-stock-bin' || id === 'issue-slip-bin-arrangement') pageId = 'issue-stock-bin';
+    else if (id === 'sales-delivery-expected-days') pageId = 'sales-delivery-expected-days';
+    else if (id === 'sales-quotation-approval') pageId = 'sales-quotation-approval';
+    else if (id === 'contrat-review-check-list-entry') pageId = 'contrat-review-check-list-entry';
+    else if (id === 'sales-order') pageId = 'sales-order';
+    else if (id === 'sales-order-approval') pageId = 'sales-order-approval';
+    else if (id === 'sales-challan') pageId = 'sales-challan';
+    else if (id === 'sales-invoice') pageId = 'sales-invoice';
+    else if (id === 'sales-despatch') pageId = 'sales-despatch';
+    else if (id === 'sales-return' || id === 'sales-return-credit-note') pageId = 'sales-return';
+    else if (id === 'invoice-document-upload-download') pageId = 'invoice-document-upload-download';
+    else if (id === 'customer-feedback-answer-entry') pageId = 'customer-feedback-answer-entry';
+    else if (id === 'customer-feedback-answer-group-entry') pageId = 'customer-feedback-answer-group-entry';
+    else if (id === 'branch-store-entry') pageId = 'branch-store-entry';
+    else if (id === 'stock-in-store') pageId = 'stock-in-store';
+    else if (id === 'product-discount-scheme') pageId = 'product-discount-scheme';
+    else if (id === 'store-requisition') pageId = 'store-requisition';
+    else if (id === 'issue-slip-pos') pageId = 'issue-slip-pos';
+    else if (id === 'reward-master-entry') pageId = 'reward-master-entry';
+    else if (id === 'pos-invoice-entry') pageId = 'pos-invoice-entry';
     
     this.currentPage.set(pageId);
   }

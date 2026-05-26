@@ -1,0 +1,201 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.invoice-upload-container {
+  background-color: #f5f7fa;
+  min-height: unset;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  color: #212529;
+  padding-bottom: 40px;
+}
+
+/* Page Title & Sticky Header Strip Styles */
+.page-header {
+  background-color: #ffffff;
+  border-bottom: 2px solid #cbd5e1;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+  font-size: 14px;
+  font-weight: 900;
+  color: #1a3a6b; /* Deep Navy Blue */
+  text-transform: uppercase;
+  letter-spacing: 0.25px;
+  margin: 0;
+}
+
+/* Page content and card panels styling */
+.page-content {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.card-panel {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  overflow: hidden;
+}
+
+/* Form Card Header Overrides */
+.card-panel app-section-header ::ng-deep .px-3.py-1\.5 {
+  background-color: #e8edf5 !important;
+  color: #1a3a6b !important;
+  border-bottom: 1px solid #cbd5e1 !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  transition: background-color 0.2s ease;
+}
+
+.card-panel app-section-header ::ng-deep h2 {
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.25px !important;
+}
+
+.panel-body {
+  display: flex;
+  flex-direction: column;
+}
+
+:host ::ng-deep app-erp-select select {
+  font-size: 13px !important;
+  padding: 4px 8px !important;
+  min-height: 28px !important;
+  box-sizing: border-box;
+}
+
+.btn-search {
+  height: 28px;
+  padding: 0 24px;
+  background-color: #3b5998 !important; /* Blue from screenshot */
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  border-radius: 4px !important;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.btn-search:hover {
+  background-color: #2d4373 !important;
+}
+
+.btn-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Data Table Styling */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.erp-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.erp-data-table th {
+  background-color: #6481b0;
+  color: white;
+  padding: 8px 10px;
+  text-align: left;
+  border: 1px solid #94a3b8;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.erp-data-table td {
+  padding: 6px 10px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.erp-data-table tbody tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+
+.filter-row td {
+  padding: 4px;
+  background-color: #d1d5db; /* Grey filter row */
+}
+
+.column-filter {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 2px 4px;
+  border: 1px solid #9ca3af;
+  border-right: none;
+  font-size: 11px;
+  height: 20px;
+  outline: none;
+}
+
+.filter-btn {
+  background-color: #f3f4f6;
+  border: 1px solid #9ca3af;
+  border-left: 1px solid #cbd5e1;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Upload controls */
+.upload-control {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.file-input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.file-input {
+  font-size: 11px;
+  width: 180px;
+}
+
+.btn-upload {
+  align-self: flex-start;
+  font-size: 11px;
+  padding: 2px 6px;
+  background-color: #e5e7eb;
+  border: 1px solid #9ca3af;
+  cursor: pointer;
+  color: #111827;
+}
+
+.btn-upload:hover {
+  background-color: #d1d5db;
+}
