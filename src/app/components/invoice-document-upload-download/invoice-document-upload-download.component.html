@@ -1,115 +1,128 @@
-<div class="invoice-upload-container">
-  <!-- Page Title / Sticky Header Strip -->
+<div class="company-master-container">
+  <!-- Header Section -->
   <header class="page-header">
-    <h1 class="page-title">
-      Sales Invoice Document Upload/Download
-    </h1>
+    <div class="header-left">
+      <div class="breadcrumb-trail">
+        <lucide-icon [img]="LayoutGridIcon" class="breadcrumb-icon"></lucide-icon>
+        <span class="breadcrumb-item">Purchase</span>
+        <lucide-icon [img]="ChevronRightIcon" class="breadcrumb-sep"></lucide-icon>
+        <span class="breadcrumb-item active">Invoice Document Upload/Download</span>
+      </div>
+      <div class="title-section">
+        <div class="title-icon-wrapper">
+          <lucide-icon [img]="ShoppingCartIcon" class="title-icon"></lucide-icon>
+        </div>
+        <div>
+          <h1 class="page-title">Invoice Document Upload/Download</h1>
+          <div class="title-badges">
+            <span class="badge badge-new">New Entry</span>
+            <span class="badge-dot">•</span>
+            <span class="badge-text">Purchase Module</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <!-- placeholder for any global actions -->
+    </div>
   </header>
 
   <main class="page-content">
-     
-    <!-- SECTION 1: Search Filters -->
-    <section class="card-panel">
-      <app-section-header 
-        title="Click to Hide Details" 
-        [expanded]="sections().searchFilters" 
-        (toggle)="toggleSection('searchFilters')">
-      </app-section-header>
-      
-      @if (sections().searchFilters) {
-        <div class="panel-body bg-gray-50 p-3!">
-           <!-- Search Form -->
-           <div class="flex items-center gap-4">
-              <span class="font-bold text-sm text-[#212529] whitespace-nowrap ml-12">Search By :</span>
-              <app-erp-select class="w-48" [options]="searchByOptions" [value]="searchBy()" (valueChange)="searchBy.set($event)"></app-erp-select>
-              <button (click)="handleSearch()" class="btn-search">
-                 <lucide-icon [img]="SearchIcon" class="btn-icon"></lucide-icon> Search
-              </button>
-           </div>
-        </div>
-      }
-    </section>
+    <!-- SECTION 1 — Header / Search Section -->
+  <div class="card-panel">
+  <div class="card-header bg-slate-900 text-white">
+    <lucide-icon [img]="SearchIcon" class="card-header-icon text-white"></lucide-icon>
+    <h2 class="card-header-title text-white">1. Search Invoices</h2>
+  </div>
+  <div class="panel-body">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <app-floating-select
+        id="searchBy"
+        label="Search By"
+        [value]="searchBy()"
+        (valueChange)="searchBy.set($event)"
+        [options]="searchByOptions">
+      </app-floating-select>
 
-    <!-- Data Table Section -->
-    <section class="card-panel mt-1">
-        <div class="table-responsive">
-           <table class="erp-data-table min-w-[1200px] border-none">
-               <thead>
-                   <tr>
-                       <th>Serial Number</th>
-                       <th>Invoice Date</th>
-                       <th>Reference No</th>
-                       <th>Customer Name</th>
-                       <th>Customer Code</th>
-                       <th>Address</th>
-                       <th>Upload Document</th>
-                       <th>Display Document</th>
-                   </tr>
-                   <tr class="filter-row">
-                       <td></td>
-                       <td>
-                          <div class="flex">
-                             <input type="text" class="column-filter rounded-r-none">
-                             <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
-                          </div>
-                       </td>
-                       <td>
-                          <div class="flex">
-                             <input type="text" class="column-filter rounded-r-none">
-                             <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
-                          </div>
-                       </td>
-                       <td>
-                          <div class="flex">
-                             <input type="text" class="column-filter rounded-r-none">
-                             <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
-                          </div>
-                       </td>
-                       <td>
-                          <div class="flex">
-                             <input type="text" class="column-filter rounded-r-none">
-                             <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
-                          </div>
-                       </td>
-                       <td>
-                          <div class="flex">
-                             <input type="text" class="column-filter rounded-r-none">
-                             <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
-                          </div>
-                       </td>
-                       <td></td>
-                       <td></td>
-                   </tr>
-               </thead>
-               <tbody>
-                   @for (row of tableData(); track row.serial) {
-                      <tr>
-                          <td class="text-center">{{ row.serial }}</td>
-                          <td>{{ row.invoiceDate }}</td>
-                          <td>{{ row.refNo }}</td>
-                          <td>{{ row.custName }}</td>
-                          <td>{{ row.custCode }}</td>
-                          <td class="max-w-[300px] whitespace-normal">{{ row.address }}</td>
-                          <td>
-                             <div class="upload-control">
-                                <div class="file-input-wrapper">
-                                   <input type="file" class="file-input">
-                                </div>
-                                <button class="btn-upload" (click)="handleUpload(row.serial)">Upload Document</button>
-                             </div>
-                          </td>
-                          <td class="text-center">
-                             @if (row.hasDoc) {
-                                <button class="text-blue-600 hover:text-blue-800" title="View Document">
-                                   <lucide-icon [img]="EyeIcon" class="w-4 h-4"></lucide-icon>
-                                </button>
-                             }
-                          </td>
-                      </tr>
-                   }
-               </tbody>
-           </table>
+      <app-floating-input
+        id="searchQuery"
+        label="Search Query"
+        [value]="searchQuery()"
+        (valueChange)="searchQuery.set($event)"
+        placeholder="Enter search term">
+      </app-floating-input>
+    </div>
+    <div class="mt-3">
+      <button class="btn-action-primary w-full md:w-auto" (click)="onSearch()">
+        <lucide-icon [img]="SearchIcon" class="action-btn-icon mr-1"></lucide-icon> Search
+      </button>
+    </div>
+  </div>
+</div>
+
+    <!-- SECTION 2 — Invoice Document Data Grid -->
+    <div class="card-panel table-panel">
+      <div class="card-header table-header-toolbar bg-slate-900 text-white">
+        <div class="header-left-group">
+          <lucide-icon [img]="AlertCircleIcon" class="card-header-icon text-white"></lucide-icon>
+          <h2 class="card-header-title text-white">2. Invoice Documents</h2>
         </div>
-    </section>
+        <!-- placeholder for any toolbar actions -->
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 p-4">
+        <!-- Main Table (3 columns) -->
+        <div class="lg:col-span-3 table-scroll-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th class="w-12 text-center">S.No</th>
+                <th class="col-date">Invoice Date</th>
+                <th class="col-ref">Reference No</th>
+                <th class="col-supplier">Supplier</th>
+                <th class="col-total text-right">Grand Total (₹)</th>
+                <th class="col-upload text-center">Upload Document</th>
+                <th class="col-view text-center">View Document</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (doc of filteredDocuments(); track doc.id; let idx = $index) {
+                <tr class="table-row">
+                  <td class="text-center font-medium text-slate-600">{{ idx + 1 }}</td>
+                  <td class="text-sm text-slate-700">{{ doc.invoiceDate }}</td>
+                  <td class="text-sm font-medium text-blue-900">{{ doc.refNo }}</td>
+                  <td class="text-sm text-slate-700">{{ doc.supplier }}</td>
+                  <td class="text-right font-semibold text-slate-800">₹{{ doc.grandTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</td>
+                  <td class="text-center">
+                    <label class="btn-upload inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium px-2 py-1 rounded cursor-pointer">
+                      <lucide-icon [img]="UploadIcon" class="w-4 h-4"></lucide-icon> Upload
+                      <input type="file" accept="application/pdf,image/*" class="hidden" (change)="onUploadDocument(doc.id, $event)" />
+                    </label>
+                  </td>
+                  <td class="text-center">
+                    <button class="btn-view inline-flex items-center gap-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium px-2 py-1 rounded" (click)="onViewDocument(doc.id)" title="View Document">
+                      <lucide-icon [img]="EyeIcon" class="w-4 h-4"></lucide-icon>
+                    </button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="7" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">No invoice records found.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination placeholder (1 column) -->
+        <div class="lg:col-span-1 flex items-start justify-center lg:justify-end pt-2 lg:pt-0">
+          <!-- Simple pagination mockup -->
+          <div class="flex gap-2 text-sm text-slate-600">
+            <button class="px-2 py-1 border border-slate-300 rounded" disabled>&laquo; Prev</button>
+            <span class="px-2 py-1">1 / 1</span>
+            <button class="px-2 py-1 border border-slate-300 rounded" disabled>Next &raquo;</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </div>

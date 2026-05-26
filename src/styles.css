@@ -132,6 +132,15 @@ app-bin-sub-level,
 app-bin-inout-settings,
 app-opening-stock-bin,
 app-issue-stock-bin,
+app-purchase-quotation-approval,
+app-purchase-order,
+app-purchase-order-approval,
+app-purchase-order-receive-mrn,
+app-purchase-order-receive-mrn-approval,
+app-purchase-order-receive-grn-qc,
+app-purchase-invoice,
+app-purchase-return,
+app-invoice-document-upload-download,
 app-dashboard-layout {
   display: block;
   width: 100%;

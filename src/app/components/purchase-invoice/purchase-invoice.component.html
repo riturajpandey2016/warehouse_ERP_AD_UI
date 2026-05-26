@@ -1,0 +1,692 @@
+<div class="company-master-container">
+  <!-- Header Section -->
+  <header class="page-header">
+    <div class="header-left">
+      <div class="breadcrumb-trail">
+        <lucide-icon [img]="LayoutGridIcon" class="breadcrumb-icon"></lucide-icon>
+        <span class="breadcrumb-item">Purchase</span>
+        <lucide-icon [img]="ChevronRightIcon" class="breadcrumb-sep"></lucide-icon>
+        <span class="breadcrumb-item active">Purchase Invoice</span>
+      </div>
+      
+      <div class="title-section">
+        <div class="title-icon-wrapper">
+          <lucide-icon [img]="ShoppingCartIcon" class="title-icon"></lucide-icon>
+        </div>
+        <div>
+          <h1 class="page-title">Purchase Invoice</h1>
+          <div class="title-badges">
+            <span class="badge badge-new">New Invoice</span>
+            <span class="badge-dot">•</span>
+            <span class="badge-text">Billing Console</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button (click)="onSaveInvoice()" class="btn-save btn-lg">
+        <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save Invoice
+      </button>
+      <button (click)="handleReset()" class="btn-reset btn-lg">
+        <lucide-icon [img]="RotateCcwIcon" class="btn-icon"></lucide-icon> Reset
+      </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- SECTION 1 — Header / Invoice Entry Section -->
+    <div class="card-panel">
+      <div class="card-header bg-slate-900 text-white">
+        <lucide-icon [img]="CalendarIcon" class="card-header-icon text-white"></lucide-icon>
+        <h2 class="card-header-title text-white">1. Invoice Entry Header</h2>
+      </div>
+
+      <div class="panel-body">
+        <!-- Type Selection -->
+        <div class="flex items-center gap-6 mb-4 pb-3 border-b border-slate-100">
+          <span class="text-xs font-bold text-slate-500">Invoice Type Selection:</span>
+          <div class="flex items-center gap-4">
+            <label class="flex items-center gap-1.5 text-xs font-bold text-blue-900 cursor-pointer">
+              <input type="radio" name="receiveType" value="Direct" [checked]="receiveType() === 'Direct'" (change)="receiveType.set('Direct')" class="h-4 w-4 border-gray-300 text-blue-900 focus:ring-blue-600" />
+              Direct Invoice
+            </label>
+            <label class="flex items-center gap-1.5 text-xs font-bold text-blue-900 cursor-pointer">
+              <input type="radio" name="receiveType" value="Against GRN" [checked]="receiveType() === 'Against GRN'" (change)="receiveType.set('Against GRN')" class="h-4 w-4 border-gray-300 text-blue-900 focus:ring-blue-600" />
+              Against GRN
+            </label>
+          </div>
+        </div>
+
+        <!-- 1.2 Purchase Order Receive (GRN) And QC Search Details expandable/collapsible section -->
+        <div *ngIf="receiveType() === 'Against GRN'" class="requisition-search-container mb-4">
+          <div class="flex items-center justify-between clickable-header mb-2" (click)="toggleSection('grnSearch')">
+            <div class="flex items-center gap-2">
+              <lucide-icon [img]="SearchIcon" class="w-4 h-4 text-blue-900"></lucide-icon>
+              <span class="criteria-red-title text-xs font-bold uppercase">
+                Purchase Order Receive (GRN) And QC Search Details (Click to Expand)
+              </span>
+            </div>
+            <lucide-icon [img]="sectionsExpanded().grnSearch ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 text-slate-500"></lucide-icon>
+          </div>
+
+          <div *ngIf="sectionsExpanded().grnSearch" class="search-fields-wrapper bg-slate-50 p-4 rounded border border-slate-200">
+            <div class="form-grid-3">
+              <app-floating-input id="grnSearchNo" label="GRN Reference No" [value]="grnSearchNo()" (valueChange)="grnSearchNo.set($event)" placeholder="e.g. GRN/2026/001"></app-floating-input>
+              <app-floating-input id="grnSearchDate" label="GRN Date" type="date" [value]="grnSearchDate()" (valueChange)="grnSearchDate.set($event)"></app-floating-input>
+              <button class="btn-action-primary h-11 w-full"><lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5 mr-1"></lucide-icon> Fetch GRN Items</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Invoice Entry Details -->
+        <div class="form-grid-4">
+          <app-floating-input 
+            id="invoiceDate" label="Date" type="date" [required]="true" 
+            [value]="invoiceDate()" (valueChange)="invoiceDate.set($event)">
+          </app-floating-input>
+
+          <app-floating-input 
+            id="refNo" label="Reference No"
+            [value]="refNo()" (valueChange)="refNo.set($event)"
+            placeholder="e.g. INV-REF-2026">
+          </app-floating-input>
+
+          <app-floating-input 
+            id="supplierInvoiceDate" label="Supplier Invoice Date" type="date" [required]="true"
+            [value]="supplierInvoiceDate()" (valueChange)="supplierInvoiceDate.set($event)">
+          </app-floating-input>
+
+          <app-floating-input 
+            id="supplierInvoiceNo" label="Supplier Invoice No" [required]="true"
+            [value]="supplierInvoiceNo()" (valueChange)="supplierInvoiceNo.set($event)"
+            placeholder="e.g. SUPP-INV-109">
+          </app-floating-input>
+        </div>
+
+        <!-- 1.4 Invoice Type Selection (Asset with Input etc.) -->
+        <div class="mt-4 pt-3 border-t border-slate-100">
+          <span class="text-xs font-black text-slate-500 uppercase tracking-wider block mb-2">Invoice Sub-Type:</span>
+          <div class="grid grid-cols-2 md:grid-cols-6 gap-3">
+            @for (typeOpt of ['Asset With Input', 'Asset Without Input', 'General', 'Input', 'Other Purchase', 'RCM']; track typeOpt) {
+              <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded cursor-pointer transition-all hover:bg-slate-100">
+                <input type="radio" name="invoiceType" [value]="typeOpt" [checked]="invoiceType() === typeOpt" (change)="invoiceType.set(typeOpt)" class="h-4 w-4 text-blue-900 border-gray-300 focus:ring-blue-600" />
+                <span class="text-[10px] font-black uppercase text-slate-600">{{ typeOpt }}</span>
+              </label>
+            }
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION 2 — Supplier Details -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('supplierDetails')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="Building2Icon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">2. Supplier Details Credentials</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().supplierDetails ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().supplierDetails">
+        <div class="panel-body">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- LEFT SIDE -->
+            <div class="space-y-4">
+              <div class="form-grid-2 grid grid-cols-2 gap-3">
+                <app-floating-select 
+                  id="company" label="Company" 
+                  [value]="company()" (valueChange)="company.set($event)"
+                  [options]="companyOptions">
+                </app-floating-select>
+
+                <app-floating-select 
+                  id="ccCenter" label="CC Center" 
+                  [value]="ccCenter()" (valueChange)="ccCenter.set($event)"
+                  [options]="ccCenterOptions">
+                </app-floating-select>
+              </div>
+
+              <div class="form-grid-2 grid grid-cols-2 gap-3">
+                <app-floating-select 
+                  id="department" label="Department" 
+                  [value]="department()" (valueChange)="department.set($event)"
+                  [options]="departmentOptions">
+                </app-floating-select>
+
+                <app-floating-input 
+                  id="gstin" label="GSTIN" 
+                  [value]="gstin()" (valueChange)="gstin.set($event)">
+                </app-floating-input>
+              </div>
+
+              <div class="form-grid-2 grid grid-cols-2 gap-3">
+                <app-floating-input 
+                  id="entryType" label="Entry Type" 
+                  [value]="entryType()" (valueChange)="entryType.set($event)">
+                </app-floating-input>
+
+                <app-floating-input 
+                  id="vendorCode" label="Vendor Code" 
+                  [value]="vendorCode()" (valueChange)="vendorCode.set($event)">
+                </app-floating-input>
+              </div>
+
+              <app-floating-textarea 
+                id="deliveryAddress" label="Delivery Address" [rows]="2"
+                [value]="deliveryAddress()" (valueChange)="deliveryAddress.set($event)">
+              </app-floating-textarea>
+
+              <div class="form-grid-2 grid grid-cols-2 gap-3">
+                <app-floating-select 
+                  id="projectName" label="Project Name" 
+                  [value]="projectName()" (valueChange)="projectName.set($event)"
+                  [options]="projectNameOptions">
+                </app-floating-select>
+
+                <app-floating-textarea 
+                  id="projectDescription" label="Project Description" [rows]="1"
+                  [value]="projectDescription()" (valueChange)="projectDescription.set($event)">
+                </app-floating-textarea>
+              </div>
+
+              <div class="form-grid-3 grid grid-cols-3 gap-2">
+                <div class="col-span-2">
+                  <app-floating-input 
+                    id="costCentreName" label="Cost Centre Name" 
+                    [value]="costCentreName()" (valueChange)="costCentreName.set($event)"
+                    placeholder="Enter cost center name">
+                  </app-floating-input>
+                </div>
+                <div class="flex items-center justify-around bg-slate-50 border border-slate-200 rounded px-2">
+                  <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block">Relation</span>
+                  <label class="flex items-center gap-1 text-[10px] font-bold text-slate-600 cursor-pointer">
+                    <input type="radio" name="entryRelation" value="Company" [checked]="entryRelation() === 'Company'" (change)="entryRelation.set('Company')" /> Company
+                  </label>
+                  <label class="flex items-center gap-1 text-[10px] font-bold text-slate-600 cursor-pointer">
+                    <input type="radio" name="entryRelation" value="CC Center" [checked]="entryRelation() === 'CC Center'" (change)="entryRelation.set('CC Center')" /> CC Center
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT SIDE -->
+            <div class="space-y-4">
+              <div class="flex items-center gap-2 pt-1">
+                <div class="w-full">
+                  <app-floating-input 
+                    id="supplierName" label="Supplier Name" [required]="true" 
+                    [value]="supplierName()" (valueChange)="supplierName.set($event)"
+                    placeholder="Enter Supplier Name">
+                  </app-floating-input>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0 px-2">
+                  <input type="checkbox" id="inactiveSupplier" [checked]="inactiveSupplier()" (change)="inactiveSupplier.set(!inactiveSupplier())" class="h-4 w-4 rounded border-gray-300 text-blue-900 focus:ring-blue-600" />
+                  <label for="inactiveSupplier" class="text-xs font-semibold text-slate-500 cursor-pointer">Inactive</label>
+                </div>
+                <!-- Action placeholders: Supplier Details, Add Supplier -->
+                <button class="btn-action-secondary shrink-0" title="Add Supplier"><lucide-icon [img]="PlusCircleIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+                <button class="btn-action-secondary shrink-0" title="Supplier Details Details"><lucide-icon [img]="HelpCircleIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+              </div>
+
+              <div class="form-grid-2 grid grid-cols-2 gap-3">
+                <app-floating-select 
+                  id="productionUnit" label="Production Unit" 
+                  [value]="productionUnit()" (valueChange)="productionUnit.set($event)"
+                  [options]="productionUnitOptions">
+                </app-floating-select>
+
+                <app-floating-select 
+                  id="purchaseType" label="Purchase Type" [required]="true" 
+                  [value]="purchaseType()" (valueChange)="purchaseType.set($event)"
+                  [options]="purchaseTypeOptions">
+                </app-floating-select>
+              </div>
+
+              <app-floating-input 
+                id="supplierAddress" label="Supplier Address"
+                [value]="supplierAddress()" (valueChange)="supplierAddress.set($event)">
+              </app-floating-input>
+
+              <app-floating-textarea 
+                id="remarks" label="Remarks" [rows]="2"
+                [value]="remarks()" (valueChange)="remarks.set($event)">
+              </app-floating-textarea>
+
+              <div class="form-grid-2 grid grid-cols-2 gap-3">
+                <div class="flex items-center gap-4 bg-slate-50 border border-slate-200 rounded px-3 h-12">
+                  <span class="text-xs font-bold text-slate-500">Type:</span>
+                  <label class="flex items-center gap-1 text-xs font-bold text-slate-700 cursor-pointer">
+                    <input type="radio" name="cashCredit" value="Cash" [checked]="cashCredit() === 'Cash'" (change)="cashCredit.set('Cash')" /> Cash
+                  </label>
+                  <label class="flex items-center gap-1 text-xs font-bold text-slate-700 cursor-pointer">
+                    <input type="radio" name="cashCredit" value="Credit" [checked]="cashCredit() === 'Credit'" (change)="cashCredit.set('Credit')" /> Credit
+                  </label>
+                </div>
+
+                <app-floating-input 
+                  id="projectCode" label="Project Code" 
+                  [value]="projectCode()" (valueChange)="projectCode.set($event)">
+                </app-floating-input>
+              </div>
+
+              <div class="form-grid-3 grid grid-cols-3 gap-2">
+                <div class="col-span-2">
+                  <app-floating-select 
+                    id="costCentreGroupName" label="Cost Centre Group Name" 
+                    [value]="costCentreGroupName()" (valueChange)="costCentreGroupName.set($event)"
+                    [options]="costCentreGroupOptions">
+                  </app-floating-select>
+                </div>
+                <app-floating-input 
+                  id="balance" label="Balance (₹)" type="number" 
+                  [value]="balance().toString()" (valueChange)="balance.set(parseFloat($event))">
+                </app-floating-input>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 — Contact Person Details -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('contactPersonDetails')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="UserCheckIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">3. Contact Person Credentials</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().contactPersonDetails ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().contactPersonDetails">
+        <div class="panel-body">
+          <div class="form-grid-3">
+            <app-floating-input id="contactPerson" label="Contact Person" [value]="contactPerson()" (valueChange)="contactPerson.set($event)"></app-floating-input>
+            <app-floating-input id="contactDesignation" label="Designation" [value]="contactDesignation()" (valueChange)="contactDesignation.set($event)"></app-floating-input>
+            <app-floating-input id="contactPhone" label="Phone" [value]="contactPhone()" (valueChange)="contactPhone.set($event)"></app-floating-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4 — Contact Details Entry -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('contactDetailsEntry')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="PhoneCallIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">4. Contact Details Entry Settings</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().contactDetailsEntry ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().contactDetailsEntry">
+        <div class="panel-body">
+          <div class="form-grid-2 grid grid-cols-2 gap-3">
+            <app-floating-input id="contactEmail" label="Email Address" [value]="contactEmail()" (valueChange)="contactEmail.set($event)"></app-floating-input>
+            <app-floating-input id="contactAlternatePhone" label="Alternate Phone" [value]="contactAlternatePhone()" (valueChange)="contactAlternatePhone.set($event)"></app-floating-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5 — Item Details Search -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('itemSearch')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="SearchIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">5. Item Details Search & Settings</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().itemSearch ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().itemSearch">
+        <div class="panel-body">
+          <div class="form-grid-4">
+            
+            <div class="flex items-center gap-4 bg-slate-50 border border-slate-200 rounded px-3 h-12">
+              <span class="text-xs font-bold text-slate-500">Rate Selection:</span>
+              <label class="flex items-center gap-1 text-xs font-bold text-slate-700 cursor-pointer">
+                <input type="radio" name="rateSelection" value="Normal" [checked]="rateSelection() === 'Normal'" (change)="rateSelection.set('Normal')" /> Normal
+              </label>
+              <label class="flex items-center gap-1 text-xs font-bold text-slate-700 cursor-pointer">
+                <input type="radio" name="rateSelection" value="Supplier" [checked]="rateSelection() === 'Supplier'" (change)="rateSelection.set('Supplier')" /> Supplier
+              </label>
+            </div>
+
+            <app-floating-select 
+              id="itemTypeFilter" label="Item Type" 
+              [value]="itemTypeFilter()" (valueChange)="itemTypeFilter.set($event)"
+              [options]="itemTypeOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="groupFilter" label="Group" 
+              [value]="groupFilter()" (valueChange)="groupFilter.set($event)"
+              [options]="groupOptions">
+            </app-floating-select>
+
+            <div class="flex items-center gap-2 pt-1 h-12">
+              <button class="btn-action-primary w-full" (click)="onAddProduct()">
+                <lucide-icon [img]="SearchIcon" class="action-btn-icon mr-1"></lucide-icon> Search / Add Product
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 6 — Item Details -->
+    <div class="card-panel table-panel">
+      <div class="card-header table-header-toolbar bg-slate-900 text-white">
+        <div class="header-left-group">
+          <lucide-icon [img]="ClipboardListIcon" class="card-header-icon text-white"></lucide-icon>
+          <h2 class="card-header-title text-white">6. Invoice Item Details & Quantities</h2>
+        </div>
+        <button (click)="onAddProduct()" class="btn-add-product bg-blue-700 hover:bg-blue-800">
+          <lucide-icon [img]="PlusIcon" class="btn-add-icon"></lucide-icon> Add Product
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 p-4">
+        
+        <!-- Left 3 columns: Item Details Grid -->
+        <div class="lg:col-span-3 table-scroll-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th class="w-16 text-center">S.No</th>
+                <th class="col-item-code">Item Code</th>
+                <th class="col-description">Item Description</th>
+                <th class="w-24 text-center">Qty</th>
+                <th class="col-rate text-right">Rate (₹)</th>
+                <th class="w-20 text-center">Tax (%)</th>
+                <th class="col-rate text-right">Tax Amt (₹)</th>
+                <th class="col-total text-right">Total Amt (₹)</th>
+                <th class="col-actions text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of items(); track item.id; let idx = $index) {
+                <tr class="table-row">
+                  <td class="text-center font-bold text-slate-500">{{ idx + 1 }}</td>
+                  <td class="cell-code font-mono">{{ item.code }}</td>
+                  <td class="cell-description font-semibold text-blue-900">{{ item.name }}</td>
+                  <td class="cell-qty text-center">
+                    <input type="number" [value]="item.qty" (input)="updateQty(item.id, qtyInput.value)" #qtyInput class="qty-number-input font-bold" />
+                  </td>
+                  <td class="cell-rate text-right font-semibold">₹{{ item.rate.toLocaleString() }}</td>
+                  <td class="cell-qty text-center">
+                    <input type="number" [value]="item.taxPercent" (input)="updateTaxPercent(item.id, taxInput.value)" #taxInput class="qty-number-input text-indigo-800" />
+                  </td>
+                  <td class="cell-rate text-right font-semibold">₹{{ item.taxAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</td>
+                  <td class="cell-total font-bold text-right text-indigo-950">₹{{ item.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</td>
+                  <td class="cell-actions text-center">
+                    <button (click)="onDeleteProduct(item.id)" class="action-delete-btn" title="Delete Product">
+                      <lucide-icon [img]="Trash2Icon" class="btn-delete-icon"></lucide-icon>
+                    </button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="9" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">
+                    No items in current invoice receipt.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Right 1 column: Tax Details placeholder & Grand Totals -->
+        <div class="lg:col-span-1 space-y-4">
+          <!-- Tax Details Section Placeholder -->
+          <div class="bg-slate-50 border border-slate-200 rounded p-4">
+            <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest border-b border-slate-200 pb-2 mb-3">Tax details sheet</h3>
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-500">CGST (9%):</span>
+                <span class="font-semibold text-slate-700">₹{{ (totalTax() / 2).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+              </div>
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-500">SGST (9%):</span>
+                <span class="font-semibold text-slate-700">₹{{ (totalTax() / 2).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+              </div>
+              <div class="flex justify-between text-xs border-t border-slate-200 pt-2 font-bold">
+                <span class="text-slate-500">Total Tax:</span>
+                <span class="text-indigo-800">₹{{ totalTax().toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grand Totals & Round Off area -->
+          <div class="bg-blue-50 border border-blue-100 rounded p-4">
+            <h3 class="text-xs font-black text-blue-900 uppercase tracking-widest border-b border-blue-200 pb-2 mb-3">Grand totals Summary</h3>
+            <div class="space-y-3">
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-500">Subtotal Amount:</span>
+                <span class="font-semibold text-slate-700">₹{{ subtotal().toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+              </div>
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-500">Grand Total:</span>
+                <span class="font-semibold text-slate-700">₹{{ grandTotalBeforeRoundOff().toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+              </div>
+
+              <!-- Round Off field/selection -->
+              <div class="flex items-center justify-between gap-2 pt-1">
+                <span class="text-xs text-slate-500 font-medium">Round Off adjustment:</span>
+                <input 
+                  type="number" 
+                  [value]="roundOff().toString()" 
+                  (input)="roundOff.set(parseFloat(roInput.value))" 
+                  #roInput 
+                  class="w-24 text-right px-2 py-1 text-xs border border-slate-300 rounded font-bold" 
+                  placeholder="0.00" 
+                />
+              </div>
+
+              <div class="flex justify-between text-sm border-t border-blue-200 pt-3 font-black text-indigo-900">
+                <span>Final Grand Total:</span>
+                <span class="text-base text-indigo-950">₹{{ finalGrandTotal().toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION 7 — Terms & Conditions -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('termsConditions')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="BookOpenIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">7. Terms & Conditions billing checklists</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().termsConditions ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().termsConditions">
+        <div class="panel-body">
+          <div class="text-editor-container">
+            <!-- Modern text editor ribbon simulator -->
+            <div class="editor-ribbon">
+              <div class="ribbon-btn-group">
+                <button class="ribbon-btn font-bold">B</button>
+                <button class="ribbon-btn italic font-serif">I</button>
+                <button class="ribbon-btn underline">U</button>
+                <span class="ribbon-sep">|</span>
+                <button class="ribbon-btn">List Bullet</button>
+                <button class="ribbon-btn">List Number</button>
+              </div>
+              <div class="ribbon-right">
+                <span class="text-[10px] text-slate-400 font-bold uppercase mr-2">Invoice terms validation checklists</span>
+              </div>
+            </div>
+
+            <!-- Grid containing each term input for robust binding -->
+            <div class="editor-content-grid p-4 bg-slate-50 border-t border-slate-200">
+              <div class="form-grid-3">
+                <app-floating-input id="termPriceBasis" label="1. Price Basis" [value]="termPriceBasis()" (valueChange)="termPriceBasis.set($event)"></app-floating-input>
+                <app-floating-input id="termPaymentTerms" label="2. Payment Terms" [value]="termPaymentTerms()" (valueChange)="termPaymentTerms.set($event)"></app-floating-input>
+                <app-floating-input id="termPkgFwd" label="3. Packaging & Forwarding Charges" [value]="termPkgFwd()" (valueChange)="termPkgFwd.set($event)"></app-floating-input>
+                <app-floating-input id="termTransportation" label="4. Transportation" [value]="termTransportation()" (valueChange)="termTransportation.set($event)"></app-floating-input>
+                <app-floating-input id="termDeliveryTerms" label="5. Delivery Terms" [value]="termDeliveryTerms()" (valueChange)="termDeliveryTerms.set($event)"></app-floating-input>
+                <app-floating-input id="termErection" label="6. Erection/Supervision & Conditions" [value]="termErection()" (valueChange)="termErection.set($event)"></app-floating-input>
+                <app-floating-input id="termGuarantee" label="7. Guarantee & Warranty" [value]="termGuarantee()" (valueChange)="termGuarantee.set($event)"></app-floating-input>
+                <app-floating-input id="termInspection" label="8. Inspection" [value]="termInspection()" (valueChange)="termInspection.set($event)"></app-floating-input>
+                <div class="col-span-2">
+                  <app-floating-textarea id="termRemarks" label="9. Remarks / Special Instructions" [rows]="1" [value]="termRemarks()" (valueChange)="termRemarks.set($event)"></app-floating-textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 8 — Invoice Search / Filter Section -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('invoiceFilters')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="FilterIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">8. Search Invoice history logs database</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().invoiceFilters ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().invoiceFilters">
+        <div class="panel-body">
+          <div class="form-grid-4">
+            
+            <!-- LEFT SIDE -->
+            <app-floating-select 
+              id="searchCompany" label="Company" 
+              [value]="searchCompany()" (valueChange)="searchCompany.set($event)"
+              [options]="companyOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="searchDept" label="Department" 
+              [value]="searchDept()" (valueChange)="searchDept.set($event)"
+              [options]="departmentOptions">
+            </app-floating-select>
+
+            <app-floating-input 
+              id="searchAmtFrom" label="Amount From (₹)" type="number"
+              [value]="searchAmtFrom()" (valueChange)="searchAmtFrom.set($event)">
+            </app-floating-input>
+
+            <app-floating-input 
+              id="searchFromDate" label="From Date" type="date"
+              [value]="searchFromDate()" (valueChange)="searchFromDate.set($event)">
+            </app-floating-input>
+
+            <app-floating-input 
+              id="searchRefNo" label="Reference No"
+              [value]="searchRefNo()" (valueChange)="searchRefNo.set($event)">
+            </app-floating-input>
+
+            <!-- RIGHT SIDE -->
+            <app-floating-select 
+              id="searchCcCenter" label="CC Center" 
+              [value]="searchCcCenter()" (valueChange)="searchCcCenter.set($event)"
+              [options]="ccCenterOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="searchProdUnit" label="Production Unit" 
+              [value]="searchProdUnit()" (valueChange)="searchProdUnit.set($event)"
+              [options]="productionUnitOptions">
+            </app-floating-select>
+
+            <app-floating-input 
+              id="searchAmtTo" label="Amount To (₹)" type="number"
+              [value]="searchAmtTo()" (valueChange)="searchAmtTo.set($event)">
+            </app-floating-input>
+
+            <app-floating-input 
+              id="searchToDate" label="To Date" type="date"
+              [value]="searchToDate()" (valueChange)="searchToDate.set($event)">
+            </app-floating-input>
+
+            <!-- CENTER AREA: Search Button -->
+            <div class="flex items-center gap-2 pt-2 col-span-2">
+              <button class="btn-action-primary w-full"><lucide-icon [img]="SearchIcon" class="action-btn-icon mr-1"></lucide-icon> Search Invoice Records</button>
+            </div>
+          </div>
+
+          <!-- History Table -->
+          <div class="data-table-container mt-4">
+            <table class="data-table">
+              <thead>
+                <tr class="table-header-row">
+                  <th class="w-16 text-center">S.No</th>
+                  <th>Invoice Date</th>
+                  <th>Invoice No</th>
+                  <th>Company</th>
+                  <th>Department</th>
+                  <th>CC Center</th>
+                  <th class="text-right">Total Invoice Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (inv of historyInvoices(); track inv.id; let idx = $index) {
+                  <tr class="table-body-row">
+                    <td class="sno-cell text-center">{{ idx + 1 }}</td>
+                    <td><span class="cell-text">{{ inv.date }}</span></td>
+                    <td><span class="cell-text font-bold text-blue-900">{{ inv.refNo }}</span></td>
+                    <td><span class="cell-text uppercase">{{ inv.company }}</span></td>
+                    <td><span class="cell-text italic">{{ inv.department }}</span></td>
+                    <td><span class="cell-text">{{ inv.ccCenter }}</span></td>
+                    <td class="text-right"><span class="cell-text font-bold text-indigo-950">₹{{ inv.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span></td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="7" class="px-6 py-6 text-center text-slate-400 font-medium uppercase text-xs">
+                      No matching purchase invoices in history log database.
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 9 — Footer Action Buttons -->
+    <div class="flex items-center justify-end gap-3 mt-6 border-t border-slate-200 pt-4">
+      <button (click)="onSaveInvoice()" class="btn-save btn-lg px-8 py-3 bg-blue-900 hover:bg-blue-950 text-white rounded font-bold uppercase text-xs flex items-center gap-2">
+        <lucide-icon [img]="SaveIcon" class="w-4 h-4"></lucide-icon> Save Invoice
+      </button>
+      <button (click)="handleReset()" class="btn-reset btn-lg px-8 py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-300 rounded font-bold uppercase text-xs flex items-center gap-2">
+        <lucide-icon [img]="RotateCcwIcon" class="w-4 h-4"></lucide-icon> Reset Form
+      </button>
+    </div>
+
+  </main>
+</div>

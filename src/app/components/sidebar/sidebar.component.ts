@@ -214,9 +214,16 @@ export class SidebarComponent {
       icon: ShoppingCart,
       isExpandable: true,
       subItems: [
-        { id: 'purchase-orders', name: 'Purchase Orders' },
-        { id: 'vendors', name: 'Vendors' },
-        { id: 'grn', name: 'GRN' }
+        { id: 'purchase-quotation', name: 'Purchase Quotation' },
+        { id: 'purchase-quotation-approval', name: 'Purchase Quotation Approval' },
+        { id: 'purchase-order', name: 'Purchase Order' },
+        { id: 'purchase-order-approval', name: 'Purchase Order Approval' },
+        { id: 'purchase-order-receive-mrn', name: 'Purchase Order Receive (MRN)' },
+        { id: 'purchase-order-receive-mrn-approval', name: 'Purchase Order Receive (MRN) Approval' },
+        { id: 'purchase-order-receive-grn-qc', name: 'Purchase Order Receive (GRN) & QC' },
+        { id: 'purchase-invoice', name: 'Purchase Invoice' },
+        { id: 'purchase-return', name: 'Purchase Return' },
+        { id: 'invoice-document-upload-download', name: 'Invoice Document Upload/Download' }
       ]
     },
     {

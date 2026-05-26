@@ -64,25 +64,15 @@ import { BinSubLevelComponent } from './components/bin-sub-level/bin-sub-level.c
 import { BinInoutSettingsComponent } from './components/bin-inout-settings/bin-inout-settings.component';
 import { OpeningStockBinComponent } from './components/opening-stock-bin/opening-stock-bin.component';
 import { IssueStockBinComponent } from './components/issue-stock-bin/issue-stock-bin.component';
-import { SalesDeliveryExpectedDaysComponent } from './components/sales-delivery-expected-days/sales-delivery-expected-days';
-import { SalesQuotationApprovalComponent } from './components/sales-quotation-approval/sales-quotation-approval.component';
-import { ContratReviewCheckListEntryComponent } from './components/contrat-review-check-list-entry/contrat-review-check-list-entry.component';
-import { SalesOrderComponent } from './components/sales-order/sales-order.component';
-import { SalesOrderApprovalComponent } from './components/sales-order-approval/sales-order-approval.component';
-import { SalesChallanComponent } from './components/sales-challan/sales-challan.component';
-import { SalesInvoiceComponent } from './components/sales-invoice/sales-invoice.component';
-import { SalesDespatchComponent } from './components/sales-despatch/sales-despatch.component';
-import { SalesReturnComponent } from './components/sales-return/sales-return.component';
+import { PurchaseQuotationApprovalComponent } from './components/purchase-quotation-approval/purchase-quotation-approval.component';
+import { PurchaseOrderComponent } from './components/purchase-order/purchase-order.component';
+import { PurchaseOrderApprovalComponent } from './components/purchase-order-approval/purchase-order-approval.component';
+import { PurchaseOrderReceiveMrnComponent } from './components/purchase-order-receive-mrn/purchase-order-receive-mrn.component';
+import { PurchaseOrderReceiveMrnApprovalComponent } from './components/purchase-order-receive-mrn-approval/purchase-order-receive-mrn-approval.component';
+import { PurchaseOrderReceiveGrnQcComponent } from './components/purchase-order-receive-grn-qc/purchase-order-receive-grn-qc.component';
+import { PurchaseInvoiceComponent } from './components/purchase-invoice/purchase-invoice.component';
+import { PurchaseReturnComponent } from './components/purchase-return/purchase-return.component';
 import { InvoiceDocumentUploadDownloadComponent } from './components/invoice-document-upload-download/invoice-document-upload-download.component';
-import { CustomerFeedbackAnswerEntryComponent } from './components/customer-feedback-answer-entry/customer-feedback-answer-entry.component';
-import { CustomerFeedbackAnswerGroupEntryComponent } from './components/customer-feedback-answer-group-entry/customer-feedback-answer-group-entry.component';
-import { BranchStoreEntryComponent } from './components/branch-store-entry/branch-store-entry.component';
-import { StockInStoreComponent } from './components/stock-in-store/stock-in-store.component';
-import { ProductDiscountSchemeComponent } from './components/product-discount-scheme/product-discount-scheme.component';
-import { StoreRequisitionComponent } from './components/store-requisition/store-requisition.component';
-import { IssueSlipPosComponent } from './components/issue-slip-pos/issue-slip-pos.component';
-import { RewardMasterEntryComponent } from './components/reward-master-entry/reward-master-entry.component';
-import { PosInvoiceEntryComponent } from './components/pos-invoice-entry/pos-invoice-entry.component';
 
 // Import new dashboard subcomponents
 import { TopNavbarComponent } from './components/top-navbar/top-navbar.component';
@@ -151,25 +141,15 @@ import { DashboardLayoutComponent } from './components/dashboard-layout/dashboar
     BinInoutSettingsComponent,
     OpeningStockBinComponent,
     IssueStockBinComponent,
-    SalesDeliveryExpectedDaysComponent,
-    SalesQuotationApprovalComponent,
-    ContratReviewCheckListEntryComponent,
-    SalesOrderComponent,
-    SalesOrderApprovalComponent,
-    SalesChallanComponent,
-    SalesInvoiceComponent,
-    SalesDespatchComponent,
-    SalesReturnComponent,
+    PurchaseQuotationApprovalComponent,
+    PurchaseOrderComponent,
+    PurchaseOrderApprovalComponent,
+    PurchaseOrderReceiveMrnComponent,
+    PurchaseOrderReceiveMrnApprovalComponent,
+    PurchaseOrderReceiveGrnQcComponent,
+    PurchaseInvoiceComponent,
+    PurchaseReturnComponent,
     InvoiceDocumentUploadDownloadComponent,
-    CustomerFeedbackAnswerEntryComponent,
-    CustomerFeedbackAnswerGroupEntryComponent,
-    BranchStoreEntryComponent,
-    StockInStoreComponent,
-    ProductDiscountSchemeComponent,
-    StoreRequisitionComponent,
-    IssueSlipPosComponent,
-    RewardMasterEntryComponent,
-    PosInvoiceEntryComponent,
     
     // Add dashboard layout subcomponents
     TopNavbarComponent,

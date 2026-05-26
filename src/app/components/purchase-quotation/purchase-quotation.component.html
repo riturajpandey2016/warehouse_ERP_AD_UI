@@ -16,16 +16,16 @@
         <div>
           <h1 class="page-title">Purchase Quotation</h1>
           <div class="title-badges">
-            <span class="badge badge-new">New Entry</span>
+            <span class="badge badge-new">Active Entry</span>
             <span class="badge-dot">•</span>
-            <span class="badge-text">Procurement Workflow Step 1/4</span>
+            <span class="badge-text">Purchase Quotation Entry Form</span>
           </div>
         </div>
       </div>
     </div>
 
     <div class="header-actions">
-      <button class="btn-save btn-lg">
+      <button (click)="saveQuotation()" class="btn-save btn-lg">
         <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save Quotation
       </button>
       <button (click)="handleReset()" class="btn-reset btn-lg">
@@ -36,96 +36,143 @@
 
   <main class="page-content">
     
-    <!-- Purchase Type Selection -->
-    <div class="type-selection-bar card-panel">
-      <label class="selection-label">Purchase Type:</label>
-      <div class="toggle-group-wrapper">
-        <button 
-          (click)="setQuotationType('Direct')"
-          class="btn-toggle"
-          [class.active]="quotationType() === 'Direct'"
-        >
-          Direct
-        </button>
-        <button 
-          (click)="setQuotationType('Against Requisition')"
-          class="btn-toggle"
-          [class.active]="quotationType() === 'Against Requisition'"
-        >
-          Against Requisition
-        </button>
+    <!-- 1. ENTRY DETAILS -->
+    <div class="card-panel">
+      <div class="card-header">
+        <lucide-icon [img]="CalendarIcon" class="card-header-icon"></lucide-icon>
+        <h2 class="card-header-title">1. Entry Details & Requisition Search</h2>
       </div>
-    </div>
-
-    <div class="split-columns-grid">
-      <!-- Entry Details -->
-      <div class="grid-col-left">
-        <div class="card-panel h-full">
-          <div class="card-header">
-            <lucide-icon [img]="CalendarIcon" class="card-header-icon"></lucide-icon>
-            <h2 class="card-header-title">Entry Details</h2>
+      
+      <div class="panel-body">
+        <!-- Type selection & Basic details grid -->
+        <div class="form-grid-3">
+          <!-- Type Selection -->
+          <div class="type-selector-wrapper">
+            <span class="selector-label font-bold text-xs">Quotation Type:</span>
+            <div class="toggle-group-wrapper">
+              <button 
+                (click)="setQuotationType('Direct')"
+                class="btn-toggle"
+                [class.active]="quotationType() === 'Direct'"
+              >
+                Direct
+              </button>
+              <button 
+                (click)="setQuotationType('Against Requisition')"
+                class="btn-toggle"
+                [class.active]="quotationType() === 'Against Requisition'"
+              >
+                Against Requisition
+              </button>
+            </div>
           </div>
-          <div class="panel-body">
-            <div class="input-stack">
+
+          <app-floating-input 
+            id="date" label="Quotation Date" type="date" [required]="true" 
+            [value]="formData().date" (valueChange)="handleInputChange('date', $event)">
+          </app-floating-input>
+
+          <app-floating-input 
+            id="refNo" label="Reference No"
+            [value]="formData().refNo" (valueChange)="handleInputChange('refNo', $event)"
+            placeholder="e.g. REF-2026-QTN">
+          </app-floating-input>
+        </div>
+
+        <!-- REQUISITION SEARCH AREA (Only shown if "Against Requisition" is selected) -->
+        <div class="requisition-search-container mt-4 pt-4 border-t border-slate-200" *ngIf="quotationType() === 'Against Requisition'">
+          <div class="flex items-center justify-between clickable-header mb-3" (click)="toggleSection('requisitionSearch')">
+            <div class="flex items-center gap-2">
+              <lucide-icon [img]="SearchIcon" class="w-4 h-4 text-blue-900"></lucide-icon>
+              <span class="criteria-red-title text-xs font-bold uppercase">Requisition searching criteria (Click to Toggle)</span>
+            </div>
+            <lucide-icon [img]="sectionsExpanded().requisitionSearch ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 text-slate-500"></lucide-icon>
+          </div>
+
+          <div *ngIf="sectionsExpanded().requisitionSearch" class="search-fields-wrapper">
+            <div class="form-grid-4">
+              <app-floating-select 
+                id="reqSearchBranch" label="CC Center / Branch" 
+                [value]="reqSearchBranch()" (valueChange)="reqSearchBranch.set($event)"
+                [options]="ccCenterOptions">
+              </app-floating-select>
+
+              <app-floating-select 
+                id="reqSearchDept" label="Department" 
+                [value]="reqSearchDept()" (valueChange)="reqSearchDept.set($event)"
+                [options]="departmentOptions">
+              </app-floating-select>
+
+              <app-floating-select 
+                id="reqSearchProductionUnit" label="Production Unit" 
+                [value]="reqSearchProductionUnit()" (valueChange)="reqSearchProductionUnit.set($event)"
+                [options]="productionUnitOptions">
+              </app-floating-select>
+
               <app-floating-input 
-                id="date" label="Quotation Date" type="date" [required]="true" 
-                [value]="formData().date" (valueChange)="handleInputChange('date', $event)">
+                id="reqSearchRefNo" label="Requisition Reference No"
+                [value]="reqSearchRefNo()" (valueChange)="reqSearchRefNo.set($event)">
               </app-floating-input>
+
               <app-floating-input 
-                id="refNo" label="Reference No" [required]="true" 
-                [value]="formData().refNo" (valueChange)="handleInputChange('refNo', $event)"
-                placeholder="e.g. QTN/2024/001">
+                id="reqSearchDateFrom" label="Date From" type="date"
+                [value]="reqSearchDateFrom()" (valueChange)="reqSearchDateFrom.set($event)">
               </app-floating-input>
+
+              <app-floating-input 
+                id="reqSearchDateTo" label="Date To" type="date"
+                [value]="reqSearchDateTo()" (valueChange)="reqSearchDateTo.set($event)">
+              </app-floating-input>
+            </div>
+
+            <!-- Searched Requisitions Table -->
+            <div class="data-table-container mt-4">
+              <span class="criteria-red-title text-xs font-bold block mb-2">Available Requisitions</span>
+              <div class="table-scroll-container">
+                <table class="data-table">
+                  <thead>
+                    <tr class="table-header-row">
+                      <th class="w-16 text-center">S.No</th>
+                      <th>Req Date</th>
+                      <th>Req No</th>
+                      <th>CC Center / Branch</th>
+                      <th>Department</th>
+                      <th class="text-right">Total Amount</th>
+                      <th class="w-24 text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (req of filteredRequisitions(); track req.id; let idx = $index) {
+                      <tr class="table-body-row">
+                        <td class="sno-cell text-center">{{ idx + 1 }}</td>
+                        <td><span class="cell-text">{{ req.date }}</span></td>
+                        <td><span class="cell-text font-bold text-blue-900">{{ req.reqNo }}</span></td>
+                        <td><span class="cell-text uppercase">{{ req.branch }}</span></td>
+                        <td><span class="cell-text italic">{{ req.department }}</span></td>
+                        <td class="text-right"><span class="cell-text font-bold text-indigo-950">₹{{ req.amount.toLocaleString() }}</span></td>
+                        <td class="text-center">
+                          <button class="btn-select-requisition" (click)="selectRequisition(req)">
+                            <lucide-icon [img]="PlusIcon" class="w-3.5 h-3.5 mr-1"></lucide-icon> Load Items
+                          </button>
+                        </td>
+                      </tr>
+                    } @empty {
+                      <tr>
+                        <td colspan="7" class="px-6 py-6 text-center text-slate-400 font-medium uppercase text-xs">
+                          No requisitions found matching search criteria.
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Rate Selection Area -->
-      <div class="grid-col-right">
-         <div class="card-panel h-full pricing-setup-card">
-            <div class="pricing-card-header">
-              <div class="pricing-icon-wrapper">
-                <lucide-icon [img]="LayersIcon" class="pricing-icon"></lucide-icon>
-              </div>
-              <div>
-                <h3 class="pricing-title">Pricing Configuration</h3>
-                <p class="pricing-subtitle">Select rate calculation logic for this quotation</p>
-              </div>
-            </div>
-            <div class="pricing-buttons-group">
-              <button 
-                (click)="setRateType('Normal')"
-                class="btn-pricing"
-                [class.active]="rateType() === 'Normal'"
-              >
-                <div class="pricing-btn-left">
-                  <div class="custom-radio" [class.checked]="rateType() === 'Normal'">
-                    <div class="custom-radio-dot" *ngIf="rateType() === 'Normal'"></div>
-                  </div>
-                  <span class="pricing-btn-text">Normal Rate</span>
-                </div>
-                <lucide-icon [img]="FileTextIcon" class="pricing-btn-icon"></lucide-icon>
-              </button>
-              <button 
-                (click)="setRateType('Contractual')"
-                class="btn-pricing"
-                [class.active]="rateType() === 'Contractual'"
-              >
-                <div class="pricing-btn-left">
-                  <div class="custom-radio" [class.checked]="rateType() === 'Contractual'">
-                    <div class="custom-radio-dot" *ngIf="rateType() === 'Contractual'"></div>
-                  </div>
-                  <span class="pricing-btn-text">Contractual Rate</span>
-                </div>
-                <lucide-icon [img]="ClipboardListIcon" class="pricing-btn-icon"></lucide-icon>
-              </button>
-            </div>
-         </div>
-      </div>
     </div>
 
-    <!-- Supplier & Project Details Section -->
+    <!-- 2. SUPPLIER DETAILS -->
     <div class="card-panel">
       <button 
         (click)="toggleSection('supplier')"
@@ -133,7 +180,7 @@
       >
         <div class="header-left-group">
           <lucide-icon [img]="Building2Icon" class="card-header-icon"></lucide-icon>
-          <h2 class="card-header-title">Supplier & Project Information</h2>
+          <h2 class="card-header-title">2. Supplier & Project Information</h2>
         </div>
         <lucide-icon [img]="sectionsExpanded().supplier ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
       </button>
@@ -144,80 +191,105 @@
             <app-floating-select 
               id="company" label="Company" [required]="true" 
               [value]="formData().company" (valueChange)="handleInputChange('company', $event)"
-              [options]="[{label: 'Global Distribution Ltd', value: '1'}, {label: 'HORECA Solutions', value: '2'}]">
+              [options]="companyOptions">
             </app-floating-select>
+
             <app-floating-select 
-              id="ccCenter" label="CC Center" 
+              id="ccCenter" label="CC Center" [required]="true" 
               [value]="formData().ccCenter" (valueChange)="handleInputChange('ccCenter', $event)"
-              [options]="[{label: 'Head Office', value: 'HO'}, {label: 'Warehouse-1', value: 'W1'}]">
+              [options]="ccCenterOptions">
             </app-floating-select>
+
             <app-floating-select 
-              id="department" label="Department" 
+              id="department" label="Department" [required]="true" 
               [value]="formData().department" (valueChange)="handleInputChange('department', $event)"
-              [options]="[{label: 'Procurement', value: 'PROC'}, {label: 'IT', value: 'IT'}]">
+              [options]="departmentOptions">
             </app-floating-select>
-            <app-floating-select 
-              id="productionUnit" label="Production Unit" 
-              [value]="formData().productionUnit" (valueChange)="handleInputChange('productionUnit', $event)"
-              [options]="[{label: 'Main Facility', value: 'MF'}]">
-            </app-floating-select>
+
             <app-floating-select 
               id="projectName" label="Project Name" 
               [value]="formData().projectName" (valueChange)="handleInputChange('projectName', $event)"
-              [options]="[{label: 'Warehouse Expansion 2024', value: 'WE24'}]">
+              [options]="projectNameOptions">
             </app-floating-select>
+
+            <div class="col-span-2">
+              <app-floating-textarea 
+                id="projectDescription" label="Project Description" [rows]="2"
+                [value]="formData().projectDescription" (valueChange)="handleInputChange('projectDescription', $event)">
+              </app-floating-textarea>
+            </div>
+
+            <app-floating-select 
+              id="entryType" label="Entry Type" 
+              [value]="formData().entryType" (valueChange)="handleInputChange('entryType', $event)"
+              [options]="entryTypeOptions">
+            </app-floating-select>
+
+            <!-- Rate selection radio design inside Supplier Details -->
+            <div class="rate-radio-group">
+              <span class="radio-group-label font-bold text-xs text-gray-500 mb-1 block">Rate calculation:</span>
+              <div class="radio-options-row">
+                <label class="radio-label mr-3">
+                  <input type="radio" name="rateType" value="Normal" [checked]="rateType() === 'Normal'" (change)="setRateType('Normal')" />
+                  <span class="radio-text font-semibold ml-1">Normal</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="rateType" value="Contractual" [checked]="rateType() === 'Contractual'" (change)="setRateType('Contractual')" />
+                  <span class="radio-text font-semibold ml-1">Contractual</span>
+                </label>
+              </div>
+            </div>
+
+            <app-floating-select 
+              id="group" label="Group" 
+              [value]="formData().group" (valueChange)="handleInputChange('group', $event)"
+              [options]="groupOptions">
+            </app-floating-select>
+
+            <div class="col-span-2">
+              <app-floating-textarea 
+                id="deliveryAddress" label="Delivery Address" [rows]="2"
+                [value]="formData().deliveryAddress" (valueChange)="handleInputChange('deliveryAddress', $event)">
+              </app-floating-textarea>
+            </div>
+
+            <app-floating-select 
+              id="productionUnit" label="Production Unit" 
+              [value]="formData().productionUnit" (valueChange)="handleInputChange('productionUnit', $event)"
+              [options]="productionUnitOptions">
+            </app-floating-select>
+
             <app-floating-input 
               id="projectCode" label="Project Code" 
               [value]="formData().projectCode" (valueChange)="handleInputChange('projectCode', $event)">
             </app-floating-input>
-            <app-floating-select 
-              id="entryType" label="Entry Type" 
-              [value]="formData().entryType" (valueChange)="handleInputChange('entryType', $event)"
-              [options]="[{label: 'Standard', value: 'STD'}]">
-            </app-floating-select>
-            <app-floating-select 
-              id="group" label="Group" 
-              [value]="formData().group" (valueChange)="handleInputChange('group', $event)"
-              [options]="[{label: 'Office Supplies', value: 'OFF'}]">
-            </app-floating-select>
-            
-            <app-floating-textarea 
-              id="projectDescription" label="Project Description" className="col-span-2"
-              [value]="formData().projectDescription" (valueChange)="handleInputChange('projectDescription', $event)">
-            </app-floating-textarea>
-            <app-floating-textarea 
-              id="deliveryAddress" label="Delivery Address" className="col-span-2"
-              [value]="formData().deliveryAddress" (valueChange)="handleInputChange('deliveryAddress', $event)">
-            </app-floating-textarea>
-            <app-floating-textarea 
-              id="remarks" label="Remarks" className="col-span-2"
-              [value]="formData().remarks" (valueChange)="handleInputChange('remarks', $event)">
-            </app-floating-textarea>
-            <app-floating-select 
-              id="itemType" label="Item Type" [required]="true"
-              [value]="formData().itemType" (valueChange)="handleInputChange('itemType', $event)"
-              [options]="[{label: 'Hardware', value: 'HW'}, {label: 'Software', value: 'SW'}]">
-            </app-floating-select>
-            
-            <div class="search-btn-wrapper">
-               <button class="btn-action-primary">
-                  <lucide-icon [img]="SearchIcon" class="action-btn-icon"></lucide-icon> Search Suppliers
-               </button>
+
+            <div class="col-span-2">
+              <app-floating-textarea 
+                id="remarks" label="Remarks" [rows]="2"
+                [value]="formData().remarks" (valueChange)="handleInputChange('remarks', $event)">
+              </app-floating-textarea>
             </div>
+
+            <app-floating-select 
+              id="itemType" label="Item Type" 
+              [value]="formData().itemType" (valueChange)="handleInputChange('itemType', $event)"
+              [options]="itemTypeOptions">
+            </app-floating-select>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Item Details Table Section -->
+    <!-- 3. ITEM DETAILS SECTION -->
     <div class="card-panel table-panel">
       <div class="card-header table-header-toolbar">
         <div class="header-left-group">
           <lucide-icon [img]="ClipboardListIcon" class="card-header-icon white"></lucide-icon>
-          <h2 class="card-header-title white">Item Quotation List</h2>
+          <h2 class="card-header-title white">3. Item Details</h2>
         </div>
-        <button class="btn-add-product">
-           <lucide-icon [img]="PlusIcon" class="btn-add-icon"></lucide-icon> Add Product
+        <button (click)="onAddProduct()" class="btn-add-product">
+          <lucide-icon [img]="PlusIcon" class="btn-add-icon"></lucide-icon> Add Product
         </button>
       </div>
       
@@ -225,34 +297,44 @@
         <table class="data-table">
           <thead>
             <tr>
+              <th class="w-16 text-center">S.No</th>
               <th class="col-item-code">Item Code</th>
               <th class="col-description">Description</th>
+              <th class="w-20 text-center">Unit</th>
               <th class="col-qty text-center">Qty</th>
               <th class="col-rate text-right">Rate (₹)</th>
               <th class="col-tax text-center">Tax (%)</th>
               <th class="col-total text-right">Total (₹)</th>
-              <th class="col-actions text-center">Actions</th>
+              <th class="col-actions text-center">Action</th>
             </tr>
           </thead>
           <tbody>
-            @for (item of items(); track item.id) {
+            @for (item of items(); track item.id; let idx = $index) {
               <tr class="table-row">
+                <td class="text-center font-bold text-slate-500">{{ idx + 1 }}</td>
                 <td class="cell-code font-mono">{{ item.code }}</td>
-                <td class="cell-description font-semibold">{{ item.name }}</td>
+                <td class="cell-description font-semibold text-blue-900">{{ item.name }}</td>
+                <td class="text-center cell-text font-medium">{{ item.unit }}</td>
                 <td class="cell-qty text-center">
-                  <input type="number" [value]="item.qty" class="qty-number-input" />
+                  <input type="number" [value]="item.qty" (input)="updateItemQty(item.id, qtyInput.value)" #qtyInput class="qty-number-input" />
                 </td>
                 <td class="cell-rate text-right">
-                  <input type="number" [value]="item.rate" class="rate-number-input" />
+                  <input type="number" [value]="item.rate" (input)="updateItemRate(item.id, rateInput.value)" #rateInput class="rate-number-input" />
                 </td>
                 <td class="cell-tax text-center">
                   <span class="tax-percent-badge">{{ item.tax }}%</span>
                 </td>
-                <td class="cell-total font-bold text-right">₹{{ item.total.toLocaleString() }}</td>
+                <td class="cell-total font-bold text-right text-indigo-950">₹{{ item.total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</td>
                 <td class="cell-actions text-center">
-                  <button class="action-delete-btn">
+                  <button (click)="onDeleteProduct(item.id)" class="action-delete-btn" title="Delete Product">
                     <lucide-icon [img]="Trash2Icon" class="btn-delete-icon"></lucide-icon>
                   </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="9" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">
+                  No products added to the quotation item details table.
                 </td>
               </tr>
             }
@@ -261,26 +343,156 @@
       </div>
 
       <div class="table-summary-footer">
-         <div class="summary-note">
-            <div class="note-icon-wrapper">
-               <lucide-icon [img]="AlertCircleIcon" class="note-icon"></lucide-icon>
+        <div class="summary-note">
+          <div class="note-icon-wrapper">
+            <lucide-icon [img]="AlertCircleIcon" class="note-icon"></lucide-icon>
+          </div>
+          <p class="note-text">Totals are computed based on entered rates, quantities, and GST/Tax configuration.</p>
+        </div>
+        <div class="totals-breakdown-card">
+          <div class="totals-row">
+            <span class="totals-label">Subtotal:</span>
+            <span class="totals-value">₹{{ subtotal().toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+          </div>
+          <div class="totals-row">
+            <span class="totals-label">Tax Amount:</span>
+            <span class="totals-value">₹{{ taxAmount().toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+          </div>
+          <div class="totals-row grand-total-row">
+            <span class="totals-label grand-label">Grand Total:</span>
+            <span class="totals-value grand-value">₹{{ grandTotal().toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. ADDED ITEMS DETAILS / FILTER SECTION -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('addedQuotationsFilter')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="FilterIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">4. Saved Quotations Filters</h2>
+        </div>
+        <div class="flex items-center gap-2 ml-auto">
+          <span class="badge badge-new">{{ filteredAddedQuotations().length }} Saved</span>
+          <lucide-icon [img]="sectionsExpanded().addedQuotationsFilter ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+        </div>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().addedQuotationsFilter">
+        <div class="panel-body">
+          <div class="form-grid-4">
+            <app-floating-select 
+              id="filterCompany" label="Company" 
+              [value]="filterCompany()" (valueChange)="filterCompany.set($event)"
+              [options]="companyOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="filterDepartment" label="Department" 
+              [value]="filterDepartment()" (valueChange)="filterDepartment.set($event)"
+              [options]="departmentOptions">
+            </app-floating-select>
+
+            <app-floating-input 
+              id="filterRefNo" label="Reference / Quotation No"
+              [value]="filterRefNo()" (valueChange)="filterRefNo.set($event)">
+            </app-floating-input>
+
+            <app-floating-select 
+              id="filterCcCenter" label="CC Center / Branch" 
+              [value]="filterCcCenter()" (valueChange)="filterCcCenter.set($event)"
+              [options]="ccCenterOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="filterProductionUnit" label="Production Unit" 
+              [value]="filterProductionUnit()" (valueChange)="filterProductionUnit.set($event)"
+              [options]="productionUnitOptions">
+            </app-floating-select>
+
+            <app-floating-input 
+              id="filterFromDate" label="From Date" type="date"
+              [value]="filterFromDate()" (valueChange)="filterFromDate.set($event)">
+            </app-floating-input>
+
+            <app-floating-input 
+              id="filterToDate" label="To Date" type="date"
+              [value]="filterToDate()" (valueChange)="filterToDate.set($event)">
+            </app-floating-input>
+
+            <div class="search-btn-wrapper">
+              <button class="btn-action-primary" (click)="filterRefNo.set(filterRefNo())">
+                <lucide-icon [img]="SearchIcon" class="action-btn-icon"></lucide-icon> Search / Apply Filter
+              </button>
             </div>
-            <p class="note-text">Totals are calculated based on the item quantity and applied tax rates.</p>
-         </div>
-         <div class="totals-breakdown-card">
-            <div class="totals-row">
-              <span class="totals-label">Subtotal:</span>
-              <span class="totals-value">₹1,63,300.00</span>
-            </div>
-            <div class="totals-row">
-              <span class="totals-label">Tax Amount:</span>
-              <span class="totals-value">₹29,394.00</span>
-            </div>
-            <div class="totals-row grand-total-row">
-              <span class="totals-label grand-label">Grand Total:</span>
-              <span class="totals-value grand-value">₹1,92,694.00</span>
-            </div>
-         </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. ADDED ITEMS SECTION (SAVED QUOTATIONS LIST) -->
+    <div class="card-panel">
+      <div class="card-header table-title-bar-red">
+        <lucide-icon [img]="ClipboardListIcon" class="card-header-icon"></lucide-icon>
+        <span class="card-header-title">5. Saved Quotations Database List</span>
+        <span class="total-amount-display ml-auto font-bold text-xs text-blue-900 bg-blue-50 px-3 py-1 rounded border border-blue-200">Total Quotations Amount: ₹{{ totalQuotationsAmount().toLocaleString() }}</span>
+      </div>
+      
+      <div class="panel-body p-0">
+        <div class="table-scroll-container">
+          <table class="data-table">
+            <thead>
+              <tr class="table-header-row">
+                <th class="w-16 text-center">S.No</th>
+                <th>Quotation Date</th>
+                <th>Quotation No</th>
+                <th>Company</th>
+                <th>Branch / CC Center</th>
+                <th>Department</th>
+                <th class="text-right">Total Amount</th>
+                <th>Status</th>
+                <th class="w-24 text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (qtn of filteredAddedQuotations(); track qtn.id; let idx = $index) {
+                <tr class="table-body-row">
+                  <td class="sno-cell text-center">{{ idx + 1 }}</td>
+                  <td><span class="cell-text">{{ qtn.date }}</span></td>
+                  <td><span class="cell-text font-bold text-blue-900">{{ qtn.qtnNo }}</span></td>
+                  <td><span class="cell-text font-semibold">{{ qtn.company }}</span></td>
+                  <td><span class="cell-text uppercase">{{ qtn.branch }}</span></td>
+                  <td><span class="cell-text italic">{{ qtn.department }}</span></td>
+                  <td class="text-right"><span class="cell-text font-bold text-indigo-950">₹{{ qtn.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span></td>
+                  <td>
+                    @if (qtn.status === 'APPROVED') {
+                      <span class="badge-status bg-emerald-100 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded text-xs font-bold">Approved</span>
+                    } @else {
+                      <span class="badge-status bg-amber-100 text-amber-800 border border-amber-200 px-2 py-0.5 rounded text-xs font-bold">Pending</span>
+                    }
+                  </td>
+                  <td>
+                    <div class="action-buttons-group justify-center flex gap-1 justify-center">
+                      <button class="action-icon-btn btn-delete-row" (click)="deleteQuotation(qtn.id)" title="Remove Quotation">
+                        <lucide-icon [img]="Trash2Icon" class="w-3.5 h-3.5 text-red-600"></lucide-icon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="9" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">
+                    No quotations found in database list.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

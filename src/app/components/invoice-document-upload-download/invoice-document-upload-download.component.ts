@@ -1,72 +1,112 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, signal, WritableSignal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { 
-  LucideAngularModule, 
-  Search, Upload, FileText, Eye, Download
-} from 'lucide-angular';
+import { LucideAngularModule, LayoutGrid, ShoppingCart, ChevronRight, AlertCircle, Search, Upload, Eye } from 'lucide-angular';
+import { FloatingInputComponent } from '../shared/floating-input/floating-input.component';
+import { FloatingSelectComponent } from '../shared/floating-select/floating-select.component';
 
-import { ErpSelectComponent } from '../shared/erp-select/erp-select.component';
-import { SectionHeaderComponent } from '../shared/section-header/section-header.component';
+interface DocumentRecord {
+  id: number;
+  invoiceDate: string;
+  refNo: string;
+  supplier: string;
+  grandTotal: number;
+  fileUrl?: string;
+}
 
 @Component({
   selector: 'app-invoice-document-upload-download',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    LucideAngularModule, 
-    ErpSelectComponent,
-    SectionHeaderComponent
+    CommonModule,
+    LucideAngularModule,
+    FloatingInputComponent,
+    FloatingSelectComponent
   ],
   templateUrl: './invoice-document-upload-download.component.html',
   styleUrl: './invoice-document-upload-download.component.css'
 })
 export class InvoiceDocumentUploadDownloadComponent {
-  sections = signal({
-    searchFilters: true
-  });
-
-  searchBy = signal('Select All');
-
+  // Icon references
+  readonly LayoutGridIcon = LayoutGrid;
+  readonly ShoppingCartIcon = ShoppingCart;
+  readonly ChevronRightIcon = ChevronRight;
+  readonly AlertCircleIcon = AlertCircle;
   readonly SearchIcon = Search;
   readonly UploadIcon = Upload;
-  readonly FileTextIcon = FileText;
   readonly EyeIcon = Eye;
-  readonly DownloadIcon = Download;
 
-  searchByOptions = [
-    { label: 'Select All', value: 'Select All' },
-    { label: 'Pending Uploads', value: 'Pending Uploads' },
-    { label: 'Uploaded', value: 'Uploaded' }
+  // Search controls
+  readonly searchByOptions = [
+    { label: 'Invoice Number', value: 'invoiceNumber' },
+    { label: 'Reference No', value: 'referenceNo' },
+    { label: 'Date Wise', value: 'dateWise' },
+    { label: 'Select CC Center / Supplier', value: 'ccSupplier' }
   ];
 
-  // Mock data representing the table contents
-  tableData = signal([
-    { serial: 1, invoiceDate: '29 Apr 2026', refNo: 'ISLSINV26-27/00002', custName: 'A.T.Godhrawala & Co.', custCode: 'A.T.Godhrawala & Co.', address: '135A,Biplabi Rash Behari Basu Road,Kolkata-1', hasDoc: false },
-    { serial: 2, invoiceDate: '16 Apr 2026', refNo: 'ISLSINV26-27/00001', custName: 'A N Enterprise', custCode: 'A N Enterprise', address: 'Gabardanga, North 24 parganas', hasDoc: false },
-    { serial: 3, invoiceDate: '12 Nov 2025', refNo: 'ISLSINV25-26/00007', custName: 'P C Associates', custCode: 'P C Associates', address: '302, Nimesh Industrial Estate, Vidyalaya Marg, Mulund (East), Mumbai - 400 081.', hasDoc: false },
-    { serial: 4, invoiceDate: '08 Oct 2025', refNo: 'ISLSINV25-26/00006', custName: 'P C Associates', custCode: 'P C Associates', address: '302, Nimesh Industrial Estate, Vidyalaya Marg, Mulund (East), Mumbai - 400 081.', hasDoc: false },
-    { serial: 5, invoiceDate: '06 Oct 2025', refNo: 'ISLSINV25-26/00004', custName: 'P C Associates', custCode: 'P C Associates', address: '302, Nimesh Industrial Estate, Vidyalaya Marg, Mulund (East), Mumbai - 400 081.', hasDoc: false },
-    { serial: 6, invoiceDate: '05 Oct 2025', refNo: 'ISLSINV25-26/00005', custName: 'P C Associates', custCode: 'P C Associates', address: '302, Nimesh Industrial Estate, Vidyalaya Marg, Mulund (East), Mumbai - 400 081.', hasDoc: false },
-    { serial: 7, invoiceDate: '18 Sep 2025', refNo: 'ISLSINV25-26/00003', custName: 'P C Associates', custCode: 'P C Associates', address: '302, Nimesh Industrial Estate, Vidyalaya Marg, Mulund (East), Mumbai - 400 081.', hasDoc: false },
-    { serial: 8, invoiceDate: '01 Sep 2025', refNo: 'ISLSINV25-26/00002', custName: 'P C Associates', custCode: 'P C Associates', address: '302, Nimesh Industrial Estate, Vidyalaya Marg, Mulund (East), Mumbai - 400 081.', hasDoc: false },
-    { serial: 9, invoiceDate: '01 Sep 2025', refNo: 'ISLSINV25-26/00001', custName: 'The South Point', custCode: 'The South Point', address: '2, Kumarpara Road, Rajpur, Kolkata 700149', hasDoc: false },
-    { serial: 10, invoiceDate: '14 Jul 2025', refNo: 'ISLSINV24-25/00006', custName: 'P C Associates', custCode: 'P C Associates', address: '302, Nimesh Industrial Estate, Vidyalaya Marg, Mulund (East), Mumbai - 400 081.', hasDoc: false }
+  searchBy = signal<string>('invoiceNumber');
+  searchQuery = signal<string>('');
+
+  // Mock document data
+  documentList = signal<DocumentRecord[]>([
+    {
+      id: 1,
+      invoiceDate: '2026-05-20',
+      refNo: 'INV/2026/001',
+      supplier: 'ILICO SERVICES LTD.',
+      grandTotal: 12500.00,
+      fileUrl: ''
+    },
+    {
+      id: 2,
+      invoiceDate: '2026-05-22',
+      refNo: 'INV/2026/002',
+      supplier: 'Global Distribution Ltd',
+      grandTotal: 8420.50,
+      fileUrl: ''
+    }
   ]);
 
-  toggleSection(key: 'searchFilters') {
-    this.sections.update(prev => ({ ...prev, [key]: !prev[key] }));
+  filteredDocuments = computed(() => {
+    const by = this.searchBy();
+    const query = this.searchQuery().toLowerCase();
+    if (!query) return this.documentList();
+    return this.documentList().filter(doc => {
+      switch (by) {
+        case 'invoiceNumber':
+          return doc.refNo.toLowerCase().includes(query);
+        case 'referenceNo':
+          return doc.refNo.toLowerCase().includes(query);
+        case 'dateWise':
+          return doc.invoiceDate.includes(query);
+        case 'ccSupplier':
+          return doc.supplier.toLowerCase().includes(query);
+        default:
+          return true;
+      }
+    });
+  });
+
+  onSearch() {
+    // No extra logic needed – the computed filter reacts automatically.
   }
 
-  handleSearch() {
-    console.log('Searching by:', this.searchBy());
+  onUploadDocument(id: number, event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const url = URL.createObjectURL(input.files[0]);
+      this.documentList.update(list =>
+        list.map(doc => (doc.id === id ? { ...doc, fileUrl: url } : doc))
+      );
+      alert('File attached (preview only).');
+    }
   }
 
-  handleUpload(serial: number) {
-    console.log('Uploading document for serial:', serial);
-    // Mock setting document status
-    this.tableData.update(items => items.map(item => item.serial === serial ? { ...item, hasDoc: true } : item));
-    alert(`Document uploaded for Record #${serial}`);
+  onViewDocument(id: number) {
+    const doc = this.documentList().find(d => d.id === id);
+    if (doc && doc.fileUrl) {
+      window.open(doc.fileUrl, '_blank');
+    } else {
+      alert('No document uploaded for this record.');
+    }
   }
 }

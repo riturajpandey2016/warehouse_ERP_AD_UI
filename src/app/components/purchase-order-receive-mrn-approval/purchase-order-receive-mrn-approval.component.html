@@ -1,0 +1,382 @@
+<div class="company-master-container">
+  <!-- Header Section -->
+  <header class="page-header">
+    <div class="header-left">
+      <div class="breadcrumb-trail">
+        <lucide-icon [img]="LayoutGridIcon" class="breadcrumb-icon"></lucide-icon>
+        <span class="breadcrumb-item">Purchase</span>
+        <lucide-icon [img]="ChevronRightIcon" class="breadcrumb-sep"></lucide-icon>
+        <span class="breadcrumb-item active">MRN Approval</span>
+      </div>
+      
+      <div class="title-section">
+        <div class="title-icon-wrapper">
+          <lucide-icon [img]="ShoppingCartIcon" class="title-icon"></lucide-icon>
+        </div>
+        <div>
+          <h1 class="page-title">Purchase Order Receive (MRN) Approval</h1>
+          <div class="title-badges">
+            <span class="badge badge-new">{{ filteredPendingList().length }} Pending</span>
+            <span class="badge-dot">•</span>
+            <span class="badge-text">MRN Approval Console</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- SECTION 1 — MRN Approval Search Filters -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('pendingFilter')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="FilterIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">1. MRN Search Filters (Pending)</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().pendingFilter ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().pendingFilter">
+        <div class="panel-body">
+          <div class="form-grid-4">
+            
+            <!-- LEFT SIDE -->
+            <app-floating-input 
+              id="pendingFromDate" label="From Date" type="date"
+              [value]="pendingFromDate()" (valueChange)="pendingFromDate.set($event)">
+            </app-floating-input>
+
+            <app-floating-select 
+              id="pendingBranch" label="Branch" 
+              [value]="pendingBranch()" (valueChange)="pendingBranch.set($event)"
+              [options]="branchOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="pendingEntryBy" label="Entry By" 
+              [value]="pendingEntryBy()" (valueChange)="pendingEntryBy.set($event)"
+              [options]="employeeOptions">
+            </app-floating-select>
+
+            <!-- RIGHT SIDE -->
+            <app-floating-input 
+              id="pendingToDate" label="To Date" type="date"
+              [value]="pendingToDate()" (valueChange)="pendingToDate.set($event)">
+            </app-floating-input>
+
+            <app-floating-select 
+              id="pendingProjectName" label="Project Name" 
+              [value]="pendingProjectName()" (valueChange)="pendingProjectName.set($event)"
+              [options]="projectNameOptions">
+            </app-floating-select>
+
+            <app-floating-input 
+              id="pendingRefNo" label="Reference No"
+              [value]="pendingRefNo()" (valueChange)="pendingRefNo.set($event)"
+              placeholder="e.g. MRN/2026/001">
+            </app-floating-input>
+
+            <!-- CENTER AREA: Search Button -->
+            <div class="search-btn-row col-span-2">
+              <button class="btn-action-primary" (click)="pendingRefNo.set(pendingRefNo())">
+                <lucide-icon [img]="SearchIcon" class="action-btn-icon"></lucide-icon> Search MRN
+              </button>
+              <button class="btn-action-secondary" (click)="resetPendingFilters()">
+                <lucide-icon [img]="RotateCcwIcon" class="action-btn-icon"></lucide-icon> Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 — MRN Details Grid -->
+    <div class="card-panel table-panel">
+      <button 
+        (click)="toggleSection('pendingGrid')"
+        class="card-header collapsible-header bg-slate-900 text-white"
+        [class.collapsed-card]="!sectionsExpanded().pendingGrid"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="ClipboardListIcon" class="card-header-icon text-white"></lucide-icon>
+          <h2 class="card-header-title text-white">2. MRN Details (Pending Approval)</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().pendingGrid ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle text-white"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().pendingGrid">
+        <div class="table-scroll-container">
+          <table class="data-table">
+            <thead>
+              <tr class="table-header-row">
+                <th class="w-16 text-center">Sr No.</th>
+                <th class="col-ref">MRN Ref No</th>
+                <th class="col-date">MRN Date</th>
+                <th>Branch</th>
+                <th class="col-entry">Entry By</th>
+                <th class="col-actions text-center">Action</th>
+              </tr>
+              <!-- Inline filter search row placeholders -->
+              <tr class="table-filter-row">
+                <th></th>
+                <th>
+                  <input type="text" [value]="colPendingRefNo()" (input)="colPendingRefNo.set(refFilter.value)" #refFilter class="table-filter-input" placeholder="Filter MRN No" />
+                </th>
+                <th>
+                  <input type="text" [value]="colPendingDate()" (input)="colPendingDate.set(dateFilter.value)" #dateFilter class="table-filter-input" placeholder="Filter Date" />
+                </th>
+                <th>
+                  <input type="text" [value]="colPendingBranch()" (input)="colPendingBranch.set(branchFilter.value)" #branchFilter class="table-filter-input" placeholder="Filter Branch" />
+                </th>
+                <th>
+                  <input type="text" [value]="colPendingEntry()" (input)="colPendingEntry.set(entryFilter.value)" #entryFilter class="table-filter-input" placeholder="Filter Entry" />
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (mrn of filteredPendingList(); track mrn.id; let idx = $index) {
+                <tr class="table-row">
+                  <td class="text-center font-bold text-slate-500">{{ idx + 1 }}</td>
+                  <td><span class="cell-text font-bold text-blue-900 font-mono">{{ mrn.refNo }}</span></td>
+                  <td><span class="cell-text font-semibold">{{ mrn.date }}</span></td>
+                  <td><span class="cell-text uppercase">{{ mrn.branch }}</span></td>
+                  <td><span class="cell-text font-bold text-slate-600">{{ mrn.entryBy }}</span></td>
+                  <td>
+                    <div class="action-buttons-group justify-center flex gap-1 justify-center">
+                      <button (click)="onApprove(mrn)" class="action-icon-btn btn-approve" title="Approve MRN">
+                        <lucide-icon [img]="CheckIcon" class="w-3.5 h-3.5"></lucide-icon> Approve
+                      </button>
+                      <button (click)="onReject(mrn)" class="action-icon-btn btn-reject" title="Reject MRN">
+                        <lucide-icon [img]="XIcon" class="w-3.5 h-3.5"></lucide-icon> Reject
+                      </button>
+                      <button (click)="onView(mrn.refNo)" class="action-icon-btn btn-view" title="View Details">
+                        <lucide-icon [img]="EyeIcon" class="w-3.5 h-3.5"></lucide-icon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="6" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">
+                    No records to display.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Placeholder -->
+        <div class="table-pagination-bar">
+          <div class="pagination-left">
+            <span class="pagination-text">Showing {{ filteredPendingList().length }} items</span>
+          </div>
+          <div class="pagination-right">
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronsLeftIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronLeftIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            <span class="page-indicator">Page <span class="current-page font-bold">1</span> of 1</span>
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronRightIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronsRightIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            
+            <div class="page-size-selector">
+              <span class="page-size-label text-xs text-slate-500">Page size:</span>
+              <select class="custom-page-size-select">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 — Approved / Rejected MRN Filters -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('historyFilter')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="FilterIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">3. Approved / Rejected MRN Filters</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().historyFilter ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().historyFilter">
+        <div class="panel-body">
+          <div class="form-grid-4">
+            
+            <!-- LEFT SIDE -->
+            <app-floating-input 
+              id="historyFromDate" label="From Date" type="date"
+              [value]="historyFromDate()" (valueChange)="historyFromDate.set($event)">
+            </app-floating-input>
+
+            <app-floating-select 
+              id="historyBranch" label="Branch" 
+              [value]="historyBranch()" (valueChange)="historyBranch.set($event)"
+              [options]="branchOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="historyEntryBy" label="Entry By" 
+              [value]="historyEntryBy()" (valueChange)="historyEntryBy.set($event)"
+              [options]="employeeOptions">
+            </app-floating-select>
+
+            <!-- RIGHT SIDE -->
+            <app-floating-input 
+              id="historyToDate" label="To Date" type="date"
+              [value]="historyToDate()" (valueChange)="historyToDate.set($event)">
+            </app-floating-input>
+
+            <app-floating-select 
+              id="historyProjectName" label="Project Name" 
+              [value]="historyProjectName()" (valueChange)="historyProjectName.set($event)"
+              [options]="projectNameOptions">
+            </app-floating-select>
+
+            <app-floating-input 
+              id="historyRefNo" label="Reference No"
+              [value]="historyRefNo()" (valueChange)="historyRefNo.set($event)"
+              placeholder="e.g. MRN/2026/002">
+            </app-floating-input>
+
+            <!-- CENTER AREA: Search Button -->
+            <div class="search-btn-row col-span-2">
+              <button class="btn-action-primary" (click)="historyRefNo.set(historyRefNo())">
+                <lucide-icon [img]="SearchIcon" class="action-btn-icon"></lucide-icon> Search History
+              </button>
+              <button class="btn-action-secondary" (click)="resetHistoryFilters()">
+                <lucide-icon [img]="RotateCcwIcon" class="action-btn-icon"></lucide-icon> Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4 — Approved / Rejected MRN Details Grid -->
+    <div class="card-panel table-panel">
+      <button 
+        (click)="toggleSection('historyGrid')"
+        class="card-header collapsible-header bg-slate-900 text-white"
+        [class.collapsed-card]="!sectionsExpanded().historyGrid"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="ClipboardListIcon" class="card-header-icon text-white"></lucide-icon>
+          <h2 class="card-header-title text-white">4. Approved / Rejected MRN Details Grid</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().historyGrid ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle text-white"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().historyGrid">
+        <div class="table-scroll-container">
+          <table class="data-table">
+            <thead>
+              <tr class="table-header-row">
+                <th class="w-16 text-center">Sr No.</th>
+                <th class="col-ref">MRN Ref No</th>
+                <th class="col-date">MRN Date</th>
+                <th>Branch</th>
+                <th class="col-entry">Entry By</th>
+                <th>Approved/Rejected By</th>
+                <th>Approved/Rejected Date</th>
+                <th class="col-status text-center">Status</th>
+                <th class="col-actions text-center">Action</th>
+              </tr>
+              <!-- Inline filter search row placeholders -->
+              <tr class="table-filter-row">
+                <th></th>
+                <th>
+                  <input type="text" [value]="colHistoryRefNo()" (input)="colHistoryRefNo.set(hRefFilter.value)" #hRefFilter class="table-filter-input" placeholder="Filter MRN No" />
+                </th>
+                <th>
+                  <input type="text" [value]="colHistoryDate()" (input)="colHistoryDate.set(hDateFilter.value)" #hDateFilter class="table-filter-input" placeholder="Filter Date" />
+                </th>
+                <th>
+                  <input type="text" [value]="colHistoryBranch()" (input)="colHistoryBranch.set(hBranchFilter.value)" #hBranchFilter class="table-filter-input" placeholder="Filter Branch" />
+                </th>
+                <th>
+                  <input type="text" [value]="colHistoryEntry()" (input)="colHistoryEntry.set(hEntryFilter.value)" #hEntryFilter class="table-filter-input" placeholder="Filter Entry" />
+                </th>
+                <th>
+                  <input type="text" [value]="colHistoryActBy()" (input)="colHistoryActBy.set(hActFilter.value)" #hActFilter class="table-filter-input" placeholder="Filter Admin" />
+                </th>
+                <th>
+                  <input type="text" [value]="colHistoryActDate()" (input)="colHistoryActDate.set(hActDateFilter.value)" #hActDateFilter class="table-filter-input" placeholder="Filter Date" />
+                </th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (mrn of filteredHistoryList(); track mrn.id; let idx = $index) {
+                <tr class="table-row">
+                  <td class="text-center font-bold text-slate-500">{{ idx + 1 }}</td>
+                  <td><span class="cell-text font-bold text-blue-900 font-mono">{{ mrn.refNo }}</span></td>
+                  <td><span class="cell-text font-semibold">{{ mrn.date }}</span></td>
+                  <td><span class="cell-text uppercase">{{ mrn.branch }}</span></td>
+                  <td><span class="cell-text font-semibold text-slate-600">{{ mrn.entryBy }}</span></td>
+                  <td><span class="cell-text font-bold text-slate-700">{{ mrn.actionBy }}</span></td>
+                  <td><span class="cell-text">{{ mrn.actionDate }}</span></td>
+                  <td class="text-center">
+                    @if (mrn.status === 'APPROVED') {
+                      <span class="badge-status bg-emerald-100 text-emerald-800 border-emerald-200">Approved</span>
+                    } @else {
+                      <span class="badge-status bg-rose-100 text-rose-800 border-rose-200">Rejected</span>
+                    }
+                  </td>
+                  <td>
+                    <div class="action-buttons-group justify-center flex gap-1 justify-center">
+                      <button (click)="onView(mrn.refNo)" class="action-icon-btn btn-view" title="View Details">
+                        <lucide-icon [img]="EyeIcon" class="w-3.5 h-3.5"></lucide-icon> View
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="9" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">
+                    No records to display.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Placeholder -->
+        <div class="table-pagination-bar">
+          <div class="pagination-left">
+            <span class="pagination-text">Showing {{ filteredHistoryList().length }} items</span>
+          </div>
+          <div class="pagination-right">
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronsLeftIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronLeftIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            <span class="page-indicator">Page <span class="current-page font-bold">1</span> of 1</span>
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronRightIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronsRightIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            
+            <div class="page-size-selector">
+              <span class="page-size-label text-xs text-slate-500">Page size:</span>
+              <select class="custom-page-size-select">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
