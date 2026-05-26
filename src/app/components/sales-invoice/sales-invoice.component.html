@@ -1,0 +1,324 @@
+<div class="sales-invoice-container">
+  <header class="page-header">
+    <h1 class="page-title">Sales Invoice</h1>
+    <div class="header-actions">
+       <button (click)="handleSave()" class="btn-save">
+          <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save
+       </button>
+       <button (click)="handleReset()" class="btn-reset">
+          <lucide-icon [img]="RotateCcwIcon" class="btn-icon"></lucide-icon> Reset
+       </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- TOP LEVEL RADIO: Type -->
+    <div class="card-panel py-3 px-4 flex justify-center items-center gap-6 bg-white mb-2">
+       <span class="font-bold text-sm text-[#1a3a6b]">Type:</span>
+       <label class="radio-label">
+         <input type="radio" name="invoiceType" value="Direct Invoice" [checked]="invoiceType() === 'Direct Invoice'" (change)="invoiceType.set('Direct Invoice')">
+         Direct Invoice
+       </label>
+       <label class="radio-label">
+         <input type="radio" name="invoiceType" value="Against Challan" [checked]="invoiceType() === 'Against Challan'" (change)="invoiceType.set('Against Challan')">
+         Against Challan
+       </label>
+    </div>
+
+    <!-- Challan Details Search -->
+    <section class="card-panel">
+      <app-section-header 
+        title="Challan Details Search Click to Hide Details" 
+        [expanded]="sections().challanSearch" 
+        (toggle)="toggleSection('challanSearch')">
+      </app-section-header>
+      
+      @if (sections().challanSearch) {
+        <div class="panel-body bg-gray-50">
+           <h4 class="font-bold text-sm text-[#1a3a6b] border-b border-[#cbd5e1] pb-1 mb-3">Challan Details</h4>
+           <div class="form-grid">
+              <app-erp-input label="Date From" type="date" [value]="formData().dateFrom" (valueChange)="updateForm('dateFrom', $event)"></app-erp-input>
+              <app-erp-input label="Date To" type="date" [value]="formData().dateTo" (valueChange)="updateForm('dateTo', $event)"></app-erp-input>
+              <app-erp-select label="Company" [options]="companyOptions" [value]="formData().company" (valueChange)="updateForm('company', $event)"></app-erp-select>
+              <app-erp-select label="CC Center" [options]="ccCenterOptions" [value]="formData().ccCenter" (valueChange)="updateForm('ccCenter', $event)"></app-erp-select>
+              <app-erp-input label="Amount From" [value]="formData().amountFrom" (valueChange)="updateForm('amountFrom', $event)"></app-erp-input>
+              <app-erp-input label="Amount To" [value]="formData().amountTo" (valueChange)="updateForm('amountTo', $event)"></app-erp-input>
+              <app-erp-input label="Reference No" [value]="formData().referenceNo" (valueChange)="updateForm('referenceNo', $event)"></app-erp-input>
+           </div>
+           <div class="flex justify-center mt-4">
+              <button class="btn-search" (click)="handleSearchChallan()">Search</button>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- Invoice Entry Details -->
+    <section class="card-panel">
+      <app-section-header title="Invoice Entry Details" [expanded]="sections().invoiceEntry" (toggle)="toggleSection('invoiceEntry')"></app-section-header>
+      @if (sections().invoiceEntry) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <app-erp-input label="Date" type="date" [value]="formData().invoiceDate" (valueChange)="updateForm('invoiceDate', $event)"></app-erp-input>
+              <app-erp-input label="Reference No" [value]="formData().invoiceReferenceNo" (valueChange)="updateForm('invoiceReferenceNo', $event)"></app-erp-input>
+              
+              <div class="flex flex-col gap-2">
+                 <div class="flex items-center gap-4 mt-2">
+                   <label class="radio-label"><input type="radio" name="customerType" value="Customer" [checked]="customerType() === 'Customer'" (change)="customerType.set('Customer')"> Customer</label>
+                   <label class="radio-label"><input type="radio" name="customerType" value="Delar" [checked]="customerType() === 'Delar'" (change)="customerType.set('Delar')"> Delar</label>
+                   <label class="radio-label"><input type="radio" name="customerType" value="Distributer" [checked]="customerType() === 'Distributer'" (change)="customerType.set('Distributer')"> Distributer</label>
+                 </div>
+                 
+                 <div class="flex items-center gap-4 mt-1">
+                   <span class="font-bold text-sm text-[#212529]">Invoice Invoice Type :</span>
+                   <label class="radio-label text-blue-600"><input type="radio" name="invoiceCategoryType" value="General" [checked]="invoiceCategoryType() === 'General'" (change)="invoiceCategoryType.set('General')"> General</label>
+                   <label class="radio-label text-red-600"><input type="radio" name="invoiceCategoryType" value="Commission" [checked]="invoiceCategoryType() === 'Commission'" (change)="invoiceCategoryType.set('Commission')"> Commission</label>
+                   <label class="radio-label text-red-600"><input type="radio" name="invoiceCategoryType" value="Asset" [checked]="invoiceCategoryType() === 'Asset'" (change)="invoiceCategoryType.set('Asset')"> Asset</label>
+                 </div>
+              </div>
+
+              <app-erp-input label="Serial Number" [value]="formData().serialNumber" (valueChange)="updateForm('serialNumber', $event)"></app-erp-input>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- Shipping Details -->
+    <section class="card-panel">
+      <app-section-header title="Click to Hide Details Shipping Details" [expanded]="sections().shippingDetails" (toggle)="toggleSection('shippingDetails')"></app-section-header>
+      @if (sections().shippingDetails) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <app-erp-input label="Way Bill No" [value]="formData().wayBillNo" (valueChange)="updateForm('wayBillNo', $event)"></app-erp-input>
+              <app-erp-input label="Docket No" [value]="formData().docketNo" (valueChange)="updateForm('docketNo', $event)"></app-erp-input>
+              
+              <app-erp-select label="Courier Name" [options]="courierOptions" [value]="formData().courierName" (valueChange)="updateForm('courierName', $event)"></app-erp-select>
+              <app-erp-input class="text-red-600-label" label="Courier Date *" type="date" [value]="formData().courierDate" (valueChange)="updateForm('courierDate', $event)"></app-erp-input>
+              
+              <app-erp-input label="Customer Order No *" class="text-red-600-label" [value]="formData().customerOrderNo" (valueChange)="updateForm('customerOrderNo', $event)"></app-erp-input>
+              <app-erp-input label="Customer Order Date" type="date" [value]="formData().customerOrderDate" (valueChange)="updateForm('customerOrderDate', $event)"></app-erp-input>
+              
+              <app-erp-input class="text-red-600-label" label="Target Despatch Date *" type="date" [value]="formData().targetDespatchDate" (valueChange)="updateForm('targetDespatchDate', $event)"></app-erp-input>
+              <app-erp-input class="text-red-600-label" label="Target Delivery Date *" type="date" [value]="formData().targetDeliveryDate" (valueChange)="updateForm('targetDeliveryDate', $event)"></app-erp-input>
+              
+              <app-erp-select class="text-red-600-label" label="Sales Executive Code *" [options]="employeeOptions" [value]="formData().salesExecutiveCode" (valueChange)="updateForm('salesExecutiveCode', $event)"></app-erp-select>
+              
+              <div class="flex flex-col gap-1 mt-6">
+                 <div class="flex items-center gap-4">
+                   <span class="font-bold text-sm text-[#212529]">Payment Type :</span>
+                   <label class="radio-label"><input type="radio" name="paymentType" value="Cash" [checked]="paymentType() === 'Cash'" (change)="paymentType.set('Cash')"> Cash</label>
+                   <label class="radio-label"><input type="radio" name="paymentType" value="Credit" [checked]="paymentType() === 'Credit'" (change)="paymentType.set('Credit')"> Credit</label>
+                 </div>
+              </div>
+
+              <app-erp-input label="Next Stamping Date" type="date" [value]="formData().nextStampingDate" (valueChange)="updateForm('nextStampingDate', $event)"></app-erp-input>
+              
+              <div class="flex items-end gap-2">
+                 <app-erp-input class="flex-grow" label="Payment Date" type="date" [value]="formData().paymentDate" (valueChange)="updateForm('paymentDate', $event)"></app-erp-input>
+                 <app-erp-input class="w-16" label=" " [value]="formData().paymentDays" (valueChange)="updateForm('paymentDays', $event)"></app-erp-input>
+                 <span class="font-bold text-sm text-[#212529] mb-2">Days</span>
+              </div>
+
+              <app-erp-select label="Transport Mode" [options]="transportModeOptions" [value]="formData().transportMode" (valueChange)="updateForm('transportMode', $event)"></app-erp-select>
+              <app-erp-input label="Vehicle Number" [value]="formData().vehicleNumber" (valueChange)="updateForm('vehicleNumber', $event)"></app-erp-input>
+              
+              <app-erp-input label="Approx Distance" [value]="formData().approxDistance" (valueChange)="updateForm('approxDistance', $event)"></app-erp-input>
+              <app-erp-select label="Type" [options]="supplyTypeOptions" [value]="formData().supplyType" (valueChange)="updateForm('supplyType', $event)"></app-erp-select>
+              
+              <app-erp-select label="Transaction Type" [options]="transactionTypeOptions" [value]="formData().transactionType" (valueChange)="updateForm('transactionType', $event)"></app-erp-select>
+              <app-erp-input label="Port Code" [value]="formData().portCode" (valueChange)="updateForm('portCode', $event)"></app-erp-input>
+              
+              <app-erp-input label="Shipping Bill Date" type="date" [value]="formData().shippingBillDate" (valueChange)="updateForm('shippingBillDate', $event)"></app-erp-input>
+              <app-erp-input label="Shipping Bill No" [value]="formData().shippingBillNo" (valueChange)="updateForm('shippingBillNo', $event)"></app-erp-input>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- Customer Details -->
+    <section class="card-panel">
+      <app-section-header title="Customer Details" [expanded]="sections().customerDetails" (toggle)="toggleSection('customerDetails')"></app-section-header>
+      @if (sections().customerDetails) {
+        <div class="panel-body">
+           <div class="form-grid">
+              <app-erp-select label="Company" [options]="companyOptions" [value]="formData().customerCompany" (valueChange)="updateForm('customerCompany', $event)"></app-erp-select>
+              <div class="flex items-center gap-2">
+                 <app-erp-input class="flex-grow" label="Customer" [required]="true" [value]="formData().customerName" (valueChange)="updateForm('customerName', $event)"></app-erp-input>
+                 <label class="text-xs flex items-center gap-1 mt-6"><input type="checkbox"> Inactive</label>
+                 <a href="#" class="text-xs text-blue-600 mt-6 font-bold hover:underline">Add Customer</a>
+              </div>
+              <app-erp-select class="text-red-600-label" label="CC Center *" [options]="ccCenterOptions" [value]="formData().customerCcCenter" (valueChange)="updateForm('customerCcCenter', $event)"></app-erp-select>
+              <div class="flex items-center gap-2">
+                 <span class="font-bold text-sm text-[#1a3a6b]">Balance : </span>
+                 <span class="text-blue-600 font-bold text-sm"></span>
+              </div>
+              <app-erp-input label="GSTIN" [value]="formData().gstin" (valueChange)="updateForm('gstin', $event)"></app-erp-input>
+              <app-erp-select class="text-red-600-label" label="Sales Type *" [options]="salesTypeOptions" [value]="formData().salesType" (valueChange)="updateForm('salesType', $event)"></app-erp-select>
+              <app-erp-select label="Entry Type" [options]="[{label:'Sales',value:'Sales'}]" [value]="formData().entryType" (valueChange)="updateForm('entryType', $event)"></app-erp-select>
+              <app-erp-input label="Delivery Address" [value]="formData().deliveryAddress" (valueChange)="updateForm('deliveryAddress', $event)"></app-erp-input>
+              <div class="flex items-center gap-2">
+                 <app-erp-input class="flex-grow" label="Address" [value]="formData().address" (valueChange)="updateForm('address', $event)"></app-erp-input>
+                 <a href="#" class="text-xs text-blue-800 font-bold hover:underline mt-6">CustomerDetails *</a>
+              </div>
+              <app-erp-input label="Remarks" [value]="formData().remarks" (valueChange)="updateForm('remarks', $event)"></app-erp-input>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- Contact Details Entry -->
+    <section class="card-panel">
+      <app-section-header title="Click to Hide Details Contact Details Entry" [expanded]="sections().contactDetails" (toggle)="toggleSection('contactDetails')"></app-section-header>
+      @if (sections().contactDetails) {
+        <div class="panel-body">
+           <h4 class="font-bold text-sm text-[#1a3a6b] border-b border-[#cbd5e1] pb-1 mb-3">Contact Information</h4>
+           <div class="form-grid">
+              <app-erp-input label="Name" placeholder="Concerned Person" [value]="formData().contactName" (valueChange)="updateForm('contactName', $event)"></app-erp-input>
+              <app-erp-input label="Designation" placeholder="Designation" [value]="formData().contactDesignation" (valueChange)="updateForm('contactDesignation', $event)"></app-erp-input>
+              
+              <app-erp-textarea label="Address" [rows]="2" placeholder="Address" [value]="formData().contactAddress" (valueChange)="updateForm('contactAddress', $event)"></app-erp-textarea>
+              <div><!-- Empty grid spacer --></div>
+
+              <app-erp-input label="Phone" placeholder="Phone" [value]="formData().contactPhone" (valueChange)="updateForm('contactPhone', $event)"></app-erp-input>
+              <app-erp-input label="Mobile" placeholder="Mobile No" [value]="formData().contactMobile" (valueChange)="updateForm('contactMobile', $event)"></app-erp-input>
+              
+              <app-erp-input label="Email" placeholder="Email" [value]="formData().contactEmail" (valueChange)="updateForm('contactEmail', $event)"></app-erp-input>
+           </div>
+           <div class="flex justify-center mt-4 border-t border-[#cbd5e1] pt-4">
+              <button class="btn-search">Add</button>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- Item Details Search -->
+    <section class="card-panel">
+      <app-section-header title="Item Details Search" [expanded]="sections().itemDetails" (toggle)="toggleSection('itemDetails')"></app-section-header>
+      @if (sections().itemDetails) {
+        <div class="panel-body bg-gray-50">
+           <div class="form-grid">
+              <div class="flex items-center gap-4 mt-2">
+                 <span class="font-bold text-sm text-[#1a3a6b]">Rate : </span>
+                 <label class="radio-label">
+                   <input type="radio" name="rateType" value="Normal" [checked]="rateType() === 'Normal'" (change)="rateType.set('Normal')"> Normal
+                 </label>
+                 <label class="radio-label">
+                   <input type="radio" name="rateType" value="Customer" [checked]="rateType() === 'Customer'" (change)="rateType.set('Customer')"> Customer
+                 </label>
+              </div>
+              <app-erp-select label="Group" [options]="itemGroupOptions" [value]="formData().itemGroup" (valueChange)="updateForm('itemGroup', $event)"></app-erp-select>
+              
+              <app-erp-select label="Item Material Type" [options]="itemMaterialTypeOptions" [value]="formData().itemMaterialType" (valueChange)="updateForm('itemMaterialType', $event)"></app-erp-select>
+              
+              <div class="flex items-center gap-3 mt-6">
+                 <button class="btn-search"><lucide-icon [img]="SearchIcon" class="btn-icon"></lucide-icon> Search</button>
+                 <a href="#" class="text-xs text-blue-800 font-bold hover:underline">Add Product</a>
+              </div>
+           </div>
+
+           <!-- Item Data tables -->
+           <h4 class="font-bold text-sm text-[#1a3a6b] mt-6 mb-2 border-b border-[#cbd5e1] pb-1">Item Details</h4>
+           <div class="table-responsive">
+              <table class="erp-data-table">
+                  <thead>
+                      <tr>
+                          <th>Action</th>
+                          <th>Group</th>
+                          <th>Product Name</th>
+                          <th>Unit</th>
+                          <th>Rate</th>
+                          <th>Quantity</th>
+                          <th>Amount</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr><td colspan="7" class="empty-state">No items available.</td></tr>
+                  </tbody>
+              </table>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- Other Charges & Tax Details -->
+    <section class="card-panel">
+      <app-section-header title="Other Charges / Tax Details" [expanded]="sections().chargesTax" (toggle)="toggleSection('chargesTax')"></app-section-header>
+      @if (sections().chargesTax) {
+        <div class="panel-body">
+           <div class="flex justify-between font-bold text-sm text-[#1a3a6b] border-b border-[#cbd5e1] pb-2 mb-2">
+              <span>Total Amount = 0.00</span>
+           </div>
+           <div class="flex justify-between font-bold text-sm text-[#1a3a6b] border-b border-[#cbd5e1] pb-2 mb-2">
+              <span>Total Amount =</span>
+           </div>
+           
+           <div class="flex justify-between items-center mb-2">
+              <span class="font-bold text-sm text-[#1a3a6b]">Tax Details</span>
+              <button class="btn-secondary"><lucide-icon [img]="CalculatorIcon" class="w-3 h-3 mr-1 inline-block"></lucide-icon> Calculate Tax</button>
+           </div>
+           
+           <div class="flex justify-center font-bold text-sm text-[#1a3a6b] mt-4">
+              <span>Grand Total = 0.00</span>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- Terms & Conditions -->
+    <section class="card-panel">
+      <app-section-header title="Terms & Conditions" [expanded]="sections().terms" (toggle)="toggleSection('terms')"></app-section-header>
+      @if (sections().terms) {
+        <div class="panel-body">
+           <!-- Mock Rich Text Editor Toolbar -->
+           <div class="border border-[#cbd5e1] rounded">
+              <div class="bg-gray-100 border-b border-[#cbd5e1] p-2 flex flex-wrap gap-2 text-gray-700 text-sm">
+                 <button class="px-2 border rounded hover:bg-white">B</button>
+                 <button class="px-2 border rounded hover:bg-white">I</button>
+                 <button class="px-2 border rounded hover:bg-white">U</button>
+                 <span class="border-l border-gray-300 mx-1"></span>
+                 <select class="border rounded px-1"><option>Normal</option></select>
+                 <select class="border rounded px-1"><option>Times New Roman</option></select>
+                 <select class="border rounded px-1"><option>14px</option></select>
+              </div>
+              <app-erp-textarea class="w-full border-none!" [rows]="10" [value]="formData().termsConditions" (valueChange)="updateForm('termsConditions', $event)"></app-erp-textarea>
+              <div class="bg-gray-100 border-t border-[#cbd5e1] p-2 flex justify-between text-xs text-gray-500">
+                 <div>
+                    <button class="px-2 hover:bg-gray-200 rounded">Design</button>
+                    <button class="px-2 hover:bg-gray-200 rounded">&lt;&gt; HTML</button>
+                    <button class="px-2 hover:bg-gray-200 rounded">Preview</button>
+                 </div>
+                 <div>Words: 28 Characters: 219</div>
+              </div>
+           </div>
+        </div>
+      }
+    </section>
+
+    <!-- SEARCH INVOICE -->
+    <section class="card-panel search-panel">
+       <app-section-header 
+         title="Invoice Show Click to Hide Details" 
+         [expanded]="sections().invoiceSearch" 
+         (toggle)="toggleSection('invoiceSearch')">
+       </app-section-header>
+       @if (sections().invoiceSearch) {
+         <div class="search-body panel-body bg-gray-50">
+            <div class="form-grid">
+               <app-erp-select label="Company" [options]="companyOptions"></app-erp-select>
+               <app-erp-select label="CC Center" [options]="ccCenterOptions"></app-erp-select>
+               <app-erp-input label="Customer"></app-erp-input>
+               <app-erp-input label="Reference No"></app-erp-input>
+               <app-erp-input label="Amount From"></app-erp-input>
+               <app-erp-input label="Amount To"></app-erp-input>
+               <app-erp-input label="From Date" type="date"></app-erp-input>
+               <app-erp-input label="To Date" type="date"></app-erp-input>
+            </div>
+            <div class="flex justify-center mt-4 border-t border-[#cbd5e1] pt-4">
+               <button class="btn-search"><lucide-icon [img]="SearchIcon" class="btn-icon"></lucide-icon> Search</button>
+            </div>
+         </div>
+       }
+    </section>
+
+  </main>
+</div>

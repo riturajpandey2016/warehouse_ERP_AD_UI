@@ -1,0 +1,103 @@
+<div class="sales-despatch-container">
+  <!-- Page Title / Sticky Header Strip -->
+  <header class="page-header">
+    <h1 class="page-title">
+      Sales Despatch Entry
+    </h1>
+  </header>
+
+  <main class="page-content">
+     
+    <!-- SECTION 1: Search Filters -->
+    <section class="card-panel">
+      <app-section-header 
+        title="Click to Hide Details" 
+        [expanded]="sections().searchFilters" 
+        (toggle)="toggleSection('searchFilters')">
+      </app-section-header>
+      
+      @if (sections().searchFilters) {
+        <div class="panel-body bg-gray-50">
+           <!-- Search Form -->
+           <div class="search-form-container border-b border-[#cbd5e1] pb-4 mb-2">
+              <div class="flex flex-col gap-4 max-w-4xl mx-auto">
+                 <div class="flex items-center gap-2 justify-center">
+                    <span class="font-bold text-sm text-[#212529] whitespace-nowrap">Search By :</span>
+                    <app-erp-select class="w-64" [options]="searchByOptions" [value]="searchForm().searchByMode" (valueChange)="updateForm('searchByMode', $event)"></app-erp-select>
+                    <app-erp-select class="w-48" [options]="ccCenterOptions" [value]="searchForm().ccCenter" (valueChange)="updateForm('ccCenter', $event)"></app-erp-select>
+                    <app-erp-select class="w-48" [options]="customerOptions" [value]="searchForm().customer" (valueChange)="updateForm('customer', $event)"></app-erp-select>
+                 </div>
+                 <div class="flex items-center gap-12 justify-center">
+                    <div class="flex items-center gap-2">
+                       <span class="font-bold text-sm text-[#212529] whitespace-nowrap">From Date :</span>
+                       <app-erp-input type="date" [value]="searchForm().fromDate" (valueChange)="updateForm('fromDate', $event)"></app-erp-input>
+                    </div>
+                    <div class="flex items-center gap-2">
+                       <span class="font-bold text-sm text-[#212529] whitespace-nowrap">To Date :</span>
+                       <app-erp-input type="date" [value]="searchForm().toDate" (valueChange)="updateForm('toDate', $event)"></app-erp-input>
+                    </div>
+                 </div>
+              </div>
+              <div class="flex justify-center mt-4">
+                 <button (click)="handleSearch()" class="btn-search">
+                    <lucide-icon [img]="SearchIcon" class="btn-icon"></lucide-icon> Search
+                 </button>
+              </div>
+           </div>
+
+           <!-- Data Table -->
+           <div class="table-responsive">
+              <table class="erp-data-table min-w-[2000px]">
+                  <thead>
+                      <tr>
+                          <th>Action</th>
+                          <th>Serial Number</th>
+                          <th>Invoice Date</th>
+                          <th>Reference No</th>
+                          <th>Customer</th>
+                          <th>Invoice Address</th>
+                          <th>Delivery Address</th>
+                          <th>State</th>
+                          <th>Invoice Total</th>
+                          <th>Way Bill No</th>
+                          <th>Courier Name</th>
+                          <th>Docket No</th>
+                          <th>Docket / Despatch Date</th>
+                          <th>Target Despatch Date</th>
+                          <th>Target Delivery Date</th>
+                          <th>Customer Receive Date</th>
+                          <th>Remarks</th>
+                      </tr>
+                      <tr class="filter-row">
+                          <td></td>
+                          <td></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td><input type="text" class="column-filter"></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td colspan="17" class="empty-state">No records to display.</td>
+                      </tr>
+                  </tbody>
+              </table>
+           </div>
+        </div>
+      }
+    </section>
+
+  </main>
+</div>

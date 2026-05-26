@@ -1,0 +1,120 @@
+<div class="feedback-answer-container">
+  <!-- Page Title / Sticky Header Strip -->
+  <header class="page-header">
+    <h1 class="page-title">
+      Customer Feedback Answer Entry
+    </h1>
+  </header>
+
+  <main class="page-content">
+     
+    <!-- Top Entry Form -->
+    <div class="entry-block py-6 bg-white mb-2 flex flex-col items-center border border-[#dee2e6] rounded">
+       <div class="flex items-center gap-2 w-full max-w-2xl justify-center">
+          <span class="font-bold text-sm text-[#212529] whitespace-nowrap">Feedback Answer :</span>
+          <input type="text" class="erp-text-input w-full max-w-sm" placeholder="Answer" [value]="feedbackAnswer()" (input)="feedbackAnswer.set($any($event.target).value)">
+       </div>
+       <div class="flex items-center gap-2 mt-4">
+          <button (click)="handleSave()" class="btn-save">
+             Save
+          </button>
+          <button (click)="handleReset()" class="btn-reset">
+             Reset
+          </button>
+       </div>
+    </div>
+
+    <!-- Answers List Section -->
+    <section class="card-panel">
+      <app-section-header 
+        title="Answer's Lists" 
+        [expanded]="sections().answerList" 
+        (toggle)="toggleSection('answerList')">
+      </app-section-header>
+      
+      @if (sections().answerList) {
+        <div class="panel-body bg-gray-50 p-0!">
+           <!-- Search Form -->
+           <div class="search-form-container border-b border-[#cbd5e1] py-3 flex flex-col items-center justify-center">
+              <div class="flex items-center gap-2">
+                 <span class="font-bold text-sm text-[#212529] whitespace-nowrap">Feedback Answer :</span>
+                 <input type="text" class="erp-text-input w-72" placeholder="Answer" [value]="searchAnswer()" (input)="searchAnswer.set($any($event.target).value)">
+              </div>
+              <button (click)="handleSearch()" class="btn-search mt-3">
+                 Search
+              </button>
+           </div>
+
+           <!-- Data Table -->
+           <div class="table-responsive">
+              <table class="erp-data-table min-w-[1000px] border-none">
+                  <thead>
+                      <tr>
+                          <th class="w-24">Sl. No.</th>
+                          <th>Feedback Answer</th>
+                          <th class="w-32">Action</th>
+                      </tr>
+                      <tr class="filter-row">
+                          <td>
+                             <div class="flex">
+                                <input type="text" class="column-filter rounded-r-none w-16">
+                                <button class="filter-btn"><lucide-icon [img]="SearchIcon" class="w-3 h-3 text-gray-500"></lucide-icon></button>
+                             </div>
+                          </td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @for (row of tableData(); track row.slNo) {
+                         <tr>
+                             <td class="text-center">{{ row.slNo }}</td>
+                             <td>{{ row.answer }}</td>
+                             <td>
+                                <div class="flex items-center gap-2 justify-center">
+                                   <button (click)="editRow(row)" class="action-btn text-blue-600 hover:text-blue-800" title="Edit">
+                                      <lucide-icon [img]="EditIcon" class="w-4 h-4"></lucide-icon>
+                                   </button>
+                                   <button (click)="toggleRow(row)" class="action-btn text-emerald-500 hover:text-emerald-700" title="Toggle Active">
+                                      <lucide-icon [img]="ToggleRightIcon" class="w-4 h-4"></lucide-icon>
+                                   </button>
+                                   <button (click)="deleteRow(row)" class="action-btn text-red-500 hover:text-red-700" title="Delete">
+                                      <lucide-icon [img]="XCircleIcon" class="w-4 h-4"></lucide-icon>
+                                   </button>
+                                </div>
+                             </td>
+                         </tr>
+                      }
+                  </tbody>
+              </table>
+           </div>
+
+           <!-- Pagination -->
+           <div class="flex justify-between items-center bg-[#e2e8f0] p-1.5 border-t border-[#cbd5e1] text-xs">
+              <div class="flex items-center gap-1">
+                 <button class="pagination-btn"><lucide-icon [img]="ChevronsLeftIcon" class="w-3 h-3"></lucide-icon></button>
+                 <button class="pagination-btn"><lucide-icon [img]="ChevronLeftIcon" class="w-3 h-3"></lucide-icon></button>
+                 <span class="px-2 font-bold bg-white border border-[#cbd5e1] h-6 flex items-center justify-center min-w-[24px]">1</span>
+                 <button class="pagination-btn"><lucide-icon [img]="ChevronRightIcon" class="w-3 h-3"></lucide-icon></button>
+                 <button class="pagination-btn"><lucide-icon [img]="ChevronsRightIcon" class="w-3 h-3"></lucide-icon></button>
+                 
+                 <div class="flex items-center gap-1 ml-4">
+                    <span class="text-[#334155]">Page size:</span>
+                    <select class="border border-[#cbd5e1] rounded px-1 h-6">
+                       <option>10</option>
+                       <option>25</option>
+                       <option>50</option>
+                    </select>
+                 </div>
+              </div>
+              <div class="text-[#334155] mr-2">
+                 {{ tableData().length }} items in 1 pages
+              </div>
+           </div>
+
+        </div>
+      }
+    </section>
+
+  </main>
+</div>

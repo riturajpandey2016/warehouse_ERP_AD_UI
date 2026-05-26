@@ -1,0 +1,235 @@
+<div class="discount-scheme-container">
+  <!-- Page Title / Header -->
+  <header class="page-header">
+    <h1 class="page-title">Product Discount Scheme</h1>
+  </header>
+
+  <main class="page-content">
+     
+    <!-- Top Entry Form Block -->
+    <div class="entry-block py-4 px-2 bg-[#f8fafc] mb-2 border-b border-[#cbd5e1]">
+       <div class="form-grid max-w-6xl mx-auto">
+          <!-- Left Column -->
+          <div class="flex flex-col gap-2">
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">Zone :</span>
+                <app-erp-select class="flex-grow max-w-[300px]" [options]="zoneOptions" [value]="formData().zone" (valueChange)="updateForm('zone', $event)"></app-erp-select>
+             </div>
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">Branch :</span>
+                <app-erp-select class="flex-grow max-w-[300px]" [options]="branchOptions" [value]="formData().branch" (valueChange)="updateForm('branch', $event)"></app-erp-select>
+             </div>
+             
+             <!-- Radio Group: Invoice / Product -->
+             <div class="flex items-center gap-2 pl-[148px]">
+                <label class="flex items-center gap-1 font-bold text-xs text-[#212529] cursor-pointer">
+                   <input type="radio" name="schemeType" value="Invoice Value" 
+                          [checked]="formData().schemeType === 'Invoice Value'"
+                          (change)="updateForm('schemeType', 'Invoice Value')">
+                   Invoice Value
+                </label>
+                <label class="flex items-center gap-1 font-bold text-xs text-[#212529] cursor-pointer">
+                   <input type="radio" name="schemeType" value="Individual Product" 
+                          [checked]="formData().schemeType === 'Individual Product'"
+                          (change)="updateForm('schemeType', 'Individual Product')">
+                   Individual Product
+                </label>
+             </div>
+
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">Grand Amount From :</span>
+                <input type="text" class="erp-text-input flex-grow max-w-[300px]" [value]="formData().grandAmountFrom" (input)="updateForm('grandAmountFrom', $any($event.target).value)">
+             </div>
+
+             <!-- Radio Group: Percent / Amount -->
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">Discount :</span>
+                <label class="flex items-center gap-1 font-bold text-xs text-[#212529] cursor-pointer">
+                   <input type="radio" name="discountType" value="Percent" 
+                          [checked]="formData().discountType === 'Percent'"
+                          (change)="updateForm('discountType', 'Percent')">
+                   Percent
+                </label>
+                <label class="flex items-center gap-1 font-bold text-xs text-[#212529] cursor-pointer">
+                   <input type="radio" name="discountType" value="Amount" 
+                          [checked]="formData().discountType === 'Amount'"
+                          (change)="updateForm('discountType', 'Amount')">
+                   Amount
+                </label>
+             </div>
+
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">Discount (%) :</span>
+                <input type="text" class="erp-text-input flex-grow max-w-[300px]" [value]="formData().discountValue" (input)="updateForm('discountValue', $any($event.target).value)">
+             </div>
+
+             <div class="flex items-center gap-2 relative">
+                <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">Start Date :</span>
+                <div class="flex items-center border border-[#94a3b8] bg-white flex-grow max-w-[300px] h-[24px]">
+                   <input type="text" class="erp-text-input border-none flex-grow" [value]="formData().startDate" (input)="updateForm('startDate', $any($event.target).value)">
+                   <div class="px-1 border-l border-[#94a3b8] bg-gray-100 flex items-center justify-center h-full cursor-pointer text-gray-500 hover:bg-gray-200">
+                      📅
+                   </div>
+                   <div class="px-1 border-l border-[#94a3b8] bg-gray-100 flex items-center justify-center h-full cursor-pointer text-gray-500 hover:bg-gray-200">
+                      ⏰
+                   </div>
+                </div>
+             </div>
+          </div>
+          
+          <!-- Right Column -->
+          <div class="flex flex-col gap-2">
+             <div class="flex items-center gap-2">
+                <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">Company :</span>
+                <app-erp-select class="flex-grow max-w-[300px]" [options]="companyOptions" [value]="formData().company" (valueChange)="updateForm('company', $event)"></app-erp-select>
+                <span class="text-red-500 font-bold text-xs">*</span>
+             </div>
+             <div class="flex items-center gap-2 mt-0">
+                <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">Store :</span>
+                <app-erp-select class="flex-grow max-w-[300px]" [options]="storeOptions" [value]="formData().store" (valueChange)="updateForm('store', $event)"></app-erp-select>
+                <span class="text-transparent font-bold text-xs">*</span>
+             </div>
+             
+             <!-- Spacer to match the vertical alignment from the radio group on the left -->
+             <div class="h-[22px]"></div>
+             
+             <div class="flex items-center gap-2 mt-1">
+                <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">Grand Amount To :</span>
+                <input type="text" class="erp-text-input flex-grow max-w-[300px]" [value]="formData().grandAmountTo" (input)="updateForm('grandAmountTo', $any($event.target).value)">
+                <span class="text-transparent font-bold text-xs">*</span>
+             </div>
+
+             <!-- Spacer for the discount radio & input -->
+             <div class="h-[46px]"></div>
+
+             <div class="flex items-center gap-2 mt-1">
+                <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">End Date :</span>
+                <div class="flex items-center border border-[#94a3b8] bg-white flex-grow max-w-[300px] h-[24px]">
+                   <input type="text" class="erp-text-input border-none flex-grow" [value]="formData().endDate" (input)="updateForm('endDate', $any($event.target).value)">
+                   <div class="px-1 border-l border-[#94a3b8] bg-gray-100 flex items-center justify-center h-full cursor-pointer text-gray-500 hover:bg-gray-200">
+                      📅
+                   </div>
+                   <div class="px-1 border-l border-[#94a3b8] bg-gray-100 flex items-center justify-center h-full cursor-pointer text-gray-500 hover:bg-gray-200">
+                      ⏰
+                   </div>
+                </div>
+                <span class="text-transparent font-bold text-xs">*</span>
+             </div>
+          </div>
+       </div>
+
+       <!-- Action Buttons -->
+       <div class="flex justify-center items-center gap-2 mt-6">
+          <button (click)="handleSave()" class="btn-action">Save</button>
+          <button (click)="handleReset()" class="btn-action">Reset</button>
+       </div>
+    </div>
+
+    <!-- Search Section -->
+    <section class="card-panel">
+      <app-section-header 
+        title="- Click to Hide Serach Contents.." 
+        [expanded]="sections().searchContents" 
+        (toggle)="toggleSection('searchContents')">
+      </app-section-header>
+      
+      @if (sections().searchContents) {
+        <div class="panel-body bg-[#f8fafc] p-0!">
+           <!-- Search Form -->
+           <div class="search-form-container py-4 bg-[#f8fafc] flex flex-col items-center justify-center">
+              
+              <div class="flex w-full max-w-4xl justify-between px-10">
+                 <!-- Left Column -->
+                 <div class="flex flex-col gap-2 flex-grow">
+                    <div class="flex items-center gap-2">
+                       <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">Company :</span>
+                       <app-erp-select class="flex-grow max-w-[300px]" [options]="companyOptions" [value]="searchData().company" (valueChange)="updateSearch('company', $event)"></app-erp-select>
+                    </div>
+                    <div class="flex items-center gap-2">
+                       <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">Start Date :</span>
+                       <div class="flex items-center border border-[#94a3b8] bg-white flex-grow max-w-[300px] h-[24px]">
+                          <input type="text" class="erp-text-input border-none flex-grow" [value]="searchData().startDate" (input)="updateSearch('startDate', $any($event.target).value)">
+                          <div class="px-1 border-l border-[#94a3b8] bg-gray-100 flex items-center justify-center h-full cursor-pointer text-gray-500 hover:bg-gray-200">
+                             📅
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+
+                 <!-- Right Column -->
+                 <div class="flex flex-col gap-2 flex-grow">
+                    <div class="flex items-center gap-2">
+                       <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">Branch :</span>
+                       <app-erp-select class="flex-grow max-w-[300px]" [options]="branchOptions" [value]="searchData().branch" (valueChange)="updateSearch('branch', $event)"></app-erp-select>
+                    </div>
+                    <div class="flex items-center gap-2">
+                       <span class="font-bold text-xs text-[#212529] whitespace-nowrap min-w-[140px] text-right">End Date :</span>
+                       <div class="flex items-center border border-[#94a3b8] bg-white flex-grow max-w-[300px] h-[24px]">
+                          <input type="text" class="erp-text-input border-none flex-grow" [value]="searchData().endDate" (input)="updateSearch('endDate', $any($event.target).value)">
+                          <div class="px-1 border-l border-[#94a3b8] bg-gray-100 flex items-center justify-center h-full cursor-pointer text-gray-500 hover:bg-gray-200">
+                             📅
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+
+              <!-- Action Button -->
+              <div class="mt-6 flex justify-center w-full">
+                 <button (click)="handleSearch()" class="btn-action">
+                    Search
+                 </button>
+              </div>
+           </div>
+
+           <!-- Data Table -->
+           <div class="table-responsive border-t border-[#94a3b8]">
+              <table class="erp-data-table min-w-[1000px] border-none">
+                  <thead>
+                      <tr>
+                          <th class="w-12">Sl. No.</th>
+                          <th>Zone</th>
+                          <th>Branch</th>
+                          <th>Company</th>
+                          <th>Scheme Type</th>
+                          <th>Discount</th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                          <th class="w-20">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @for (row of tableData(); track row.slNo) {
+                         <tr>
+                             <td class="text-center font-bold">{{ row.slNo }}</td>
+                             <td>{{ row.zone }}</td>
+                             <td>{{ row.branch }}</td>
+                             <td>{{ row.company }}</td>
+                             <td>{{ row.schemeType }}</td>
+                             <td>{{ row.discount }}</td>
+                             <td>{{ row.startDate }}</td>
+                             <td>{{ row.endDate }}</td>
+                             <td>
+                                <div class="flex items-center gap-1 justify-center">
+                                   <button (click)="editRow(row)" class="action-btn text-amber-600 hover:text-amber-800" title="Edit">
+                                      <lucide-icon [img]="EditIcon" class="w-4 h-4"></lucide-icon>
+                                   </button>
+                                   <button (click)="toggleRow(row)" class="action-btn text-emerald-500 hover:text-emerald-700" title="Toggle Active">
+                                      <lucide-icon [img]="ToggleRightIcon" class="w-4 h-4"></lucide-icon>
+                                   </button>
+                                   <button (click)="deleteRow(row)" class="action-btn text-red-500 hover:text-red-700" title="Delete">
+                                      <lucide-icon [img]="XCircleIcon" class="w-4 h-4"></lucide-icon>
+                                   </button>
+                                </div>
+                             </td>
+                         </tr>
+                      }
+                  </tbody>
+              </table>
+           </div>
+        </div>
+      }
+    </section>
+
+  </main>
+</div>

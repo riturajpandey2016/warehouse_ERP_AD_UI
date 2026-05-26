@@ -240,6 +240,25 @@ export class App {
     else if (id === 'bin-inout-settings' || id === 'stock-out-order-settings') pageId = 'bin-inout-settings';
     else if (id === 'opening-stock-bin' || id === 'opening-item-bin' || id === 'opening-item-in-branch-bin-arrangement') pageId = 'opening-stock-bin';
     else if (id === 'issue-stock-bin' || id === 'issue-slip-bin-arrangement') pageId = 'issue-stock-bin';
+    else if (id === 'sales-delivery-expected-days') pageId = 'sales-delivery-expected-days';
+    else if (id === 'sales-quotation-approval') pageId = 'sales-quotation-approval';
+    else if (id === 'contrat-review-check-list-entry') pageId = 'contrat-review-check-list-entry';
+    else if (id === 'sales-order') pageId = 'sales-order';
+    else if (id === 'sales-order-approval') pageId = 'sales-order-approval';
+    else if (id === 'sales-challan') pageId = 'sales-challan';
+    else if (id === 'sales-invoice') pageId = 'sales-invoice';
+    else if (id === 'sales-despatch') pageId = 'sales-despatch';
+    else if (id === 'sales-return' || id === 'sales-return-credit-note') pageId = 'sales-return';
+    else if (id === 'invoice-document-upload-download') pageId = 'invoice-document-upload-download';
+    else if (id === 'customer-feedback-answer-entry') pageId = 'customer-feedback-answer-entry';
+    else if (id === 'customer-feedback-answer-group-entry') pageId = 'customer-feedback-answer-group-entry';
+    else if (id === 'branch-store-entry') pageId = 'branch-store-entry';
+    else if (id === 'stock-in-store') pageId = 'stock-in-store';
+    else if (id === 'product-discount-scheme') pageId = 'product-discount-scheme';
+    else if (id === 'store-requisition') pageId = 'store-requisition';
+    else if (id === 'issue-slip-pos') pageId = 'issue-slip-pos';
+    else if (id === 'reward-master-entry') pageId = 'reward-master-entry';
+    else if (id === 'pos-invoice-entry') pageId = 'pos-invoice-entry';
     
     this.currentPage.set(pageId);
   }

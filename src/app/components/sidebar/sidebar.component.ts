@@ -62,7 +62,13 @@ export class SidebarComponent {
     invProductPricing: false,
     invStorage: false,
     invOperations: false,
-    invBinManagement: false
+    invBinManagement: false,
+
+    // Sales subGroup states
+    salesQuotations: false,
+    salesOrders: false,
+    salesBilling: false,
+    salesFeedback: false
   });
 
   // Lucide Icons
@@ -225,13 +231,63 @@ export class SidebarComponent {
       name: 'Sales',
       icon: DollarSign,
       isExpandable: true,
-      subItems: [
-        { id: 'customers', name: 'Customers' },
-        { id: 'sales-orders', name: 'Sales Orders' },
-        { id: 'invoices', name: 'Invoices' }
+      subGroups: [
+        {
+          id: 'salesQuotations',
+          name: 'Quotations & Contracts',
+          items: [
+            { id: 'sales-delivery-expected-days', name: 'Sales Delivery Expected Days' },
+            { id: 'sales-quotation', name: 'Sales Quotation' },
+            { id: 'sales-quotation-approval', name: 'SalesQuotationApproval' },
+            { id: 'contrat-review-check-list-entry', name: 'Contrat Review Check List Entry' }
+          ]
+        },
+        {
+          id: 'salesOrders',
+          name: 'Sales Orders',
+          items: [
+            { id: 'sales-order', name: 'Sales Order' },
+            { id: 'sales-order-approval', name: 'Sales Order Approval' }
+          ]
+        },
+        {
+          id: 'salesBilling',
+          name: 'Billing & Delivery',
+          items: [
+            { id: 'sales-challan', name: 'Sales Challan' },
+            { id: 'sales-invoice', name: 'Sales Invoice' },
+            { id: 'sales-despatch', name: 'Sales Despatch' },
+            { id: 'sales-return-credit-note', name: 'Sales Return (Credit Note)' },
+            { id: 'invoice-document-upload-download', name: 'Invoice Document Upload/Download' }
+          ]
+        },
+        {
+          id: 'salesFeedback',
+          name: 'Customer Feedback',
+          items: [
+            { id: 'customer-feedback-answer-entry', name: 'Customer Feedback Answer Entry' },
+            { id: 'customer-feedback-answer-group-entry', name: 'Customer Feedback Answer Group Entry' },
+            { id: 'customer-feedback-question-entry', name: 'Customer Feedback Question Entry' },
+            { id: 'feedback-link-send-to-customer', name: 'Feedback Link Send To Customer' }
+          ]
+        }
       ]
     },
-    { id: 'pos', name: 'POS', icon: Calculator },
+    { 
+      id: 'pos', 
+      name: 'POS', 
+      icon: Calculator,
+      isExpandable: true,
+      subItems: [
+        { id: 'branch-store-entry', name: 'Branch Store Entry' },
+        { id: 'stock-in-store', name: 'Stock In Store' },
+        { id: 'product-discount-scheme', name: 'Product Discount Scheme' },
+        { id: 'store-requisition', name: 'Store Requisition' },
+        { id: 'issue-slip-pos', name: 'Issue Slip POS' },
+        { id: 'reward-master-entry', name: 'Reward Master Entry' },
+        { id: 'pos-invoice-entry', name: 'POS Invoice Entry' }
+      ]
+    },
     { id: 'global-reports', name: 'Global Reports', icon: BarChart2 },
     { id: 'role-user-mgmt', name: 'Role & User Management', icon: Users },
     { id: 'global-settings', name: 'Global Settings', icon: Settings }
