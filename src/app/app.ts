@@ -64,6 +64,15 @@ import { BinSubLevelComponent } from './components/bin-sub-level/bin-sub-level.c
 import { BinInoutSettingsComponent } from './components/bin-inout-settings/bin-inout-settings.component';
 import { OpeningStockBinComponent } from './components/opening-stock-bin/opening-stock-bin.component';
 import { IssueStockBinComponent } from './components/issue-stock-bin/issue-stock-bin.component';
+import { PurchaseQuotationApprovalComponent } from './components/purchase-quotation-approval/purchase-quotation-approval.component';
+import { PurchaseOrderComponent } from './components/purchase-order/purchase-order.component';
+import { PurchaseOrderApprovalComponent } from './components/purchase-order-approval/purchase-order-approval.component';
+import { PurchaseOrderReceiveMrnComponent } from './components/purchase-order-receive-mrn/purchase-order-receive-mrn.component';
+import { PurchaseOrderReceiveMrnApprovalComponent } from './components/purchase-order-receive-mrn-approval/purchase-order-receive-mrn-approval.component';
+import { PurchaseOrderReceiveGrnQcComponent } from './components/purchase-order-receive-grn-qc/purchase-order-receive-grn-qc.component';
+import { PurchaseInvoiceComponent } from './components/purchase-invoice/purchase-invoice.component';
+import { PurchaseReturnComponent } from './components/purchase-return/purchase-return.component';
+import { InvoiceDocumentUploadDownloadComponent } from './components/invoice-document-upload-download/invoice-document-upload-download.component';
 
 // Import new dashboard subcomponents
 import { TopNavbarComponent } from './components/top-navbar/top-navbar.component';
@@ -132,6 +141,15 @@ import { DashboardLayoutComponent } from './components/dashboard-layout/dashboar
     BinInoutSettingsComponent,
     OpeningStockBinComponent,
     IssueStockBinComponent,
+    PurchaseQuotationApprovalComponent,
+    PurchaseOrderComponent,
+    PurchaseOrderApprovalComponent,
+    PurchaseOrderReceiveMrnComponent,
+    PurchaseOrderReceiveMrnApprovalComponent,
+    PurchaseOrderReceiveGrnQcComponent,
+    PurchaseInvoiceComponent,
+    PurchaseReturnComponent,
+    InvoiceDocumentUploadDownloadComponent,
     
     // Add dashboard layout subcomponents
     TopNavbarComponent,

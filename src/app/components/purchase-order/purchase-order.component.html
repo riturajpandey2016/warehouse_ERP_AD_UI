@@ -1,0 +1,627 @@
+<div class="company-master-container">
+  <!-- Header Section -->
+  <header class="page-header">
+    <div class="header-left">
+      <div class="breadcrumb-trail">
+        <lucide-icon [img]="LayoutGridIcon" class="breadcrumb-icon"></lucide-icon>
+        <span class="breadcrumb-item">Purchase</span>
+        <lucide-icon [img]="ChevronRightIcon" class="breadcrumb-sep"></lucide-icon>
+        <span class="breadcrumb-item active">Purchase Order Details</span>
+      </div>
+      
+      <div class="title-section">
+        <div class="title-icon-wrapper">
+          <lucide-icon [img]="ShoppingCartIcon" class="title-icon"></lucide-icon>
+        </div>
+        <div>
+          <h1 class="page-title">Purchase Order Details</h1>
+          <div class="title-badges">
+            <span class="badge badge-new">New Entry</span>
+            <span class="badge-dot">•</span>
+            <span class="badge-text">Purchase Order Entry Form</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button (click)="saveOrder()" class="btn-save btn-lg">
+        <lucide-icon [img]="SaveIcon" class="btn-icon"></lucide-icon> Save Order
+      </button>
+      <button (click)="handleReset()" class="btn-reset btn-lg">
+        <lucide-icon [img]="RotateCcwIcon" class="btn-icon"></lucide-icon> Reset
+      </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- SECTION 1 — Header / Order Entry Section -->
+    <div class="card-panel">
+      <div class="card-header bg-slate-900 text-white">
+        <lucide-icon [img]="CalendarIcon" class="card-header-icon text-white"></lucide-icon>
+        <h2 class="card-header-title text-white">1. Order Entry Details</h2>
+      </div>
+      
+      <div class="panel-body">
+        <div class="form-grid-3">
+          <!-- Type Selection Toggles -->
+          <div class="type-selector-wrapper">
+            <span class="selector-label font-bold text-xs">Order Type:</span>
+            <div class="toggle-group-wrapper">
+              <button 
+                (click)="orderType.set('Direct')"
+                class="btn-toggle"
+                [class.active]="orderType() === 'Direct'"
+              >
+                Direct
+              </button>
+              <button 
+                (click)="orderType.set('Against Requisition')"
+                class="btn-toggle"
+                [class.active]="orderType() === 'Against Requisition'"
+              >
+                Against Requisition
+              </button>
+              <button 
+                (click)="orderType.set('Against Quotation')"
+                class="btn-toggle"
+                [class.active]="orderType() === 'Against Quotation'"
+              >
+                Against Quotation
+              </button>
+            </div>
+          </div>
+
+          <app-floating-input 
+            id="date" label="Order Date" type="date" [required]="true" 
+            [value]="date()" (valueChange)="date.set($event)">
+          </app-floating-input>
+
+          <app-floating-input 
+            id="refNo" label="Reference No"
+            [value]="refNo()" (valueChange)="refNo.set($event)"
+            placeholder="e.g. PO-REF-2026">
+          </app-floating-input>
+        </div>
+
+        <!-- Requisition / Quotation search section placeholder (shown when not Direct) -->
+        <div class="requisition-search-container mt-4 pt-4 border-t border-slate-200" *ngIf="orderType() !== 'Direct'">
+          <div class="flex items-center justify-between clickable-header mb-3" (click)="toggleSection('requisitionSearch')">
+            <div class="flex items-center gap-2">
+              <lucide-icon [img]="SearchIcon" class="w-4 h-4 text-blue-900"></lucide-icon>
+              <span class="criteria-red-title text-xs font-bold uppercase">
+                Search {{ orderType() === 'Against Requisition' ? 'Requisitions' : 'Quotations' }} (Click to Toggle)
+              </span>
+            </div>
+            <lucide-icon [img]="sectionsExpanded().requisitionSearch ? ChevronUpIcon : ChevronDownIcon" class="w-4 h-4 text-slate-500"></lucide-icon>
+          </div>
+
+          <div *ngIf="sectionsExpanded().requisitionSearch" class="search-fields-wrapper bg-slate-50 p-4 rounded border border-slate-200">
+            <div class="form-grid-3">
+              <app-floating-input id="searchDocNo" [label]="orderType() === 'Against Requisition' ? 'Requisition No' : 'Quotation No'"></app-floating-input>
+              <app-floating-select id="searchCc" label="CC Center" [options]="ccCenterOptions"></app-floating-select>
+              <div class="flex items-center gap-2">
+                <button class="btn-action-primary h-11 w-full"><lucide-icon [img]="SearchIcon" class="w-3.5 h-3.5 mr-1"></lucide-icon> Search</button>
+              </div>
+            </div>
+            
+            <p class="text-xs text-slate-400 mt-2 italic">Search for active/approved source documents to load item configurations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 — Supplier Details -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('supplierDetails')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="Building2Icon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">2. Supplier & Project Credentials</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().supplierDetails ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().supplierDetails">
+        <div class="panel-body">
+          <div class="form-grid-4">
+            
+            <!-- Left Side / First Column -->
+            <app-floating-select 
+              id="company" label="Company" 
+              [value]="company()" (valueChange)="company.set($event)"
+              [options]="companyOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="ccCenter" label="CC Center" [required]="true" 
+              [value]="ccCenter()" (valueChange)="ccCenter.set($event)"
+              [options]="ccCenterOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="department" label="Department" [required]="true" 
+              [value]="department()" (valueChange)="department.set($event)"
+              [options]="departmentOptions">
+            </app-floating-select>
+
+            <app-floating-input 
+              id="gstin" label="GSTIN" 
+              [value]="gstin()" (valueChange)="gstin.set($event)"
+              placeholder="e.g. 22AAAAA0000A1Z5">
+            </app-floating-input>
+
+            <app-floating-input 
+              id="entryType" label="Entry Type" 
+              [value]="entryType()" (valueChange)="entryType.set($event)"
+              [required]="false">
+            </app-floating-input>
+
+            <app-floating-input 
+              id="vendorCode" label="Vendor Code" 
+              [value]="vendorCode()" (valueChange)="vendorCode.set($event)">
+            </app-floating-input>
+
+            <div class="col-span-2">
+              <app-floating-textarea 
+                id="deliveryAddress" label="Delivery Address" [rows]="2"
+                [value]="deliveryAddress()" (valueChange)="deliveryAddress.set($event)">
+              </app-floating-textarea>
+            </div>
+
+            <app-floating-select 
+              id="projectName" label="Project Name" 
+              [value]="projectName()" (valueChange)="projectName.set($event)"
+              [options]="projectNameOptions">
+            </app-floating-select>
+
+            <div class="col-span-3">
+              <app-floating-textarea 
+                id="projectDescription" label="Project Description" [rows]="1"
+                [value]="projectDescription()" (valueChange)="projectDescription.set($event)">
+              </app-floating-textarea>
+            </div>
+
+            <!-- Entry Relation Selector (Radio Row) -->
+            <div class="rate-radio-group col-span-2">
+              <span class="radio-group-label font-bold text-xs text-gray-500 mb-1 block">Entry Relation:</span>
+              <div class="radio-options-row">
+                <label class="radio-label mr-3">
+                  <input type="radio" name="entryRelation" value="Company" [checked]="entryRelation() === 'Company'" (change)="entryRelation.set('Company')" />
+                  <span class="radio-text font-semibold ml-1">Company</span>
+                </label>
+                <label class="radio-label mr-3">
+                  <input type="radio" name="entryRelation" value="CC Center" [checked]="entryRelation() === 'CC Center'" (change)="entryRelation.set('CC Center')" />
+                  <span class="radio-text font-semibold ml-1">CC Center</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="entryRelation" value="Department" [checked]="entryRelation() === 'Department'" (change)="entryRelation.set('Department')" />
+                  <span class="radio-text font-semibold ml-1">Department</span>
+                </label>
+              </div>
+            </div>
+
+            <app-floating-select 
+              id="ccGroupName1" label="Cost Centre Group Name (Relation)" 
+              [value]="ccGroupName1()" (valueChange)="ccGroupName1.set($event)"
+              [options]="costCentreGroupOptions">
+            </app-floating-select>
+
+            <div class="flex items-center gap-2 pt-2 col-span-2">
+              <div class="w-full">
+                <app-floating-input 
+                  id="supplierName" label="Supplier Name" [required]="true" 
+                  [value]="supplierName()" (valueChange)="supplierName.set($event)"
+                  placeholder="Enter Supplier Name">
+                </app-floating-input>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0 px-2">
+                <input type="checkbox" id="inactiveSupplier" [checked]="inactiveSupplier()" (change)="inactiveSupplier.set(!inactiveSupplier())" class="h-4 w-4 rounded border-gray-300 text-blue-900 focus:ring-blue-600" />
+                <label for="inactiveSupplier" class="text-xs font-semibold text-slate-500 cursor-pointer">Inactive</label>
+              </div>
+              <button (click)="onAddSupplier()" class="btn-action-secondary shrink-0" title="Add Supplier"><lucide-icon [img]="PlusIcon" class="w-3.5 h-3.5"></lucide-icon> Add Supplier</button>
+            </div>
+
+            <app-floating-select 
+              id="productionUnit" label="Production Unit" 
+              [value]="productionUnit()" (valueChange)="productionUnit.set($event)"
+              [options]="productionUnitOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="purchaseType" label="Purchase Type" [required]="true" 
+              [value]="purchaseType()" (valueChange)="purchaseType.set($event)"
+              [options]="purchaseTypeOptions">
+            </app-floating-select>
+
+            <div class="flex items-center gap-2 pt-2 col-span-2">
+              <div class="w-full">
+                <app-floating-input 
+                  id="supplierAddress" label="Supplier Address"
+                  [value]="supplierAddress()" (valueChange)="supplierAddress.set($event)"
+                  placeholder="Enter Address / select location">
+                </app-floating-input>
+              </div>
+              <button (click)="onViewSupplierDetails()" class="btn-action-secondary shrink-0" title="Supplier Details"><lucide-icon [img]="HelpCircleIcon" class="w-3.5 h-3.5"></lucide-icon> Details</button>
+            </div>
+
+            <app-floating-input 
+              id="projectCode" label="Project Code" 
+              [value]="projectCode()" (valueChange)="projectCode.set($event)">
+            </app-floating-input>
+
+            <!-- Payment Type Selector (Radio Row) -->
+            <div class="rate-radio-group">
+              <span class="radio-group-label font-bold text-xs text-gray-500 mb-1 block">Payment Type:</span>
+              <div class="radio-options-row">
+                <label class="radio-label mr-3">
+                  <input type="radio" name="paymentType" value="Cash" [checked]="paymentType() === 'Cash'" (change)="paymentType.set('Cash')" />
+                  <span class="radio-text font-semibold ml-1">Cash</span>
+                </label>
+                <label class="radio-label mr-3">
+                  <input type="radio" name="paymentType" value="Bank" [checked]="paymentType() === 'Bank'" (change)="paymentType.set('Bank')" />
+                  <span class="radio-text font-semibold ml-1">Bank</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="paymentType" value="None" [checked]="paymentType() === 'None'" (change)="paymentType.set('None')" />
+                  <span class="radio-text font-semibold ml-1">None</span>
+                </label>
+              </div>
+            </div>
+
+            <app-floating-select 
+              id="ccGroupName2" label="Cost Centre Group Name (Supplier)" 
+              [value]="ccGroupName2()" (valueChange)="ccGroupName2.set($event)"
+              [options]="costCentreGroupOptions">
+            </app-floating-select>
+
+            <app-floating-input 
+              id="balance" label="Balance (₹)" type="number" 
+              [value]="balance().toString()" (valueChange)="balance.set(parseFloat($event) || 0)">
+            </app-floating-input>
+
+            <app-floating-input 
+              id="leftAmount" label="Left Amount (₹)" type="number" 
+              [value]="leftAmount().toString()" (valueChange)="leftAmount.set(parseFloat($event) || 0)">
+            </app-floating-input>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 — Item Details -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('itemDetails')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="ClipboardListIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">3. Item Filter & Selection Settings</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().itemDetails ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().itemDetails">
+        <div class="panel-body">
+          <div class="form-grid-4">
+            <!-- Rate Selection Toggles -->
+            <div class="rate-radio-group">
+              <span class="radio-group-label font-bold text-xs text-gray-500 mb-1 block">Pricing Basis:</span>
+              <div class="radio-options-row">
+                <label class="radio-label mr-3">
+                  <input type="radio" name="rateType" value="Normal" [checked]="rateType() === 'Normal'" (change)="rateType.set('Normal')" />
+                  <span class="radio-text font-semibold ml-1">Normal</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="rateType" value="Supplier" [checked]="rateType() === 'Supplier'" (change)="rateType.set('Supplier')" />
+                  <span class="radio-text font-semibold ml-1">Supplier</span>
+                </label>
+              </div>
+            </div>
+
+            <app-floating-select 
+              id="itemType" label="Item Type" 
+              [value]="itemType()" (valueChange)="itemType.set($event)"
+              [options]="itemTypeOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="group" label="Group" 
+              [value]="group()" (valueChange)="group.set($event)"
+              [options]="groupOptions">
+            </app-floating-select>
+
+            <div class="flex items-center gap-2 pt-2">
+              <button (click)="onAddProduct()" class="btn-action-primary w-full"><lucide-icon [img]="PlusIcon" class="action-btn-icon mr-1"></lucide-icon> Add Product</button>
+              <button class="btn-action-secondary w-full"><lucide-icon [img]="SearchIcon" class="action-btn-icon mr-1"></lucide-icon> Search Items</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4 — Added Order Item Details -->
+    <div class="card-panel table-panel">
+      <div class="card-header table-header-toolbar">
+        <div class="header-left-group">
+          <lucide-icon [img]="ClipboardListIcon" class="card-header-icon white"></lucide-icon>
+          <h2 class="card-header-title white">4. Added Order Item Details</h2>
+        </div>
+      </div>
+      
+      <div class="table-scroll-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th class="w-16 text-center">S.No</th>
+              <th class="col-item-code">Item Code</th>
+              <th class="col-description">Description</th>
+              <th class="w-24 text-center">Unit</th>
+              <th class="col-qty text-center">Qty</th>
+              <th class="col-rate text-right">Rate (₹)</th>
+              <th class="col-tax text-center">Tax (%)</th>
+              <th class="col-total text-right">Total (₹)</th>
+              <th class="col-actions text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of items(); track item.id; let idx = $index) {
+              <tr class="table-row">
+                <td class="text-center font-bold text-slate-500">{{ idx + 1 }}</td>
+                <td class="cell-code font-mono">{{ item.code }}</td>
+                <td class="cell-description font-semibold text-blue-900">{{ item.name }}</td>
+                <td class="text-center cell-text font-medium">{{ item.unit }}</td>
+                <td class="cell-qty text-center">
+                  <input type="number" [value]="item.qty" (input)="updateItemQty(item.id, qtyInput.value)" #qtyInput class="qty-number-input" />
+                </td>
+                <td class="cell-rate text-right">
+                  <input type="number" [value]="item.rate" (input)="updateItemRate(item.id, rateInput.value)" #rateInput class="rate-number-input" />
+                </td>
+                <td class="cell-tax text-center">
+                  <span class="tax-percent-badge">{{ item.tax }}%</span>
+                </td>
+                <td class="cell-total font-bold text-right text-indigo-950">₹{{ item.total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</td>
+                <td class="cell-actions text-center">
+                  <button (click)="onDeleteProduct(item.id)" class="action-delete-btn" title="Delete Product">
+                    <lucide-icon [img]="Trash2Icon" class="btn-delete-icon"></lucide-icon>
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="9" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">
+                  No items added to the Purchase Order.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-summary-footer">
+        <div class="summary-note">
+          <div class="note-icon-wrapper">
+            <lucide-icon [img]="AlertCircleIcon" class="note-icon"></lucide-icon>
+          </div>
+          <p class="note-text">Item counts and subtotals calculated based on pricing entries.</p>
+        </div>
+        <div class="totals-breakdown-card">
+          <div class="totals-row">
+            <span class="totals-label">Subtotal Amount:</span>
+            <span class="totals-value">₹{{ subtotal().toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+          </div>
+          <div class="totals-row">
+            <span class="totals-label">Total Amount (Before Tax):</span>
+            <span class="totals-value">₹{{ subtotal().toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5 — Tax Details -->
+    <div class="card-panel table-panel">
+      <div class="card-header table-header-toolbar bg-slate-800">
+        <div class="header-left-group">
+          <lucide-icon [img]="FilterIcon" class="card-header-icon white"></lucide-icon>
+          <h2 class="card-header-title white">5. Tax Details Summary</h2>
+        </div>
+        <button (click)="onCalculateTax()" class="btn-add-product bg-blue-700 hover:bg-blue-800">
+          <lucide-icon [img]="CheckIcon" class="btn-add-icon"></lucide-icon> Calculate Tax
+        </button>
+      </div>
+
+      <div class="panel-body bg-slate-50">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+          <div class="p-4 bg-white rounded border border-slate-200 shadow-sm">
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block">Subtotal</span>
+            <span class="text-lg font-bold text-slate-700 mt-1 block">₹{{ subtotal().toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+          </div>
+
+          <div class="p-4 bg-white rounded border border-slate-200 shadow-sm">
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block">Estimated CGST / SGST (18% Avg)</span>
+            <span class="text-lg font-bold text-indigo-900 mt-1 block">₹{{ taxAmount().toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+          </div>
+
+          <div class="p-4 bg-indigo-900 text-white rounded border border-indigo-950 shadow-sm">
+            <span class="text-[9px] font-black text-indigo-200 uppercase tracking-widest block">Grand Total</span>
+            <span class="text-xl font-black mt-1 block">₹{{ grandTotal().toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 6 — Terms & Conditions -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('termsConditions')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="BookOpenIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">6. Purchase Terms & Conditions Editor</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().termsConditions ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().termsConditions">
+        <div class="panel-body">
+          <div class="text-editor-container">
+            <!-- Modern text editor ribbon simulator -->
+            <div class="editor-ribbon">
+              <div class="ribbon-btn-group">
+                <button class="ribbon-btn font-bold">B</button>
+                <button class="ribbon-btn italic font-serif">I</button>
+                <button class="ribbon-btn underline">U</button>
+                <span class="ribbon-sep">|</span>
+                <button class="ribbon-btn">Align Left</button>
+                <button class="ribbon-btn">Align Center</button>
+                <button class="ribbon-btn">Align Right</button>
+                <span class="ribbon-sep">|</span>
+                <button class="ribbon-btn">List Bullet</button>
+                <button class="ribbon-btn">List Number</button>
+              </div>
+              <div class="ribbon-right">
+                <span class="text-[10px] text-slate-400 font-bold uppercase mr-2">Standard PO Layout Format</span>
+              </div>
+            </div>
+
+            <!-- Grid containing each term text area for robust form binding -->
+            <div class="editor-content-grid p-4 bg-slate-50 border-t border-slate-200">
+              <div class="form-grid-3">
+                <app-floating-input id="termPriceBasis" label="1. Price Basis" [value]="termPriceBasis()" (valueChange)="termPriceBasis.set($event)"></app-floating-input>
+                <app-floating-input id="termPaymentTerms" label="2. Payment Terms" [value]="termPaymentTerms()" (valueChange)="termPaymentTerms.set($event)"></app-floating-input>
+                <app-floating-input id="termPkgFwd" label="3. Packaging & Forwarding Charges" [value]="termPkgFwd()" (valueChange)="termPkgFwd.set($event)"></app-floating-input>
+                <app-floating-input id="termTransportation" label="4. Transportation" [value]="termTransportation()" (valueChange)="termTransportation.set($event)"></app-floating-input>
+                <app-floating-input id="termDeliveryTerms" label="5. Delivery Terms" [value]="termDeliveryTerms()" (valueChange)="termDeliveryTerms.set($event)"></app-floating-input>
+                <app-floating-input id="termErection" label="6. Erection/Supervision & Conditions" [value]="termErection()" (valueChange)="termErection.set($event)"></app-floating-input>
+                <app-floating-input id="termGuarantee" label="7. Guarantee & Warranty" [value]="termGuarantee()" (valueChange)="termGuarantee.set($event)"></app-floating-input>
+                <app-floating-input id="termInspection" label="8. Inspection" [value]="termInspection()" (valueChange)="termInspection.set($event)"></app-floating-input>
+                <div class="col-span-2">
+                  <app-floating-textarea id="termRemarks" label="9. Remarks / Special Instructions" [rows]="1" [value]="termRemarks()" (valueChange)="termRemarks.set($event)"></app-floating-textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 7 — Order Search / Filter Section -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('orderFilter')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="FilterIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">7. View Existing Purchase Orders</h2>
+        </div>
+        <div class="flex items-center gap-2 ml-auto">
+          <span class="badge badge-new">{{ savedOrders().length }} Saved</span>
+          <lucide-icon [img]="sectionsExpanded().orderFilter ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+        </div>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().orderFilter">
+        <div class="panel-body">
+          <div class="form-grid-4">
+            <app-floating-select 
+              id="searchCompany" label="Company" 
+              [value]="searchCompany()" (valueChange)="searchCompany.set($event)"
+              [options]="companyOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="searchCcCenter" label="CC Center" 
+              [value]="searchCcCenter()" (valueChange)="searchCcCenter.set($event)"
+              [options]="ccCenterOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="searchDept" label="Department" 
+              [value]="searchDept()" (valueChange)="searchDept.set($event)"
+              [options]="departmentOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="searchProdUnit" label="Production Unit" 
+              [value]="searchProdUnit()" (valueChange)="searchProdUnit.set($event)"
+              [options]="productionUnitOptions">
+            </app-floating-select>
+
+            <app-floating-input 
+              id="searchAmtFrom" label="Amount From (₹)" type="number"
+              [value]="searchAmtFrom()" (valueChange)="searchAmtFrom.set($event)">
+            </app-floating-input>
+
+            <app-floating-input 
+              id="searchAmtTo" label="Amount To (₹)" type="number"
+              [value]="searchAmtTo()" (valueChange)="searchAmtTo.set($event)">
+            </app-floating-input>
+
+            <app-floating-input 
+              id="searchFromDate" label="From Date" type="date"
+              [value]="searchFromDate()" (valueChange)="searchFromDate.set($event)">
+            </app-floating-input>
+
+            <app-floating-input 
+              id="searchToDate" label="To Date" type="date"
+              [value]="searchToDate()" (valueChange)="searchToDate.set($event)">
+            </app-floating-input>
+          </div>
+
+          <div class="data-table-container mt-2">
+            <table class="data-table">
+              <thead>
+                <tr class="table-header-row">
+                  <th class="w-16 text-center">S.No</th>
+                  <th>Order Date</th>
+                  <th>Order No</th>
+                  <th>CC Center Name</th>
+                  <th>Department</th>
+                  <th class="text-right">Total Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (po of savedOrders(); track po.id; let idx = $index) {
+                  <tr class="table-body-row">
+                    <td class="sno-cell text-center">{{ idx + 1 }}</td>
+                    <td><span class="cell-text">{{ po.date }}</span></td>
+                    <td><span class="cell-text font-bold text-blue-900">{{ po.orderNo }}</span></td>
+                    <td><span class="cell-text uppercase">{{ po.ccCenter }}</span></td>
+                    <td><span class="cell-text italic">{{ po.department }}</span></td>
+                    <td class="text-right"><span class="cell-text font-bold text-indigo-950">₹{{ po.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span></td>
+                    <td><span class="badge-status bg-blue-100 text-blue-800 border-blue-200 px-2 py-0.5 rounded text-xs font-bold">{{ po.status }}</span></td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="7" class="px-6 py-6 text-center text-slate-400 font-medium uppercase text-xs">
+                      No matching purchase orders in history list.
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 8 — Action Buttons -->
+    <div class="flex items-center justify-end gap-3 mt-6 border-t border-slate-200 pt-4">
+      <button (click)="saveOrder()" class="btn-save btn-lg px-8 py-3 bg-blue-900 hover:bg-blue-950 text-white rounded font-bold uppercase text-xs flex items-center gap-2">
+        <lucide-icon [img]="SaveIcon" class="w-4 h-4"></lucide-icon> Save Purchase Order
+      </button>
+      <button (click)="handleReset()" class="btn-reset btn-lg px-8 py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-300 rounded font-bold uppercase text-xs flex items-center gap-2">
+        <lucide-icon [img]="RotateCcwIcon" class="w-4 h-4"></lucide-icon> Reset Form
+      </button>
+    </div>
+
+  </main>
+</div>

@@ -1,0 +1,430 @@
+<div class="company-master-container">
+  <!-- Header Section -->
+  <header class="page-header">
+    <div class="header-left">
+      <div class="breadcrumb-trail">
+        <lucide-icon [img]="LayoutGridIcon" class="breadcrumb-icon"></lucide-icon>
+        <span class="breadcrumb-item">Purchase</span>
+        <lucide-icon [img]="ChevronRightIcon" class="breadcrumb-sep"></lucide-icon>
+        <span class="breadcrumb-item active">Purchase Quotation Approval</span>
+      </div>
+      
+      <div class="title-section">
+        <div class="title-icon-wrapper">
+          <lucide-icon [img]="ShoppingCartIcon" class="title-icon"></lucide-icon>
+        </div>
+        <div>
+          <h1 class="page-title">Purchase Quotation Approval</h1>
+          <div class="title-badges">
+            <span class="badge badge-new">{{ filteredPendingList().length }} Pending</span>
+            <span class="badge-dot">•</span>
+            <span class="badge-text">Purchase Quotation Approvals Registry</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-content">
+    
+    <!-- SECTION 1 — Purchase Quotation Search Filters -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('pendingFilter')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="FilterIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">1. Purchase Quotation Search Filters (Pending)</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().pendingFilter ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().pendingFilter">
+        <div class="panel-body">
+          <div class="form-grid-4">
+            <app-floating-input 
+              id="pendingFromDate" label="From Date" type="date"
+              [value]="pendingFromDate()" (valueChange)="pendingFromDate.set($event)">
+            </app-floating-input>
+
+            <app-floating-input 
+              id="pendingToDate" label="To Date" type="date"
+              [value]="pendingToDate()" (valueChange)="pendingToDate.set($event)">
+            </app-floating-input>
+
+            <app-floating-select 
+              id="pendingCompany" label="Company" 
+              [value]="pendingCompany()" (valueChange)="pendingCompany.set($event)"
+              [options]="companyOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="pendingCcCenter" label="CC Center" 
+              [value]="pendingCcCenter()" (valueChange)="pendingCcCenter.set($event)"
+              [options]="ccCenterOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="pendingDept" label="Department" 
+              [value]="pendingDept()" (valueChange)="pendingDept.set($event)"
+              [options]="departmentOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="pendingEntryBy" label="Entry By" 
+              [value]="pendingEntryBy()" (valueChange)="pendingEntryBy.set($event)"
+              [options]="employeeOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="pendingProjectName" label="Project Name" 
+              [value]="pendingProjectName()" (valueChange)="pendingProjectName.set($event)"
+              [options]="projectNameOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="pendingProductionUnit" label="Production Unit" 
+              [value]="pendingProductionUnit()" (valueChange)="pendingProductionUnit.set($event)"
+              [options]="productionUnitOptions">
+            </app-floating-select>
+
+            <app-floating-input 
+              id="pendingRefNo" label="Reference No"
+              [value]="pendingRefNo()" (valueChange)="pendingRefNo.set($event)"
+              placeholder="e.g. QTN/2026/001">
+            </app-floating-input>
+
+            <div class="search-btn-row col-span-2">
+              <button class="btn-action-primary" (click)="pendingRefNo.set(pendingRefNo())">
+                <lucide-icon [img]="SearchIcon" class="action-btn-icon"></lucide-icon> Search Quotations
+              </button>
+              <button class="btn-action-secondary" (click)="resetPendingFilters()">
+                <lucide-icon [img]="RotateCcwIcon" class="action-btn-icon"></lucide-icon> Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 — Purchase Quotation Details Grid -->
+    <div class="card-panel table-panel">
+      <button 
+        (click)="toggleSection('pendingGrid')"
+        class="card-header collapsible-header bg-slate-900 text-white"
+        [class.collapsed-card]="!sectionsExpanded().pendingGrid"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="ClipboardListIcon" class="card-header-icon" [class.text-white]="sectionsExpanded().pendingGrid"></lucide-icon>
+          <h2 class="card-header-title" [class.text-white]="sectionsExpanded().pendingGrid">2. Purchase Quotation Details (Pending Approval)</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().pendingGrid ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle" [class.text-white]="sectionsExpanded().pendingGrid"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().pendingGrid">
+        <div class="table-scroll-container">
+          <table class="data-table">
+            <thead>
+              <tr class="table-header-row">
+                <th class="w-16 text-center">S.No</th>
+                <th class="col-ref">Reference No</th>
+                <th class="col-date">Date</th>
+                <th>CC Center Name</th>
+                <th>Department</th>
+                <th>Production Unit</th>
+                <th class="col-entry">Entry By</th>
+                <th class="col-actions text-center">Action</th>
+              </tr>
+              <!-- Clean inline filter row placeholders -->
+              <tr class="table-filter-row">
+                <th></th>
+                <th>
+                  <input type="text" [value]="colPendingRefNo()" (input)="colPendingRefNo.set(refFilter.value)" #refFilter class="table-filter-input" placeholder="Filter Ref No" />
+                </th>
+                <th>
+                  <input type="text" [value]="colPendingDate()" (input)="colPendingDate.set(dateFilter.value)" #dateFilter class="table-filter-input" placeholder="Filter Date" />
+                </th>
+                <th>
+                  <input type="text" [value]="colPendingCcCenter()" (input)="colPendingCcCenter.set(ccFilter.value)" #ccFilter class="table-filter-input" placeholder="Filter CC Center" />
+                </th>
+                <th>
+                  <input type="text" [value]="colPendingDept()" (input)="colPendingDept.set(deptFilter.value)" #deptFilter class="table-filter-input" placeholder="Filter Dept" />
+                </th>
+                <th>
+                  <input type="text" [value]="colPendingProdUnit()" (input)="colPendingProdUnit.set(unitFilter.value)" #unitFilter class="table-filter-input" placeholder="Filter Prod Unit" />
+                </th>
+                <th>
+                  <input type="text" [value]="colPendingEntryBy()" (input)="colPendingEntryBy.set(entryFilter.value)" #entryFilter class="table-filter-input" placeholder="Filter Entry By" />
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (qtn of filteredPendingList(); track qtn.id; let idx = $index) {
+                <tr class="table-row">
+                  <td class="text-center font-bold text-slate-500">{{ idx + 1 }}</td>
+                  <td><span class="cell-text font-bold text-blue-900 font-mono">{{ qtn.refNo }}</span></td>
+                  <td><span class="cell-text font-semibold">{{ qtn.date }}</span></td>
+                  <td><span class="cell-text uppercase">{{ qtn.ccCenter }}</span></td>
+                  <td><span class="cell-text italic">{{ qtn.department }}</span></td>
+                  <td><span class="cell-text">{{ qtn.productionUnit }}</span></td>
+                  <td><span class="cell-text font-bold text-slate-600">{{ qtn.entryBy }}</span></td>
+                  <td>
+                    <div class="action-buttons-group justify-center flex gap-1 justify-center">
+                      <button (click)="onApprove(qtn)" class="action-icon-btn btn-approve" title="Approve Quotation">
+                        <lucide-icon [img]="CheckIcon" class="w-3.5 h-3.5"></lucide-icon> Approve
+                      </button>
+                      <button (click)="onReject(qtn)" class="action-icon-btn btn-reject" title="Reject Quotation">
+                        <lucide-icon [img]="XIcon" class="w-3.5 h-3.5"></lucide-icon> Reject
+                      </button>
+                      <button (click)="onView(qtn.refNo)" class="action-icon-btn btn-view" title="View Details">
+                        <lucide-icon [img]="EyeIcon" class="w-3.5 h-3.5"></lucide-icon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="8" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">
+                    No records to display.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Placeholder -->
+        <div class="table-pagination-bar">
+          <div class="pagination-left">
+            <span class="pagination-text">Showing {{ filteredPendingList().length }} items</span>
+          </div>
+          <div class="pagination-right">
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronsLeftIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronLeftIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            <span class="page-indicator">Page <span class="current-page font-bold">1</span> of 1</span>
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronRightIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronsRightIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            
+            <div class="page-size-selector">
+              <span class="page-size-label text-xs text-slate-500">Page size:</span>
+              <select class="custom-page-size-select">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 — Approved / Rejected Purchase Quotation Filters -->
+    <div class="card-panel">
+      <button 
+        (click)="toggleSection('historyFilter')"
+        class="card-header collapsible-header"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="FilterIcon" class="card-header-icon"></lucide-icon>
+          <h2 class="card-header-title">3. Approved / Rejected Purchase Quotation Filters</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().historyFilter ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().historyFilter">
+        <div class="panel-body">
+          <div class="form-grid-4">
+            <app-floating-input 
+              id="historyFromDate" label="From Date" type="date"
+              [value]="historyFromDate()" (valueChange)="historyFromDate.set($event)">
+            </app-floating-input>
+
+            <app-floating-input 
+              id="historyToDate" label="To Date" type="date"
+              [value]="historyToDate()" (valueChange)="historyToDate.set($event)">
+            </app-floating-input>
+
+            <app-floating-select 
+              id="historyCompany" label="Company" 
+              [value]="historyCompany()" (valueChange)="historyCompany.set($event)"
+              [options]="companyOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="historyCcCenter" label="CC Center" 
+              [value]="historyCcCenter()" (valueChange)="historyCcCenter.set($event)"
+              [options]="ccCenterOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="historyDept" label="Department" 
+              [value]="historyDept()" (valueChange)="historyDept.set($event)"
+              [options]="departmentOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="historyEntryBy" label="Entry By" 
+              [value]="historyEntryBy()" (valueChange)="historyEntryBy.set($event)"
+              [options]="employeeOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="historyProjectName" label="Project Name" 
+              [value]="historyProjectName()" (valueChange)="historyProjectName.set($event)"
+              [options]="projectNameOptions">
+            </app-floating-select>
+
+            <app-floating-select 
+              id="historyProductionUnit" label="Production Unit" 
+              [value]="historyProductionUnit()" (valueChange)="historyProductionUnit.set($event)"
+              [options]="productionUnitOptions">
+            </app-floating-select>
+
+            <app-floating-input 
+              id="historyRefNo" label="Reference No"
+              [value]="historyRefNo()" (valueChange)="historyRefNo.set($event)"
+              placeholder="e.g. QTN/2026/002">
+            </app-floating-input>
+
+            <div class="search-btn-row col-span-2">
+              <button class="btn-action-primary" (click)="historyRefNo.set(historyRefNo())">
+                <lucide-icon [img]="SearchIcon" class="action-btn-icon"></lucide-icon> Search History
+              </button>
+              <button class="btn-action-secondary" (click)="resetHistoryFilters()">
+                <lucide-icon [img]="RotateCcwIcon" class="action-btn-icon"></lucide-icon> Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4 — Approved / Rejected Purchase Quotation Grid -->
+    <div class="card-panel table-panel">
+      <button 
+        (click)="toggleSection('historyGrid')"
+        class="card-header collapsible-header bg-slate-900 text-white"
+        [class.collapsed-card]="!sectionsExpanded().historyGrid"
+      >
+        <div class="header-left-group">
+          <lucide-icon [img]="ClipboardListIcon" class="card-header-icon" [class.text-white]="sectionsExpanded().historyGrid"></lucide-icon>
+          <h2 class="card-header-title" [class.text-white]="sectionsExpanded().historyGrid">4. Approved / Rejected Purchase Quotation Details</h2>
+        </div>
+        <lucide-icon [img]="sectionsExpanded().historyGrid ? ChevronUpIcon : ChevronDownIcon" class="chevron-toggle" [class.text-white]="sectionsExpanded().historyGrid"></lucide-icon>
+      </button>
+
+      <div class="collapsible-content" *ngIf="sectionsExpanded().historyGrid">
+        <div class="table-scroll-container">
+          <table class="data-table">
+            <thead>
+              <tr class="table-header-row">
+                <th class="w-16 text-center">S.No</th>
+                <th class="col-ref">Reference No</th>
+                <th class="col-date">Date</th>
+                <th>CC Center</th>
+                <th>Department</th>
+                <th>Production Unit</th>
+                <th class="col-entry">Entry By</th>
+                <th>Approved/Rejected By</th>
+                <th>Approved/Rejected Date</th>
+                <th class="col-status text-center">Status</th>
+                <th class="col-actions text-center">Action</th>
+              </tr>
+              <!-- Clean inline filter row placeholders -->
+              <tr class="table-filter-row">
+                <th></th>
+                <th>
+                  <input type="text" [value]="colHistoryRefNo()" (input)="colHistoryRefNo.set(hRefFilter.value)" #hRefFilter class="table-filter-input" placeholder="Filter Ref No" />
+                </th>
+                <th>
+                  <input type="text" [value]="colHistoryDate()" (input)="colHistoryDate.set(hDateFilter.value)" #hDateFilter class="table-filter-input" placeholder="Filter Date" />
+                </th>
+                <th>
+                  <input type="text" [value]="colHistoryCcCenter()" (input)="colHistoryCcCenter.set(hCcFilter.value)" #hCcFilter class="table-filter-input" placeholder="Filter CC Center" />
+                </th>
+                <th>
+                  <input type="text" [value]="colHistoryDept()" (input)="colHistoryDept.set(hDeptFilter.value)" #hDeptFilter class="table-filter-input" placeholder="Filter Dept" />
+                </th>
+                <th>
+                  <input type="text" [value]="colHistoryProdUnit()" (input)="colHistoryProdUnit.set(hUnitFilter.value)" #hUnitFilter class="table-filter-input" placeholder="Filter Prod Unit" />
+                </th>
+                <th>
+                  <input type="text" [value]="colHistoryEntryBy()" (input)="colHistoryEntryBy.set(hEntryFilter.value)" #hEntryFilter class="table-filter-input" placeholder="Filter Entry By" />
+                </th>
+                <th>
+                  <input type="text" [value]="colHistoryActionBy()" (input)="colHistoryActionBy.set(hActionFilter.value)" #hActionFilter class="table-filter-input" placeholder="Filter Action By" />
+                </th>
+                <th>
+                  <input type="text" [value]="colHistoryActionDate()" (input)="colHistoryActionDate.set(hActDateFilter.value)" #hActDateFilter class="table-filter-input" placeholder="Filter Date" />
+                </th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (qtn of filteredHistoryList(); track qtn.id; let idx = $index) {
+                <tr class="table-row">
+                  <td class="text-center font-bold text-slate-500">{{ idx + 1 }}</td>
+                  <td><span class="cell-text font-bold text-blue-900 font-mono">{{ qtn.refNo }}</span></td>
+                  <td><span class="cell-text font-semibold">{{ qtn.date }}</span></td>
+                  <td><span class="cell-text uppercase">{{ qtn.ccCenter }}</span></td>
+                  <td><span class="cell-text italic">{{ qtn.department }}</span></td>
+                  <td><span class="cell-text">{{ qtn.productionUnit }}</span></td>
+                  <td><span class="cell-text font-bold text-slate-600">{{ qtn.entryBy }}</span></td>
+                  <td><span class="cell-text font-bold text-slate-700">{{ qtn.actionBy }}</span></td>
+                  <td><span class="cell-text">{{ qtn.actionDate }}</span></td>
+                  <td class="text-center">
+                    @if (qtn.status === 'APPROVED') {
+                      <span class="badge-status bg-emerald-100 text-emerald-800 border-emerald-200">Approved</span>
+                    } @else {
+                      <span class="badge-status bg-rose-100 text-rose-800 border-rose-200">Rejected</span>
+                    }
+                  </td>
+                  <td>
+                    <div class="action-buttons-group justify-center flex gap-1 justify-center">
+                      <button (click)="onView(qtn.refNo)" class="action-icon-btn btn-view" title="View Details">
+                        <lucide-icon [img]="EyeIcon" class="w-3.5 h-3.5"></lucide-icon> View
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="11" class="px-6 py-8 text-center text-slate-400 font-medium uppercase text-xs">
+                    No records to display.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Placeholder -->
+        <div class="table-pagination-bar">
+          <div class="pagination-left">
+            <span class="pagination-text">Showing {{ filteredHistoryList().length }} items</span>
+          </div>
+          <div class="pagination-right">
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronsLeftIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronLeftIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            <span class="page-indicator">Page <span class="current-page font-bold">1</span> of 1</span>
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronRightIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            <button class="btn-pagination" disabled><lucide-icon [img]="ChevronsRightIcon" class="w-3.5 h-3.5"></lucide-icon></button>
+            
+            <div class="page-size-selector">
+              <span class="page-size-label text-xs text-slate-500">Page size:</span>
+              <select class="custom-page-size-select">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
